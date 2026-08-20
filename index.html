@@ -26,6 +26,9 @@
         html {
             scroll-behavior: smooth;
         }
+        html.rtl {
+            direction: rtl;
+        }
         body {
             font-family: Inter, Arial, sans-serif;
             background: var(--bg);
@@ -57,6 +60,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 10px;
         }
         .logo {
             font-weight: 950;
@@ -96,6 +100,26 @@
         }
         .cta:hover {
             opacity: .8;
+        }
+
+        /* ── Language toggle ── */
+        .lang-toggle {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: .2s;
+            flex-shrink: 0;
+            letter-spacing: 0.3px;
+        }
+        .lang-toggle:hover {
+            background: var(--yellow);
+            color: #171006;
+            border-color: var(--yellow);
         }
 
         /* ── Hamburger ── */
@@ -188,8 +212,26 @@
             opacity: .85;
             color: #171006;
         }
+        .mobile-menu-inner .mobile-lang {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+            padding: 12px 20px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 17px;
+            cursor: pointer;
+            transition: .2s;
+            text-align: center;
+            margin-top: 4px;
+        }
+        .mobile-menu-inner .mobile-lang:hover {
+            background: var(--yellow);
+            color: #171006;
+            border-color: var(--yellow);
+        }
 
-        /* ── Hero etc (unchanged) ── */
+        /* ── Hero etc ── */
         .hero {
             min-height: 100vh;
             display: grid;
@@ -493,7 +535,6 @@
             .hamburger {
                 display: flex;
             }
-            /* CTA hidden on mobile, shown inside mobile menu */
             .nav .cta {
                 display: none;
             }
@@ -539,9 +580,22 @@
             }
         }
 
-        /* small extra: prevent body scroll when menu open */
         body.menu-open {
             overflow: hidden;
+        }
+
+        /* RTL tweaks */
+        html.rtl .row span:first-child {
+            width: 130px;
+        }
+        html.rtl .hero p {
+            margin-right: 0;
+        }
+        html.rtl .buttons {
+            justify-content: flex-start;
+        }
+        html.rtl .menu-nav {
+            justify-content: flex-start;
         }
     </style>
 </head>
@@ -553,13 +607,16 @@
             <a class="logo" href="#top"><b>🔥</b>Moul Chowaya</a>
 
             <div class="links">
-                <a href="#menu">La carte</a>
-                <a href="#atouts">Pourquoi nous</a>
-                <a href="#photos">Photos</a>
-                <a href="#contact">Contact</a>
+                <a href="#menu" data-i18n="nav.menu">La carte</a>
+                <a href="#atouts" data-i18n="nav.about">Pourquoi nous</a>
+                <a href="#photos" data-i18n="nav.photos">Photos</a>
+                <a href="#contact" data-i18n="nav.contact">Contact</a>
             </div>
 
-            <a class="cta" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank">📍 Itinéraire</a>
+            <a class="cta" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank" data-i18n="nav.cta">📍 Itinéraire</a>
+
+            <!-- Language toggle (desktop) -->
+            <button class="lang-toggle" id="langToggle" aria-label="Toggle language">🇫🇷 FR</button>
 
             <!-- Hamburger -->
             <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
@@ -572,11 +629,12 @@
         <!-- Mobile menu -->
         <div class="mobile-menu" id="mobileMenu" role="navigation" aria-hidden="true">
             <div class="mobile-menu-inner">
-                <a href="#menu" class="mobile-link">🍽️ La carte</a>
-                <a href="#atouts" class="mobile-link">🔥 Pourquoi nous</a>
-                <a href="#photos" class="mobile-link">📸 Photos</a>
-                <a href="#contact" class="mobile-link">📞 Contact</a>
-                <a href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank" class="mobile-cta">📍 Itinéraire</a>
+                <a href="#menu" class="mobile-link" data-i18n="nav.menu">🍽️ La carte</a>
+                <a href="#atouts" class="mobile-link" data-i18n="nav.about">🔥 Pourquoi nous</a>
+                <a href="#photos" class="mobile-link" data-i18n="nav.photos">📸 Photos</a>
+                <a href="#contact" class="mobile-link" data-i18n="nav.contact">📞 Contact</a>
+                <a href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank" class="mobile-cta" data-i18n="nav.cta">📍 Itinéraire</a>
+                <button class="mobile-lang" id="mobileLangToggle">🇫🇷 FR</button>
             </div>
         </div>
     </nav>
@@ -588,18 +646,18 @@
         <section class="hero">
             <div class="wrap hero-grid">
                 <div>
-                    <div class="tag">🔥 Grillades • Nouaceur</div>
-                    <h1>Le goût du <span>vrai chwa.</span></h1>
-                    <p>Grillades au feu, tacos, burgers, sandwichs et spécialités marocaines. Une carte généreuse, des prix accessibles et le plaisir du barbecue.</p>
+                    <div class="tag" data-i18n="hero.tag">🔥 Grillades • Nouaceur</div>
+                    <h1 data-i18n="hero.title">Le goût du <span>vrai chwa.</span></h1>
+                    <p data-i18n="hero.desc">Grillades au feu, tacos, burgers, sandwichs et spécialités marocaines. Une carte généreuse, des prix accessibles et le plaisir du barbecue.</p>
                     <div class="buttons">
-                        <a class="btn primary" href="#menu">🍽️ Voir la carte</a>
-                        <a class="btn secondary" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank">📍 Nous trouver</a>
+                        <a class="btn primary" href="#menu" data-i18n="hero.btn1">🍽️ Voir la carte</a>
+                        <a class="btn secondary" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank" data-i18n="hero.btn2">📍 Nous trouver</a>
                     </div>
                 </div>
                 <div class="hero-card">
                     <div class="label">
-                        <strong>La grillade est notre spécialité.</strong><br />
-                        <small>Viandes au kilo, poulet grillé, boulfaf, tacos, burgers & plus.</small>
+                        <strong data-i18n="hero.card_title">La grillade est notre spécialité.</strong><br />
+                        <small data-i18n="hero.card_sub">Viandes au kilo, poulet grillé, boulfaf, tacos, burgers & plus.</small>
                     </div>
                 </div>
             </div>
@@ -609,22 +667,22 @@
         <section id="menu">
             <div class="wrap">
                 <div class="head">
-                    <div class="kicker">La carte</div>
-                    <h2>Tout droit du grill.</h2>
-                    <p>Les prix ci-dessous sont repris des photos de la carte fournies. Les prix et disponibilités peuvent changer.</p>
+                    <div class="kicker" data-i18n="menu.kicker">La carte</div>
+                    <h2 data-i18n="menu.title">Tout droit du grill.</h2>
+                    <p data-i18n="menu.desc">Les prix ci-dessous sont repris des photos de la carte fournies. Les prix et disponibilités peuvent changer.</p>
                 </div>
                 <div class="menu-nav">
-                    <button class="filter active" data-filter="all">Tout</button>
-                    <button class="filter" data-filter="grill">Grillades</button>
-                    <button class="filter" data-filter="tacos">Tacos</button>
-                    <button class="filter" data-filter="burger">Burgers</button>
-                    <button class="filter" data-filter="sandwich">Sandwichs</button>
-                    <button class="filter" data-filter="drink">Boissons</button>
-                    <button class="filter" data-filter="salad">Salades</button>
+                    <button class="filter active" data-filter="all" data-i18n="filter.all">Tout</button>
+                    <button class="filter" data-filter="grill" data-i18n="filter.grill">Grillades</button>
+                    <button class="filter" data-filter="tacos" data-i18n="filter.tacos">Tacos</button>
+                    <button class="filter" data-filter="burger" data-i18n="filter.burger">Burgers</button>
+                    <button class="filter" data-filter="sandwich" data-i18n="filter.sandwich">Sandwichs</button>
+                    <button class="filter" data-filter="drink" data-i18n="filter.drink">Boissons</button>
+                    <button class="filter" data-filter="salad" data-i18n="filter.salad">Salades</button>
                 </div>
                 <div class="menu-grid">
                     <article class="menu-card" data-cat="grill">
-                        <h3>🥩 Grillades au kilo</h3>
+                        <h3 data-i18n="menu-card.grill">🥩 Grillades au kilo</h3>
                         <div class="item"><span>Viande hachée</span><span class="price">140 DH</span></div>
                         <div class="item"><span>V.H du fromage</span><span class="price">140 DH</span></div>
                         <div class="item"><span>V.H de bœuf fromage</span><span class="price">150 DH</span></div>
@@ -643,7 +701,7 @@
                         <div class="item"><span>Demi-poulet grillé</span><span class="price">60 DH</span></div>
                     </article>
                     <article class="menu-card" data-cat="tacos">
-                        <h3>🌮 Tacos naturel</h3>
+                        <h3 data-i18n="menu-card.tacos">🌮 Tacos naturel</h3>
                         <div class="item"><span>Tacos poulet</span><span class="price">35 DH</span></div>
                         <div class="item"><span>Tacos saucisse</span><span class="price">35 DH</span></div>
                         <div class="item"><span>Tacos mixte</span><span class="price">40 DH</span></div>
@@ -651,7 +709,7 @@
                         <div class="item"><span>Tacos boulfaf</span><span class="price">60 DH</span></div>
                     </article>
                     <article class="menu-card" data-cat="burger">
-                        <h3>🍔 Burgers naturel</h3>
+                        <h3 data-i18n="menu-card.burger">🍔 Burgers naturel</h3>
                         <div class="item"><span>Burger poulet</span><span class="price">35 DH</span></div>
                         <div class="item"><span>Burger dinde</span><span class="price">35 DH</span></div>
                         <div class="item"><span>Burger V.H</span><span class="price">40 DH</span></div>
@@ -659,7 +717,7 @@
                         <div class="item"><span>Burger spécial Chowaya</span><span class="price">60 DH</span></div>
                     </article>
                     <article class="menu-card" data-cat="sandwich">
-                        <h3>🥪 Sandwichs naturel</h3>
+                        <h3 data-i18n="menu-card.sandwich">🥪 Sandwichs naturel</h3>
                         <div class="item"><span>Sandwich dinde</span><span class="price">25 DH</span></div>
                         <div class="item"><span>Sandwich saucisse</span><span class="price">30 DH</span></div>
                         <div class="item"><span>Sandwich V.H</span><span class="price">30 DH</span></div>
@@ -668,13 +726,13 @@
                         <div class="item"><span>Sandwich haballou</span><span class="price">55 DH</span></div>
                     </article>
                     <article class="menu-card" data-cat="salad">
-                        <h3>🥗 Salades & frites</h3>
+                        <h3 data-i18n="menu-card.salad">🥗 Salades & frites</h3>
                         <div class="item"><span>Petite salade marocaine</span><span class="price">10 DH</span></div>
                         <div class="item"><span>Grande salade marocaine</span><span class="price">15 DH</span></div>
                         <div class="item"><span>Frites</span><span class="price">10 DH</span></div>
                     </article>
                     <article class="menu-card" data-cat="drink">
-                        <h3>🥤 Boissons</h3>
+                        <h3 data-i18n="menu-card.drink">🥤 Boissons</h3>
                         <div class="item"><span>Thé petit</span><span class="price">7 DH</span></div>
                         <div class="item"><span>Thé moyen</span><span class="price">10 DH</span></div>
                         <div class="item"><span>Thé grand</span><span class="price">15 DH</span></div>
@@ -691,24 +749,24 @@
         <section class="special" id="atouts">
             <div class="wrap">
                 <div class="head">
-                    <div class="kicker">Pourquoi Moul Chowaya</div>
-                    <h2>Une adresse faite pour les amateurs de grillades.</h2>
+                    <div class="kicker" data-i18n="atouts.kicker">Pourquoi Moul Chowaya</div>
+                    <h2 data-i18n="atouts.title">Une adresse faite pour les amateurs de grillades.</h2>
                 </div>
                 <div class="features">
                     <div class="feature">
                         <div class="icon">🔥</div>
-                        <h3>Grillades généreuses</h3>
-                        <p>Une carte centrée sur la viande grillée, le poulet, le boulfaf et les brochettes.</p>
+                        <h3 data-i18n="atouts.f1_title">Grillades généreuses</h3>
+                        <p data-i18n="atouts.f1_desc">Une carte centrée sur la viande grillée, le poulet, le boulfaf et les brochettes.</p>
                     </div>
                     <div class="feature">
                         <div class="icon">🇲🇦</div>
-                        <h3>Saveurs marocaines</h3>
-                        <p>Des classiques du chwa marocain accompagnés de salades et de frites.</p>
+                        <h3 data-i18n="atouts.f2_title">Saveurs marocaines</h3>
+                        <p data-i18n="atouts.f2_desc">Des classiques du chwa marocain accompagnés de salades et de frites.</p>
                     </div>
                     <div class="feature">
                         <div class="icon">💰</div>
-                        <h3>Pour tous les budgets</h3>
-                        <p>Des formules et portions allant du sandwich à la grillade au kilo.</p>
+                        <h3 data-i18n="atouts.f3_title">Pour tous les budgets</h3>
+                        <p data-i18n="atouts.f3_desc">Des formules et portions allant du sandwich à la grillade au kilo.</p>
                     </div>
                 </div>
             </div>
@@ -718,9 +776,9 @@
         <section id="photos">
             <div class="wrap">
                 <div class="head">
-                    <div class="kicker">Notre carte</div>
-                    <h2>Voyez ce qui vous attend.</h2>
-                    <p>Les photos originales de la carte sont intégrées directement dans la page.</p>
+                    <div class="kicker" data-i18n="photos.kicker">Notre carte</div>
+                    <h2 data-i18n="photos.title">Voyez ce qui vous attend.</h2>
+                    <p data-i18n="photos.desc">Les photos originales de la carte sont intégrées directement dans la page.</p>
                 </div>
                 <div class="gallery">
                     <img class="big" src="menu-1.png" alt="Carte Moul Chowaya - grillades, tacos, burgers et boissons" loading="lazy" />
@@ -733,17 +791,29 @@
         <section id="contact">
             <div class="wrap">
                 <div class="head">
-                    <div class="kicker">Infos pratiques</div>
-                    <h2>À bientôt chez Moul Chowaya.</h2>
+                    <div class="kicker" data-i18n="contact.kicker">Infos pratiques</div>
+                    <h2 data-i18n="contact.title">À bientôt chez Moul Chowaya.</h2>
                 </div>
                 <div class="info-grid">
                     <div class="info">
-                        <div class="row"><span>📍 Adresse</span><span>9FF4+897, Nouaceur, Maroc</span></div>
-                        <div class="row"><span>📞 Téléphone</span><span>+212 687 294 929</span></div>
-                        <div class="row"><span>💰 Budget</span><span>Environ 50–100 DH / personne</span></div>
-                        <div class="row"><span>🍖 Spécialité</span><span>Grillades & barbecue marocain</span></div>
+                        <div class="row">
+                            <span data-i18n="contact.addr_label">📍 Adresse</span>
+                            <span data-i18n="contact.addr_val">9FF4+897, Nouaceur, Maroc</span>
+                        </div>
+                        <div class="row">
+                            <span data-i18n="contact.phone_label">📞 Téléphone</span>
+                            <span data-i18n="contact.phone_val">+212 687 294 929</span>
+                        </div>
+                        <div class="row">
+                            <span data-i18n="contact.budget_label">💰 Budget</span>
+                            <span data-i18n="contact.budget_val">Environ 50–100 DH / personne</span>
+                        </div>
+                        <div class="row">
+                            <span data-i18n="contact.spec_label">🍖 Spécialité</span>
+                            <span data-i18n="contact.spec_val">Grillades & barbecue marocain</span>
+                        </div>
                         <div style="margin-top:22px">
-                            <a class="btn primary" href="tel:+212687294929">📞 Appeler maintenant</a>
+                            <a class="btn primary" href="tel:+212687294929" data-i18n="contact.btn">📞 Appeler maintenant</a>
                         </div>
                     </div>
                     <a class="map" target="_blank" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl">
@@ -762,17 +832,188 @@
     <!-- ═══ FOOTER ═══ -->
     <footer>
         <div class="wrap footer">
-            <span><strong style="color:#fff5df">Moul Chowaya</strong> · Grillades & saveurs</span>
+            <span data-i18n="footer.text"><strong style="color:#fff5df">Moul Chowaya</strong> · Grillades & saveurs</span>
             <span>© <span id="year"></span></span>
         </div>
     </footer>
 
     <!-- ═══ SCRIPTS ═══ -->
     <script>
-        // ── year ──
+        // ── Translations ──
+        const translations = {
+            fr: {
+                'nav.menu': 'La carte',
+                'nav.about': 'Pourquoi nous',
+                'nav.photos': 'Photos',
+                'nav.contact': 'Contact',
+                'nav.cta': '📍 Itinéraire',
+                'hero.tag': '🔥 Grillades • Nouaceur',
+                'hero.title': 'Le goût du <span>vrai chwa.</span>',
+                'hero.desc': 'Grillades au feu, tacos, burgers, sandwichs et spécialités marocaines. Une carte généreuse, des prix accessibles et le plaisir du barbecue.',
+                'hero.btn1': '🍽️ Voir la carte',
+                'hero.btn2': '📍 Nous trouver',
+                'hero.card_title': 'La grillade est notre spécialité.',
+                'hero.card_sub': 'Viandes au kilo, poulet grillé, boulfaf, tacos, burgers & plus.',
+                'menu.kicker': 'La carte',
+                'menu.title': 'Tout droit du grill.',
+                'menu.desc': 'Les prix ci-dessous sont repris des photos de la carte fournies. Les prix et disponibilités peuvent changer.',
+                'filter.all': 'Tout',
+                'filter.grill': 'Grillades',
+                'filter.tacos': 'Tacos',
+                'filter.burger': 'Burgers',
+                'filter.sandwich': 'Sandwichs',
+                'filter.drink': 'Boissons',
+                'filter.salad': 'Salades',
+                'menu-card.grill': '🥩 Grillades au kilo',
+                'menu-card.tacos': '🌮 Tacos naturel',
+                'menu-card.burger': '🍔 Burgers naturel',
+                'menu-card.sandwich': '🥪 Sandwichs naturel',
+                'menu-card.salad': '🥗 Salades & frites',
+                'menu-card.drink': '🥤 Boissons',
+                'atouts.kicker': 'Pourquoi Moul Chowaya',
+                'atouts.title': 'Une adresse faite pour les amateurs de grillades.',
+                'atouts.f1_title': 'Grillades généreuses',
+                'atouts.f1_desc': 'Une carte centrée sur la viande grillée, le poulet, le boulfaf et les brochettes.',
+                'atouts.f2_title': 'Saveurs marocaines',
+                'atouts.f2_desc': 'Des classiques du chwa marocain accompagnés de salades et de frites.',
+                'atouts.f3_title': 'Pour tous les budgets',
+                'atouts.f3_desc': 'Des formules et portions allant du sandwich à la grillade au kilo.',
+                'photos.kicker': 'Notre carte',
+                'photos.title': 'Voyez ce qui vous attend.',
+                'photos.desc': 'Les photos originales de la carte sont intégrées directement dans la page.',
+                'contact.kicker': 'Infos pratiques',
+                'contact.title': 'À bientôt chez Moul Chowaya.',
+                'contact.addr_label': '📍 Adresse',
+                'contact.addr_val': '9FF4+897, Nouaceur, Maroc',
+                'contact.phone_label': '📞 Téléphone',
+                'contact.phone_val': '+212 687 294 929',
+                'contact.budget_label': '💰 Budget',
+                'contact.budget_val': 'Environ 50–100 DH / personne',
+                'contact.spec_label': '🍖 Spécialité',
+                'contact.spec_val': 'Grillades & barbecue marocain',
+                'contact.btn': '📞 Appeler maintenant',
+                'footer.text': 'Moul Chowaya · Grillades & saveurs'
+            },
+            ar: {
+                'nav.menu': 'القائمة',
+                'nav.about': 'لماذا نحن',
+                'nav.photos': 'الصور',
+                'nav.contact': 'اتصل بنا',
+                'nav.cta': '📍 الموقع',
+                'hero.tag': '🔥 مشاوي • النواصر',
+                'hero.title': 'طعم <span>الشواء الحقيقي.</span>',
+                'hero.desc': 'مشاوي على النار، تاكو، برغر، ساندويتشات وأطباق مغربية خاصة. قائمة غنية، أسعار مناسبة ومتعة الشواء.',
+                'hero.btn1': '🍽️ شاهد القائمة',
+                'hero.btn2': '📍 اعثر علينا',
+                'hero.card_title': 'المشاوي هي تخصصنا.',
+                'hero.card_sub': 'لحوم بالكيلو، دجاج مشوي، بولفاف، تاكو، برغر والمزيد.',
+                'menu.kicker': 'القائمة',
+                'menu.title': 'مباشرة من المشواة.',
+                'menu.desc': 'الأسعار أدناه مأخوذة من صور القائمة المرفقة. الأسعار والتوفر قد تتغير.',
+                'filter.all': 'الكل',
+                'filter.grill': 'مشاوي',
+                'filter.tacos': 'تاكو',
+                'filter.burger': 'برغر',
+                'filter.sandwich': 'ساندويتشات',
+                'filter.drink': 'مشروبات',
+                'filter.salad': 'سلطات',
+                'menu-card.grill': '🥩 مشاوي بالكيلو',
+                'menu-card.tacos': '🌮 تاكو طبيعي',
+                'menu-card.burger': '🍔 برغر طبيعي',
+                'menu-card.sandwich': '🥪 ساندويتشات طبيعي',
+                'menu-card.salad': '🥗 سلطات ومقليات',
+                'menu-card.drink': '🥤 مشروبات',
+                'atouts.kicker': 'لماذا مول شوية',
+                'atouts.title': 'عنوان مصمم لعشاق المشاوي.',
+                'atouts.f1_title': 'مشاوي وفيرة',
+                'atouts.f1_desc': 'قائمة تركز على اللحوم المشوية، الدجاج، البولفاف والأسياخ.',
+                'atouts.f2_title': 'نكهات مغربية',
+                'atouts.f2_desc': 'كلاسيكيات الشواء المغربي مصحوبة بالسلطات والمقليات.',
+                'atouts.f3_title': 'لجميع الميزانيات',
+                'atouts.f3_desc': 'صيغ وحصص تتراوح من الساندويتش إلى المشاوي بالكيلو.',
+                'photos.kicker': 'قائمتنا',
+                'photos.title': 'شاهد ما ينتظرك.',
+                'photos.desc': 'الصور الأصلية للقائمة مدمجة مباشرة في الصفحة.',
+                'contact.kicker': 'معلومات عملية',
+                'contact.title': 'نراكم قريباً في مول شوية.',
+                'contact.addr_label': '📍 العنوان',
+                'contact.addr_val': '9FF4+897، النواصر، المغرب',
+                'contact.phone_label': '📞 الهاتف',
+                'contact.phone_val': '+212 687 294 929',
+                'contact.budget_label': '💰 الميزانية',
+                'contact.budget_val': 'حوالي 50–100 درهم للشخص',
+                'contact.spec_label': '🍖 التخصص',
+                'contact.spec_val': 'مشاوي وشواء مغربي',
+                'contact.btn': '📞 اتصل الآن',
+                'footer.text': 'مول شوية · مشاوي ونكهات'
+            }
+        };
+
+        // ── State ──
+        let currentLang = 'fr';
+
+        // ── DOM refs ──
+        const langToggle = document.getElementById('langToggle');
+        const mobileLangToggle = document.getElementById('mobileLangToggle');
+        const htmlEl = document.documentElement;
+        const i18nElements = document.querySelectorAll('[data-i18n]');
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            // Update HTML lang and direction
+            htmlEl.lang = lang;
+            if (lang === 'ar') {
+                htmlEl.classList.add('rtl');
+                htmlEl.dir = 'rtl';
+            } else {
+                htmlEl.classList.remove('rtl');
+                htmlEl.dir = 'ltr';
+            }
+
+            // Update button labels
+            const label = lang === 'ar' ? '🇸🇦 ع' : '🇫🇷 FR';
+            langToggle.textContent = label;
+            mobileLangToggle.textContent = label;
+
+            // Update all i18n elements
+            i18nElements.forEach(el => {
+                const key = el.dataset.i18n;
+                const translation = translations[lang]?.[key];
+                if (translation !== undefined) {
+                    // Use innerHTML to support <span> in hero title
+                    el.innerHTML = translation;
+                }
+            });
+
+            // Special case: keep the logo and year untouched
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Persist preference (optional)
+            localStorage.setItem('moul-lang', lang);
+        }
+
+        function toggleLanguage() {
+            const next = currentLang === 'fr' ? 'ar' : 'fr';
+            setLanguage(next);
+        }
+
+        // ── Event listeners ──
+        langToggle.addEventListener('click', toggleLanguage);
+        mobileLangToggle.addEventListener('click', toggleLanguage);
+
+        // ── Load saved preference ──
+        const saved = localStorage.getItem('moul-lang');
+        if (saved === 'ar' || saved === 'fr') {
+            setLanguage(saved);
+        } else {
+            // Default: French, but check browser language? Keep French as default.
+            setLanguage('fr');
+        }
+
+        // ── Year ──
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // ── filter ──
+        // ── Filter ──
         const filterBtns = document.querySelectorAll('.filter');
         const cards = document.querySelectorAll('.menu-card');
 
@@ -787,7 +1028,7 @@
             });
         });
 
-        // ── mobile menu ──
+        // ── Mobile menu ──
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobileMenu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -807,21 +1048,18 @@
             toggleMenu();
         });
 
-        // close on link click
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
                 toggleMenu(false);
             });
         });
 
-        // close on outside click (tap backdrop)
         mobileMenu.addEventListener('click', (e) => {
             if (e.target === mobileMenu) {
                 toggleMenu(false);
             }
         });
 
-        // close on Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
                 toggleMenu(false);
@@ -829,7 +1067,6 @@
             }
         });
 
-        // ── close on resize to desktop ──
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
@@ -839,6 +1076,12 @@
                 }
             }, 150);
         });
+
+        // ── Re-apply translations after filter clicks (they don't affect i18n) ──
+        // But we need to ensure that the filter buttons keep their text.
+        // The setLanguage function already updates all [data-i18n] elements, including filters.
+        // So we are good.
+        console.log('🌐 Arabic toggle ready – switch between FR and AR');
     </script>
 
 </body>
