@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Moul Chowaya — Grillades, tacos, burgers, sandwichs et spécialités marocaines à Nouaceur.">
+<title>Moul Chowaya | Grillades & Saveurs</title>
+<style>
+:root{
+ --bg:#0b0907;--panel:#15110d;--panel2:#201810;--yellow:#ffd21a;--red:#b8291c;
+ --cream:#fff5df;--muted:#c9bcae;--line:rgba(255,255,255,.1);--gold:#f2a900;
+}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--cream);line-height:1.55}
+a{text-decoration:none;color:inherit}.wrap{width:min(1160px,92%);margin:auto}
+nav{position:fixed;z-index:20;top:0;left:0;right:0;background:rgba(11,9,7,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:950;font-size:20px;display:flex;align-items:center;gap:10px}
+.logo b{width:40px;height:40px;border-radius:12px;background:var(--yellow);color:#111;display:grid;place-items:center}
+.links{display:flex;gap:28px;font-size:14px;color:#e8ddd0}.links a:hover{color:var(--yellow)}
+.cta{background:var(--yellow);color:#171006;padding:11px 17px;border-radius:999px;font-weight:900;font-size:13px}
+.hero{min-height:100vh;display:grid;align-items:center;padding:115px 0 70px;
+background:radial-gradient(circle at 80% 35%,rgba(184,41,28,.28),transparent 30%),radial-gradient(circle at 15% 75%,rgba(255,210,26,.1),transparent 28%),linear-gradient(135deg,#0a0806,#21130b)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:65px;align-items:center}
+.tag{display:inline-block;color:#111;background:var(--yellow);padding:7px 12px;border-radius:6px;font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px}
+h1{font-size:clamp(48px,7vw,86px);line-height:.92;letter-spacing:-4px}
+h1 span{color:var(--yellow)}
+.hero p{font-size:18px;color:var(--muted);max-width:610px;margin:24px 0 30px}
+.buttons{display:flex;gap:12px;flex-wrap:wrap}.btn{padding:15px 21px;border-radius:13px;font-weight:900;display:inline-flex;gap:9px;align-items:center}
+.primary{background:var(--yellow);color:#161006}.secondary{border:1px solid var(--line);background:#ffffff08}
+.hero-card{min-height:520px;border-radius:30px;overflow:hidden;position:relative;border:1px solid var(--line);
+background:linear-gradient(180deg,#0000,#000b),url("menu-1.png") center/cover}
+.hero-card:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.8))}
+.hero-card .label{position:absolute;z-index:2;bottom:25px;left:25px;right:25px;padding:19px;border-radius:18px;background:#0d0a08d9;border:1px solid #ffffff18}
+.label strong{font-size:22px}.label small{color:#cbbeb0}
+section{padding:100px 0}.head{margin-bottom:38px}.kicker{color:var(--yellow);font-weight:950;text-transform:uppercase;font-size:12px;letter-spacing:1.7px}
+h2{font-size:clamp(34px,5vw,56px);line-height:1;letter-spacing:-2px;margin-top:8px}
+.head p{color:var(--muted);max-width:650px;margin-top:15px}
+.menu-nav{display:flex;gap:8px;flex-wrap:wrap;margin:25px 0}.filter{border:1px solid var(--line);background:#ffffff06;color:#ddd0c3;padding:9px 14px;border-radius:999px;cursor:pointer}
+.filter.active,.filter:hover{background:var(--yellow);color:#171006;border-color:var(--yellow)}
+.menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.menu-card{background:linear-gradient(145deg,#241910,#130f0b);border:1px solid var(--line);border-radius:22px;padding:24px}
+.menu-card h3{font-size:22px;margin-bottom:15px;color:var(--yellow)}
+.item{display:flex;justify-content:space-between;gap:15px;padding:9px 0;border-bottom:1px dashed #ffffff18;font-size:14px}
+.item:last-child{border-bottom:0}.price{font-weight:950;color:#fff;white-space:nowrap}
+.note{font-size:12px;color:#9e9084;margin-top:13px}
+.special{background:#0d0a08;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feature{padding:28px;border:1px solid var(--line);border-radius:22px;background:#ffffff04}
+.icon{font-size:28px;margin-bottom:14px}.feature h3{margin-bottom:6px}.feature p{color:var(--muted);font-size:14px}
+.gallery{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+.gallery img{width:100%;height:100%;object-fit:cover;border-radius:24px;border:1px solid var(--line);display:block}
+.gallery .big{height:620px}.gallery .small{height:620px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.info{background:#17110c;border:1px solid var(--line);border-radius:24px;padding:28px}
+.row{display:flex;gap:15px;padding:14px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}
+.row span:first-child{width:120px;color:#9f9185;font-size:13px}.row span:last-child{font-weight:750}
+.map{min-height:350px;border-radius:24px;border:1px solid var(--line);position:relative;overflow:hidden;
+background:linear-gradient(135deg,#22170f,#0c0907)}
+.map:before{content:"";position:absolute;inset:-20%;background:repeating-linear-gradient(35deg,transparent 0 45px,#ffffff09 46px 48px),repeating-linear-gradient(120deg,transparent 0 70px,#ffffff06 71px 73px);transform:rotate(-8deg)}
+.pin{position:absolute;left:50%;top:46%;font-size:55px;transform:translate(-50%,-50%);filter:drop-shadow(0 8px 8px #000)}
+.maplabel{position:absolute;bottom:18px;left:18px;right:18px;background:#0c0907e8;padding:16px;border-radius:15px;border:1px solid var(--line)}
+footer{padding:35px 0;border-top:1px solid var(--line);color:#9e9185;font-size:13px}
+.footer{display:flex;justify-content:space-between;gap:20px}
+@media(max-width:850px){
+ .links{display:none}.hero-grid,.gallery,.info-grid{grid-template-columns:1fr}
+ .hero-card{min-height:420px}.features{grid-template-columns:1fr}.menu-grid{grid-template-columns:1fr}
+ .gallery .big,.gallery .small{height:470px}
+}
+@media(max-width:520px){
+ section{padding:75px 0}h1{letter-spacing:-2px}.cta{display:none}
+ .hero-card{min-height:390px}.footer{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<nav><div class="wrap nav">
+ <a class="logo" href="#top"><b>🔥</b>Moul Chowaya</a>
+ <div class="links"><a href="#menu">La carte</a><a href="#atouts">Pourquoi nous</a><a href="#photos">Photos</a><a href="#contact">Contact</a></div>
+ <a class="cta" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank">📍 Itinéraire</a>
+</div></nav>
+
+<main id="top">
+<section class="hero"><div class="wrap hero-grid">
+ <div>
+  <div class="tag">🔥 Grillades • Nouaceur</div>
+  <h1>Le goût du <span>vrai chwa.</span></h1>
+  <p>Grillades au feu, tacos, burgers, sandwichs et spécialités marocaines. Une carte généreuse, des prix accessibles et le plaisir du barbecue.</p>
+  <div class="buttons"><a class="btn primary" href="#menu">🍽️ Voir la carte</a><a class="btn secondary" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank">📍 Nous trouver</a></div>
+ </div>
+ <div class="hero-card"><div class="label"><strong>La grillade est notre spécialité.</strong><br><small>Viandes au kilo, poulet grillé, boulfaf, tacos, burgers & plus.</small></div></div>
+</div></section>
+
+<section id="menu"><div class="wrap">
+ <div class="head"><div class="kicker">La carte</div><h2>Tout droit du grill.</h2><p>Les prix ci-dessous sont repris des photos de la carte fournies. Les prix et disponibilités peuvent changer.</p></div>
+ <div class="menu-nav">
+  <button class="filter active" data-filter="all">Tout</button><button class="filter" data-filter="grill">Grillades</button><button class="filter" data-filter="tacos">Tacos</button><button class="filter" data-filter="burger">Burgers</button><button class="filter" data-filter="sandwich">Sandwichs</button><button class="filter" data-filter="drink">Boissons</button><button class="filter" data-filter="salad">Salades</button>
+ </div>
+ <div class="menu-grid">
+  <article class="menu-card" data-cat="grill"><h3>🥩 Grillades au kilo</h3>
+   <div class="item"><span>Viande hachée</span><span class="price">140 DH</span></div><div class="item"><span>V.H du fromage</span><span class="price">140 DH</span></div><div class="item"><span>V.H de bœuf fromage</span><span class="price">150 DH</span></div><div class="item"><span>V.H royale</span><span class="price">150 DH</span></div><div class="item"><span>Côtelettes d'agneau</span><span class="price">170 DH</span></div><div class="item"><span>Côtelettes de bœuf</span><span class="price">170 DH</span></div><div class="item"><span>Brochettes de poulet</span><span class="price">120 DH</span></div><div class="item"><span>Filet de viande</span><span class="price">190 DH</span></div><div class="item"><span>Saucisse viande</span><span class="price">140 DH</span></div><div class="item"><span>Viande vapeur</span><span class="price">200 DH</span></div><div class="item"><span>Foie</span><span class="price">200 DH</span></div><div class="item"><span>Boulfaf</span><span class="price">200 DH</span></div><div class="item"><span>Cœur</span><span class="price">140 DH</span></div><div class="item"><span>Rognons</span><span class="price">140 DH</span></div><div class="item"><span>Poulet grillé</span><span class="price">120 DH</span></div><div class="item"><span>Demi-poulet grillé</span><span class="price">60 DH</span></div>
+  </article>
+  <article class="menu-card" data-cat="tacos"><h3>🌮 Tacos naturel</h3>
+   <div class="item"><span>Tacos poulet</span><span class="price">35 DH</span></div><div class="item"><span>Tacos saucisse</span><span class="price">35 DH</span></div><div class="item"><span>Tacos mixte</span><span class="price">40 DH</span></div><div class="item"><span>Tacos V.H</span><span class="price">40 DH</span></div><div class="item"><span>Tacos boulfaf</span><span class="price">60 DH</span></div>
+  </article>
+  <article class="menu-card" data-cat="burger"><h3>🍔 Burgers naturel</h3>
+   <div class="item"><span>Burger poulet</span><span class="price">35 DH</span></div><div class="item"><span>Burger dinde</span><span class="price">35 DH</span></div><div class="item"><span>Burger V.H</span><span class="price">40 DH</span></div><div class="item"><span>Burger mixte</span><span class="price">50 DH</span></div><div class="item"><span>Burger spécial Chowaya</span><span class="price">60 DH</span></div>
+  </article>
+  <article class="menu-card" data-cat="sandwich"><h3>🥪 Sandwichs naturel</h3>
+   <div class="item"><span>Sandwich dinde</span><span class="price">25 DH</span></div><div class="item"><span>Sandwich saucisse</span><span class="price">30 DH</span></div><div class="item"><span>Sandwich V.H</span><span class="price">30 DH</span></div><div class="item"><span>Sandwich mixte</span><span class="price">35 DH</span></div><div class="item"><span>Sandwich foie</span><span class="price">40 DH</span></div><div class="item"><span>Sandwich haballou</span><span class="price">55 DH</span></div>
+  </article>
+  <article class="menu-card" data-cat="salad"><h3>🥗 Salades & frites</h3>
+   <div class="item"><span>Petite salade marocaine</span><span class="price">10 DH</span></div><div class="item"><span>Grande salade marocaine</span><span class="price">15 DH</span></div><div class="item"><span>Frites</span><span class="price">10 DH</span></div>
+  </article>
+  <article class="menu-card" data-cat="drink"><h3>🥤 Boissons</h3>
+   <div class="item"><span>Thé petit</span><span class="price">7 DH</span></div><div class="item"><span>Thé moyen</span><span class="price">10 DH</span></div><div class="item"><span>Thé grand</span><span class="price">15 DH</span></div><div class="item"><span>Soda bouteille grande</span><span class="price">8 DH</span></div><div class="item"><span>Soda bouteille petite</span><span class="price">8 DH</span></div><div class="item"><span>Soda 1/2 L</span><span class="price">10 DH</span></div><div class="item"><span>Soda plastique 1 L</span><span class="price">15 DH</span></div>
+  </article>
+ </div>
+</div></section>
+
+<section class="special" id="atouts"><div class="wrap">
+ <div class="head"><div class="kicker">Pourquoi Moul Chowaya</div><h2>Une adresse faite pour les amateurs de grillades.</h2></div>
+ <div class="features">
+  <div class="feature"><div class="icon">🔥</div><h3>Grillades généreuses</h3><p>Une carte centrée sur la viande grillée, le poulet, le boulfaf et les brochettes.</p></div>
+  <div class="feature"><div class="icon">🇲🇦</div><h3>Saveurs marocaines</h3><p>Des classiques du chwa marocain accompagnés de salades et de frites.</p></div>
+  <div class="feature"><div class="icon">💰</div><h3>Pour tous les budgets</h3><p>Des formules et portions allant du sandwich à la grillade au kilo.</p></div>
+ </div>
+</div></section>
+
+<section id="photos"><div class="wrap">
+ <div class="head"><div class="kicker">Notre carte</div><h2>Voyez ce qui vous attend.</h2><p>Les photos originales de la carte sont intégrées directement dans la page.</p></div>
+ <div class="gallery">
+  <img class="big" src="menu-1.png" alt="Carte Moul Chowaya - grillades, tacos, burgers et boissons">
+  <img class="small" src="menu-2.png" alt="Carte Moul Chowaya - grillades au kilo">
+ </div>
+</div></section>
+
+<section id="contact"><div class="wrap">
+ <div class="head"><div class="kicker">Infos pratiques</div><h2>À bientôt chez Moul Chowaya.</h2></div>
+ <div class="info-grid">
+  <div class="info">
+   <div class="row"><span>📍 Adresse</span><span>9FF4+897, Nouaceur, Maroc</span></div>
+   <div class="row"><span>📞 Téléphone</span><span>+212 687 294 929</span></div>
+   <div class="row"><span>💰 Budget</span><span>Environ 50–100 DH / personne</span></div>
+   <div class="row"><span>🍖 Spécialité</span><span>Grillades & barbecue marocain</span></div>
+   <div style="margin-top:22px"><a class="btn primary" href="tel:+212687294929">📞 Appeler maintenant</a></div>
+  </div>
+  <a class="map" target="_blank" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl">
+   <div class="pin">📍</div><div class="maplabel"><strong>Moul Chowaya</strong><br><small>Nouaceur · Ouvrir Google Maps ↗</small></div>
+  </a>
+ </div>
+</div></section>
+</main>
+
+<footer><div class="wrap footer"><span><strong style="color:#fff5df">Moul Chowaya</strong> · Grillades & saveurs</span><span>© <span id="year"></span></span></div></footer>
+
+<script>
+document.getElementById("year").textContent=new Date().getFullYear();
+const buttons=document.querySelectorAll(".filter"), cards=document.querySelectorAll(".menu-card");
+buttons.forEach(btn=>btn.addEventListener("click",()=>{
+ buttons.forEach(x=>x.classList.remove("active"));btn.classList.add("active");
+ const cat=btn.dataset.filter;
+ cards.forEach(card=>card.style.display=(cat==="all"||card.dataset.cat===cat)?"block":"none");
+}));
+</script>
+</body>
+</html>
