@@ -403,6 +403,9 @@
         .item:last-child {
             border-bottom: 0;
         }
+        .item .name {
+            flex: 1;
+        }
         .price {
             font-weight: 950;
             color: #fff;
@@ -690,63 +693,68 @@
                 <div class="menu-grid">
                     <article class="menu-card" data-cat="grill">
                         <h3 data-i18n="menu-card.grill">🥩 Grillades au kilo</h3>
-                        <div class="item"><span>Viande hachée</span><span class="price">140 DH</span></div>
-                        <div class="item"><span>V.H du fromage</span><span class="price">140 DH</span></div>
-                        <div class="item"><span>V.H de bœuf fromage</span><span class="price">150 DH</span></div>
-                        <div class="item"><span>V.H royale</span><span class="price">150 DH</span></div>
-                        <div class="item"><span>Côtelettes d'agneau</span><span class="price">170 DH</span></div>
-                        <div class="item"><span>Côtelettes de bœuf</span><span class="price">170 DH</span></div>
-                        <div class="item"><span>Brochettes de poulet</span><span class="price">120 DH</span></div>
-                        <div class="item"><span>Filet de viande</span><span class="price">190 DH</span></div>
-                        <div class="item"><span>Saucisse viande</span><span class="price">140 DH</span></div>
-                        <div class="item"><span>Viande vapeur</span><span class="price">200 DH</span></div>
-                        <div class="item"><span>Foie</span><span class="price">200 DH</span></div>
-                        <div class="item"><span>Boulfaf</span><span class="price">200 DH</span></div>
-                        <div class="item"><span>Cœur</span><span class="price">140 DH</span></div>
-                        <div class="item"><span>Rognons</span><span class="price">140 DH</span></div>
-                        <div class="item"><span>Poulet grillé</span><span class="price">120 DH</span></div>
-                        <div class="item"><span>Demi-poulet grillé</span><span class="price">60 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Viande hachée">Viande hachée</span><span class="price">140 DH</span></div>
+                        <div class="item"><span class="name" data-fr="V.H du fromage">V.H du fromage</span><span class="price">140 DH</span></div>
+                        <div class="item"><span class="name" data-fr="V.H de bœuf fromage">V.H de bœuf fromage</span><span class="price">150 DH</span></div>
+                        <div class="item"><span class="name" data-fr="V.H royale">V.H royale</span><span class="price">150 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Côtelettes d'agneau">Côtelettes d'agneau</span><span class="price">170 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Côtelettes de bœuf">Côtelettes de bœuf</span><span class="price">170 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Brochettes de poulet">Brochettes de poulet</span><span class="price">120 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Filet de viande">Filet de viande</span><span class="price">190 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Saucisse viande">Saucisse viande</span><span class="price">140 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Viande vapeur">Viande vapeur</span><span class="price">200 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Foie">Foie</span><span class="price">200 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Boulfaf">Boulfaf</span><span class="price">200 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Cœur">Cœur</span><span class="price">140 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Rognons">Rognons</span><span class="price">140 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Poulet grillé">Poulet grillé</span><span class="price">120 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Demi-poulet grillé">Demi-poulet grillé</span><span class="price">60 DH</span></div>
                     </article>
+
                     <article class="menu-card" data-cat="tacos">
                         <h3 data-i18n="menu-card.tacos">🌮 Tacos naturel</h3>
-                        <div class="item"><span>Tacos poulet</span><span class="price">35 DH</span></div>
-                        <div class="item"><span>Tacos saucisse</span><span class="price">35 DH</span></div>
-                        <div class="item"><span>Tacos mixte</span><span class="price">40 DH</span></div>
-                        <div class="item"><span>Tacos V.H</span><span class="price">40 DH</span></div>
-                        <div class="item"><span>Tacos boulfaf</span><span class="price">60 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Tacos poulet">Tacos poulet</span><span class="price">35 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Tacos saucisse">Tacos saucisse</span><span class="price">35 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Tacos mixte">Tacos mixte</span><span class="price">40 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Tacos V.H">Tacos V.H</span><span class="price">40 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Tacos boulfaf">Tacos boulfaf</span><span class="price">60 DH</span></div>
                     </article>
+
                     <article class="menu-card" data-cat="burger">
                         <h3 data-i18n="menu-card.burger">🍔 Burgers naturel</h3>
-                        <div class="item"><span>Burger poulet</span><span class="price">35 DH</span></div>
-                        <div class="item"><span>Burger dinde</span><span class="price">35 DH</span></div>
-                        <div class="item"><span>Burger V.H</span><span class="price">40 DH</span></div>
-                        <div class="item"><span>Burger mixte</span><span class="price">50 DH</span></div>
-                        <div class="item"><span>Burger spécial Chowaya</span><span class="price">60 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Burger poulet">Burger poulet</span><span class="price">35 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Burger dinde">Burger dinde</span><span class="price">35 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Burger V.H">Burger V.H</span><span class="price">40 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Burger mixte">Burger mixte</span><span class="price">50 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Burger spécial Chowaya">Burger spécial Chowaya</span><span class="price">60 DH</span></div>
                     </article>
+
                     <article class="menu-card" data-cat="sandwich">
                         <h3 data-i18n="menu-card.sandwich">🥪 Sandwichs naturel</h3>
-                        <div class="item"><span>Sandwich dinde</span><span class="price">25 DH</span></div>
-                        <div class="item"><span>Sandwich saucisse</span><span class="price">30 DH</span></div>
-                        <div class="item"><span>Sandwich V.H</span><span class="price">30 DH</span></div>
-                        <div class="item"><span>Sandwich mixte</span><span class="price">35 DH</span></div>
-                        <div class="item"><span>Sandwich foie</span><span class="price">40 DH</span></div>
-                        <div class="item"><span>Sandwich haballou</span><span class="price">55 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Sandwich dinde">Sandwich dinde</span><span class="price">25 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Sandwich saucisse">Sandwich saucisse</span><span class="price">30 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Sandwich V.H">Sandwich V.H</span><span class="price">30 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Sandwich mixte">Sandwich mixte</span><span class="price">35 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Sandwich foie">Sandwich foie</span><span class="price">40 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Sandwich haballou">Sandwich haballou</span><span class="price">55 DH</span></div>
                     </article>
+
                     <article class="menu-card" data-cat="salad">
                         <h3 data-i18n="menu-card.salad">🥗 Salades & frites</h3>
-                        <div class="item"><span>Petite salade marocaine</span><span class="price">10 DH</span></div>
-                        <div class="item"><span>Grande salade marocaine</span><span class="price">15 DH</span></div>
-                        <div class="item"><span>Frites</span><span class="price">10 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Petite salade marocaine">Petite salade marocaine</span><span class="price">10 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Grande salade marocaine">Grande salade marocaine</span><span class="price">15 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Frites">Frites</span><span class="price">10 DH</span></div>
                     </article>
+
                     <article class="menu-card" data-cat="drink">
                         <h3 data-i18n="menu-card.drink">🥤 Boissons</h3>
-                        <div class="item"><span>Thé petit</span><span class="price">7 DH</span></div>
-                        <div class="item"><span>Thé moyen</span><span class="price">10 DH</span></div>
-                        <div class="item"><span>Thé grand</span><span class="price">15 DH</span></div>
-                        <div class="item"><span>Soda bouteille grande</span><span class="price">8 DH</span></div>
-                        <div class="item"><span>Soda bouteille petite</span><span class="price">8 DH</span></div>
-                        <div class="item"><span>Soda 1/2 L</span><span class="price">10 DH</span></div>
-                        <div class="item"><span>Soda plastique 1 L</span><span class="price">15 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Thé petit">Thé petit</span><span class="price">7 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Thé moyen">Thé moyen</span><span class="price">10 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Thé grand">Thé grand</span><span class="price">15 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Soda bouteille grande">Soda bouteille grande</span><span class="price">8 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Soda bouteille petite">Soda bouteille petite</span><span class="price">8 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Soda 1/2 L">Soda 1/2 L</span><span class="price">10 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Soda plastique 1 L">Soda plastique 1 L</span><span class="price">15 DH</span></div>
                     </article>
                 </div>
             </div>
@@ -956,6 +964,52 @@
             }
         };
 
+        // ── Menu item translations (French → Arabic) ──
+        const menuTranslations = {
+            'Viande hachée': 'لحم مفروم',
+            'V.H du fromage': 'لحم مفروم بالجبن',
+            'V.H de bœuf fromage': 'لحم بقر مفروم بالجبن',
+            'V.H royale': 'لحم مفروم رويال',
+            'Côtelettes d\'agneau': 'شرائح خروف',
+            'Côtelettes de bœuf': 'شرائح بقر',
+            'Brochettes de poulet': 'أسياخ دجاج',
+            'Filet de viande': 'فيليه لحم',
+            'Saucisse viande': 'سجق لحم',
+            'Viande vapeur': 'لحم على البخار',
+            'Foie': 'كبد',
+            'Boulfaf': 'بولفاف',
+            'Cœur': 'قلب',
+            'Rognons': 'كلى',
+            'Poulet grillé': 'دجاج مشوي',
+            'Demi-poulet grillé': 'نصف دجاجة مشوية',
+            'Tacos poulet': 'تاكو دجاج',
+            'Tacos saucisse': 'تاكو سجق',
+            'Tacos mixte': 'تاكو ميكس',
+            'Tacos V.H': 'تاكو لحم مفروم',
+            'Tacos boulfaf': 'تاكو بولفاف',
+            'Burger poulet': 'برغر دجاج',
+            'Burger dinde': 'برغر ديك رومي',
+            'Burger V.H': 'برغر لحم مفروم',
+            'Burger mixte': 'برغر ميكس',
+            'Burger spécial Chowaya': 'برغر شوية الخاص',
+            'Sandwich dinde': 'ساندويتش ديك رومي',
+            'Sandwich saucisse': 'ساندويتش سجق',
+            'Sandwich V.H': 'ساندويتش لحم مفروم',
+            'Sandwich mixte': 'ساندويتش ميكس',
+            'Sandwich foie': 'ساندويتش كبد',
+            'Sandwich haballou': 'ساندويتش حبالو',
+            'Petite salade marocaine': 'سلطة مغربية صغيرة',
+            'Grande salade marocaine': 'سلطة مغربية كبيرة',
+            'Frites': 'مقليات',
+            'Thé petit': 'شاي صغير',
+            'Thé moyen': 'شاي متوسط',
+            'Thé grand': 'شاي كبير',
+            'Soda bouteille grande': 'صودا زجاجة كبيرة',
+            'Soda bouteille petite': 'صودا زجاجة صغيرة',
+            'Soda 1/2 L': 'صودا نصف لتر',
+            'Soda plastique 1 L': 'صودا بلاستيك 1 لتر'
+        };
+
         // ── State ──
         let currentLang = 'fr';
 
@@ -964,9 +1018,11 @@
         const mobileLangToggle = document.getElementById('mobileLangToggle');
         const htmlEl = document.documentElement;
         const i18nElements = document.querySelectorAll('[data-i18n]');
+        const menuNameSpans = document.querySelectorAll('.item .name');
 
         function setLanguage(lang) {
             currentLang = lang;
+
             // Update HTML lang and direction
             htmlEl.lang = lang;
             if (lang === 'ar') {
@@ -982,20 +1038,38 @@
             langToggle.textContent = label;
             mobileLangToggle.textContent = label;
 
-            // Update all i18n elements
+            // Update all i18n elements (UI text)
             i18nElements.forEach(el => {
                 const key = el.dataset.i18n;
                 const translation = translations[lang]?.[key];
                 if (translation !== undefined) {
-                    // Use innerHTML to support <span> in hero title
                     el.innerHTML = translation;
                 }
             });
 
-            // Special case: keep the logo and year untouched
+            // ── Update menu item names ──
+            if (lang === 'ar') {
+                menuNameSpans.forEach(span => {
+                    const frText = span.dataset.fr || span.textContent.trim();
+                    const arText = menuTranslations[frText];
+                    if (arText) {
+                        span.textContent = arText;
+                    }
+                });
+            } else {
+                // Restore French from data-fr
+                menuNameSpans.forEach(span => {
+                    const fr = span.dataset.fr;
+                    if (fr) {
+                        span.textContent = fr;
+                    }
+                });
+            }
+
+            // Year
             document.getElementById('year').textContent = new Date().getFullYear();
 
-            // Persist preference (optional)
+            // Persist
             localStorage.setItem('moul-lang', lang);
         }
 
@@ -1013,7 +1087,6 @@
         if (saved === 'ar' || saved === 'fr') {
             setLanguage(saved);
         } else {
-            // Default: French, but check browser language? Keep French as default.
             setLanguage('fr');
         }
 
@@ -1084,8 +1157,7 @@
             }, 150);
         });
 
-        console.log('🌐 Arabic toggle ready – switch between FR and AR');
-        console.log('🔥 Navicon (favicon) added: fire emoji on dark background');
+        console.log('🌐 Full Arabic translation ready – menu items now switch to Arabic.');
     </script>
 
 </body>
