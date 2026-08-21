@@ -1093,6 +1093,7 @@
                 'admin.confirm_delete': 'Supprimer définitivement cet article ?',
                 'admin.confirm_delete_order': 'Supprimer cette commande ?',
                 'admin.status_updated': 'Statut → {status}',
+                'admin.please_fix_image_field': 'Le champ "Image" doit être de type "Pièce jointe" (Attachment) dans Airtable. Veuillez le configurer.',
             },
             ar: {
                 'admin.view_site': '🌐 عرض الموقع',
@@ -1163,6 +1164,7 @@
                 'admin.confirm_delete': 'حذف هذا الصنف نهائياً؟',
                 'admin.confirm_delete_order': 'حذف هذا الطلب؟',
                 'admin.status_updated': 'الحالة → {status}',
+                'admin.please_fix_image_field': 'يجب أن يكون حقل "الصورة" من نوع "مرفق" (Attachment) في Airtable. يرجى تعديله.',
             }
         };
 
@@ -1252,28 +1254,24 @@
             const label = lang === 'ar' ? '🇸🇦 ع' : '🇫🇷 FR';
             langToggle.textContent = label;
 
-            // Traduire tous les éléments avec data-i18n
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.dataset.i18n;
                 const t = translations[lang]?.[key];
                 if (t !== undefined) el.textContent = t;
             });
 
-            // Traduire les placeholders
             document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
                 const key = el.dataset.i18nPlaceholder;
                 const t = translations[lang]?.[key];
                 if (t !== undefined) el.placeholder = t;
             });
 
-            // Traduire les options des selects (simplifié : on met à jour le texte)
             document.querySelectorAll('select option[data-i18n]').forEach(opt => {
                 const key = opt.dataset.i18n;
                 const t = translations[lang]?.[key];
                 if (t !== undefined) opt.textContent = t;
             });
 
-            // Re-render orders & menu pour rafraîchir les textes dynamiques
             renderOrders();
             renderMenu();
 
@@ -1641,7 +1639,6 @@
                 console.log('✅ Record créé/mis à jour, ID:', recordIdFinal);
 
                 // Étape 2 : Vérifier que le champ Image est de type "Pièce jointe"
-                // On récupère le record pour voir la structure du champ Image
                 const verifyResp = await fetch(`${AIRTABLE_URL_MENU}/${recordIdFinal}`, {
                     headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
                 });
@@ -1652,12 +1649,10 @@
                 const verifyData = await verifyResp.json();
                 const imageField = verifyData.fields?.['Image'];
 
-                // Si le champ existe et n'est pas un tableau, ce n'est pas un champ "Pièce jointe"
-                if (imageField !== undefined && !Array.isArray(imageField)) {
-                    throw new Error(
-                        'Le champ "Image" n\'est pas de type "Pièce jointe" (Attachment). ' +
-                        'Veuillez modifier le type du champ dans Airtable.'
-                    );
+                // Le champ doit exister et être un tableau (attachments)
+                if (imageField === undefined || !Array.isArray(imageField)) {
+                    // Si le champ n'existe pas ou n'est pas un tableau, on lance une erreur claire
+                    throw new Error(t('admin.please_fix_image_field'));
                 }
 
                 // Étape 3 : Upload de l'image si présente
@@ -1669,8 +1664,9 @@
                     const formData = new FormData();
                     formData.append('file', data.ImageFile);
 
+                    // Spécifier le champ de destination
                     const uploadUrl =
-                        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}/${recordIdFinal}/attachments`;
+                        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}/${recordIdFinal}/attachments?field=Image`;
                     console.log('⬆️ Upload vers:', uploadUrl);
 
                     const uploadResp = await fetch(uploadUrl, {
@@ -1681,24 +1677,22 @@
                         body: formData
                     });
 
+                    const uploadResult = await uploadResp.json();
+                    console.log('Upload response:', uploadResult);
+
                     uploadProgressFill.style.width = '100%';
                     uploadProgressText.textContent = '✅ Image téléchargée !';
 
                     if (!uploadResp.ok) {
-                        let errMsg = `Upload failed: ${uploadResp.status}`;
-                        try {
-                            const errText = await uploadResp.text();
-                            errMsg += ` - ${errText}`;
-                        } catch (_) { /* ignore */ }
-                        throw new Error(errMsg);
+                        const errMsg = uploadResult.error?.message || JSON.stringify(uploadResult);
+                        throw new Error(`Upload failed: ${uploadResp.status} - ${errMsg}`);
                     }
 
                     // Attendre un instant pour que Airtable traite l'image
                     await new Promise(r => setTimeout(r, 400));
                 }
 
-                // Étape 4 : Retourner le record mis à jour
-                // Récupérer le record final avec l'image
+                // Étape 4 : Récupérer le record final pour mettre à jour la liste locale
                 const finalResp = await fetch(`${AIRTABLE_URL_MENU}/${recordIdFinal}`, {
                     headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
                 });
@@ -1708,8 +1702,6 @@
                 }
                 const finalData = await finalResp.json();
 
-                // Mettre à jour la liste locale
-                const idx = menuItems.findIndex(i => i.id === recordIdFinal);
                 const newItem = {
                     id: recordIdFinal,
                     Name: finalData.fields['Name'] || 'Sans nom',
@@ -1725,6 +1717,7 @@
                         null
                 };
 
+                const idx = menuItems.findIndex(i => i.id === recordIdFinal);
                 if (idx >= 0) {
                     menuItems[idx] = newItem;
                 } else {
