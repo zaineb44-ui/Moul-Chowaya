@@ -1242,7 +1242,8 @@
         const AIRTABLE_API_KEY = 'patyj6u0PZd84J6m6.c219829f1b05344107fa54dabea848dce3b6655bf7e655fca6c132292afbb017';
         const AIRTABLE_BASE_ID = 'appoeaIgh98U6lUuS';
         const TABLE_ORDERS = 'tblJw87JqJtftBlVj';
-        const TABLE_MENU = 'tblH8nnRjF9Yef2Py'; // ⚠️ REMPLACEZ PAR L'ID DE VOTRE TABLE MENU
+        // ⚠️ REMPLACEZ AVEC L'ID DE VOTRE TABLE MENU (ex: 'tblABC123XYZ') ⚠️
+        const TABLE_MENU = 'tblYOUR_MENU_TABLE_ID';
         const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
         const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
 
@@ -1403,7 +1404,7 @@
                 }
             });
 
-            // Re-render menu with the new language (names will be updated)
+            // Re-render menu with the new language
             renderMenu();
 
             document.getElementById('year').textContent = new Date().getFullYear();
@@ -1484,9 +1485,11 @@
                     Description: r.fields['Description'] || '',
                     DescriptionAr: r.fields['DescriptionAr'] || '',
                     Active: r.fields['Active'] !== false,
-                    Image: r.fields['Image'] ? r.fields['Image'][0]?.url : null
+                    Order: r.fields['Order'] || 0,
+                    // Image is an array of attachments; we take the first one's URL
+                    Image: r.fields['Image'] && r.fields['Image'].length > 0 ? r.fields['Image'][0].url : null
                 }));
-                // Sort by Order if present, else by name
+                // Sort by Order
                 menuItems.sort((a, b) => (a.Order || 0) - (b.Order || 0));
                 // Only show active items
                 const activeItems = menuItems.filter(item => item.Active);
@@ -1523,7 +1526,6 @@
         // ── RENDER MENU ──
         function renderMenu(itemsToRender = null) {
             if (!itemsToRender) {
-                // If called without args, use all active items
                 const active = menuItems.filter(item => item.Active);
                 itemsToRender = active;
             }
