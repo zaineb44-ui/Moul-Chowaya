@@ -614,8 +614,12 @@
                 <input type="hidden" id="editRecordId" value="" />
 
                 <div class="form-group">
-                    <label for="itemName">Nom *</label>
+                    <label for="itemName">Nom (français) *</label>
                     <input type="text" id="itemName" placeholder="Ex: Burger poulet" required />
+                </div>
+                <div class="form-group">
+                    <label for="itemNameAr">Nom (arabe) <span style="color:var(--muted);font-weight:400;">(optionnel)</span></label>
+                    <input type="text" id="itemNameAr" placeholder="برغر دجاج" />
                 </div>
 
                 <div class="form-row">
@@ -637,8 +641,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="itemDescription">Description (optionnelle)</label>
+                    <label for="itemDescription">Description (français)</label>
                     <textarea id="itemDescription" placeholder="Petite description de l'article…" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="itemDescriptionAr">Description (arabe)</label>
+                    <textarea id="itemDescriptionAr" placeholder="وصف صغير للصنف…" rows="2"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -654,6 +662,11 @@
                         <input type="checkbox" id="itemActive" checked style="width:auto; margin-right:8px;" />
                         Actif (visible sur le site)
                     </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemOrder">Ordre d'affichage</label>
+                    <input type="number" id="itemOrder" placeholder="0" min="0" />
                 </div>
 
                 <div class="form-actions">
@@ -672,7 +685,8 @@
         const AIRTABLE_API_KEY = 'patyj6u0PZd84J6m6.c219829f1b05344107fa54dabea848dce3b6655bf7e655fca6c132292afbb017';
         const AIRTABLE_BASE_ID = 'appoeaIgh98U6lUuS';
         const TABLE_ORDERS = 'tblJw87JqJtftBlVj';
-        const TABLE_MENU = 'tblH8nnRjF9Yef2Py'; // <-- À remplacer par l'ID de votre table Menu
+        // ⚠️ REMPLACEZ AVEC L'ID DE VOTRE TABLE MENU ⚠️
+        const TABLE_MENU = 'tblH8nnRjF9Yef2Py';
         const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
         const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
 
@@ -707,11 +721,14 @@
         const menuForm = document.getElementById('menuForm');
         const editRecordId = document.getElementById('editRecordId');
         const itemName = document.getElementById('itemName');
+        const itemNameAr = document.getElementById('itemNameAr');
         const itemCategory = document.getElementById('itemCategory');
         const itemPrice = document.getElementById('itemPrice');
         const itemDescription = document.getElementById('itemDescription');
+        const itemDescriptionAr = document.getElementById('itemDescriptionAr');
         const itemImage = document.getElementById('itemImage');
         const itemActive = document.getElementById('itemActive');
+        const itemOrder = document.getElementById('itemOrder');
         const imagePreview = document.getElementById('imagePreview');
         const modalCancelBtn = document.getElementById('modalCancelBtn');
         const modalSubmitBtn = document.getElementById('modalSubmitBtn');
@@ -837,7 +854,6 @@
             });
             ordersBody.innerHTML = html;
 
-            // Status change
             ordersBody.querySelectorAll('.status-select').forEach(sel => {
                 sel.addEventListener('change', async () => {
                     const id = sel.dataset.id;
@@ -846,7 +862,6 @@
                 });
             });
 
-            // Delete order
             ordersBody.querySelectorAll('.delete-order').forEach(btn => {
                 btn.addEventListener('click', async () => {
                     if (confirm('Supprimer cette commande ?')) {
@@ -907,12 +922,16 @@
                     id: r.id,
                     ...r.fields,
                     Name: r.fields['Name'] || 'Sans nom',
+                    NameAr: r.fields['NameAr'] || '',
                     Category: r.fields['Category'] || 'grill',
                     Price: r.fields['Price'] || 0,
                     Description: r.fields['Description'] || '',
+                    DescriptionAr: r.fields['DescriptionAr'] || '',
                     Active: r.fields['Active'] !== false,
-                    Image: r.fields['Image'] ? r.fields['Image'][0]?.url || '' : ''
+                    Order: r.fields['Order'] || 0,
+                    Image: r.fields['Image'] ? r.fields['Image'][0]?.url : null
                 }));
+                menuItems.sort((a, b) => (a.Order || 0) - (b.Order || 0));
                 renderMenu();
             } catch (err) {
                 console.error('Fetch menu error:', err);
@@ -927,7 +946,8 @@
             const cat = menuCategoryFilter.value;
 
             let filtered = menuItems.filter(item => {
-                const matchName = item.Name.toLowerCase().includes(search);
+                const matchName = item.Name.toLowerCase().includes(search) || (item.NameAr || '').toLowerCase().includes(
+                search);
                 const matchCat = cat === 'all' || item.Category === cat;
                 return matchName && matchCat;
             });
@@ -948,7 +968,7 @@
                 html += `
                         <tr data-id="${item.id}">
                             <td>${imgHtml}</td>
-                            <td><strong>${escapeHtml(item.Name)}</strong></td>
+                            <td><strong>${escapeHtml(item.Name)}</strong>${item.NameAr ? `<br /><span style="font-size:12px;color:var(--muted);">${escapeHtml(item.NameAr)}</span>` : ''}</td>
                             <td><span class="badge" style="background:#ffffff12;">${item.Category}</span></td>
                             <td><strong>${item.Price} DH</strong></td>
                             <td style="max-width:140px; font-size:13px; color:var(--muted);">${escapeHtml(item.Description)}</td>
@@ -962,12 +982,10 @@
             });
             menuBody.innerHTML = html;
 
-            // Edit
             menuBody.querySelectorAll('.edit-item').forEach(btn => {
                 btn.addEventListener('click', () => openEditModal(btn.dataset.id));
             });
 
-            // Delete
             menuBody.querySelectorAll('.delete-item').forEach(btn => {
                 btn.addEventListener('click', async () => {
                     if (confirm(`Supprimer définitivement cet article ?`)) {
@@ -994,65 +1012,62 @@
             }
         }
 
+        // ═══ SAVE MENU ITEM (with image upload) ═══
         async function saveMenuItem(data, recordId = null) {
-            const url = recordId ? `${AIRTABLE_URL_MENU}/${recordId}` : AIRTABLE_URL_MENU;
-            const method = recordId ? 'PATCH' : 'POST';
-
-            // Build fields
+            // 1. Prepare fields (without image)
             const fields = {
                 'Name': data.Name,
+                'NameAr': data.NameAr || '',
                 'Category': data.Category,
                 'Price': parseFloat(data.Price),
                 'Description': data.Description || '',
-                'Active': data.Active !== false
+                'DescriptionAr': data.DescriptionAr || '',
+                'Active': data.Active !== false,
+                'Order': parseInt(data.Order) || 0
             };
 
-            // If there's a new image, upload it first (Airtable attachments require a special format)
-            // For simplicity, we'll store the image as a URL in a text field, or use Airtable's attachment.
-            // But Airtable attachments require a specific API format. 
-            // For a simpler approach, we'll store the image URL in a text field named 'ImageURL'.
-            // The user can paste an image URL. Or we can use a simple image hosting service.
-            // Since Airtable attachments are complex, we'll use a text field for image URL.
-            // But the user wants to upload images, so we need to handle file uploads.
-            // I'll implement Airtable attachment upload.
+            // 2. Create or update the record
+            const url = recordId ? `${AIRTABLE_URL_MENU}/${recordId}` : AIRTABLE_URL_MENU;
+            const method = recordId ? 'PATCH' : 'POST';
 
+            let recordResponse;
             try {
-                let imageAttachment = null;
-                if (data.ImageFile) {
-                    // Upload the file to Airtable as an attachment
-                    const formData = new FormData();
-                    formData.append('file', data.ImageFile);
-
-                    const uploadResp = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}/${recordId || ''}/attachments`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${AIRTABLE_API_KEY}`
-                        },
-                        body: formData
-                    });
-                    if (!uploadResp.ok) throw new Error('Upload image failed');
-                    const uploadResult = await uploadResp.json();
-                    if (uploadResult.records && uploadResult.records.length > 0) {
-                        // The attachment is added, we don't need to do anything else
-                    }
-                }
-
-                // Save the record (with or without image)
-                const payload = { fields };
                 const resp = await fetch(url, {
                     method: method,
                     headers: {
                         'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({ fields })
                 });
                 if (!resp.ok) {
-                    const err = await resp.json();
-                    throw new Error(err.error?.message || `HTTP ${resp.status}`);
+                    const errData = await resp.json();
+                    throw new Error(errData.error?.message || `HTTP ${resp.status}`);
                 }
-                const result = await resp.json();
-                return result;
+                recordResponse = await resp.json();
+                const record = recordResponse.records ? recordResponse.records[0] : recordResponse;
+                const recordIdFinal = record.id;
+
+                // 3. If there's a new image file, upload it as an attachment
+                if (data.ImageFile) {
+                    const formData = new FormData();
+                    formData.append('file', data.ImageFile);
+
+                    const uploadUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}/${recordIdFinal}/attachments`;
+                    const uploadResp = await fetch(uploadUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${AIRTABLE_API_KEY}`
+                        },
+                        body: formData
+                    });
+                    if (!uploadResp.ok) {
+                        const errText = await uploadResp.text();
+                        throw new Error(`Upload image failed: ${errText}`);
+                    }
+                }
+
+                return recordResponse;
             } catch (err) {
                 throw err;
             }
@@ -1065,11 +1080,13 @@
             if (data) {
                 editRecordId.value = data.id || '';
                 itemName.value = data.Name || '';
+                itemNameAr.value = data.NameAr || '';
                 itemCategory.value = data.Category || 'grill';
                 itemPrice.value = data.Price || '';
                 itemDescription.value = data.Description || '';
+                itemDescriptionAr.value = data.DescriptionAr || '';
                 itemActive.checked = data.Active !== false;
-                // Show existing image
+                itemOrder.value = data.Order || '';
                 if (data.Image) {
                     imagePreview.innerHTML = `<img src="${data.Image}" alt="Image actuelle" /><span style="color:var(--muted);font-size:13px;">Image actuelle</span>`;
                 } else {
@@ -1078,10 +1095,13 @@
             } else {
                 editRecordId.value = '';
                 itemName.value = '';
+                itemNameAr.value = '';
                 itemCategory.value = 'grill';
                 itemPrice.value = '';
                 itemDescription.value = '';
+                itemDescriptionAr.value = '';
                 itemActive.checked = true;
+                itemOrder.value = '';
                 imagePreview.innerHTML = `<span class="placeholder">Aucune image sélectionnée</span>`;
                 itemImage.value = '';
             }
@@ -1113,10 +1133,13 @@
             e.preventDefault();
 
             const name = itemName.value.trim();
+            const nameAr = itemNameAr.value.trim();
             const category = itemCategory.value;
             const price = parseFloat(itemPrice.value);
             const description = itemDescription.value.trim();
+            const descriptionAr = itemDescriptionAr.value.trim();
             const active = itemActive.checked;
+            const order = parseInt(itemOrder.value) || 0;
             const recordId = editRecordId.value;
 
             if (!name) { showToast('❌ Le nom est requis', 'error'); return; }
@@ -1131,10 +1154,13 @@
             try {
                 const data = {
                     Name: name,
+                    NameAr: nameAr,
                     Category: category,
                     Price: price,
                     Description: description,
+                    DescriptionAr: descriptionAr,
                     Active: active,
+                    Order: order,
                     ImageFile: file || null
                 };
 
@@ -1202,7 +1228,7 @@
 
         console.log('📋 Admin panel Moul Chowaya');
         console.log('🔑 Utilisez les mêmes identifiants Airtable que index.html');
-        console.log('📌 Pour les images: Airtable gère les pièces jointes.');
+        console.log('📌 Pour les images: upload direct vers Airtable.');
     </script>
 
 </body>
