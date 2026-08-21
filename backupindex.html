@@ -1,167 +1,1164 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Moul Chowaya — Grillades, tacos, burgers, sandwichs et spécialités marocaines à Nouaceur.">
-<title>Moul Chowaya | Grillades & Saveurs</title>
-<style>
-:root{
- --bg:#0b0907;--panel:#15110d;--panel2:#201810;--yellow:#ffd21a;--red:#b8291c;
- --cream:#fff5df;--muted:#c9bcae;--line:rgba(255,255,255,.1);--gold:#f2a900;
-}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--cream);line-height:1.55}
-a{text-decoration:none;color:inherit}.wrap{width:min(1160px,92%);margin:auto}
-nav{position:fixed;z-index:20;top:0;left:0;right:0;background:rgba(11,9,7,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.nav{height:72px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-weight:950;font-size:20px;display:flex;align-items:center;gap:10px}
-.logo b{width:40px;height:40px;border-radius:12px;background:var(--yellow);color:#111;display:grid;place-items:center}
-.links{display:flex;gap:28px;font-size:14px;color:#e8ddd0}.links a:hover{color:var(--yellow)}
-.cta{background:var(--yellow);color:#171006;padding:11px 17px;border-radius:999px;font-weight:900;font-size:13px}
-.hero{min-height:100vh;display:grid;align-items:center;padding:115px 0 70px;
-background:radial-gradient(circle at 80% 35%,rgba(184,41,28,.28),transparent 30%),radial-gradient(circle at 15% 75%,rgba(255,210,26,.1),transparent 28%),linear-gradient(135deg,#0a0806,#21130b)}
-.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:65px;align-items:center}
-.tag{display:inline-block;color:#111;background:var(--yellow);padding:7px 12px;border-radius:6px;font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px}
-h1{font-size:clamp(48px,7vw,86px);line-height:.92;letter-spacing:-4px}
-h1 span{color:var(--yellow)}
-.hero p{font-size:18px;color:var(--muted);max-width:610px;margin:24px 0 30px}
-.buttons{display:flex;gap:12px;flex-wrap:wrap}.btn{padding:15px 21px;border-radius:13px;font-weight:900;display:inline-flex;gap:9px;align-items:center}
-.primary{background:var(--yellow);color:#161006}.secondary{border:1px solid var(--line);background:#ffffff08}
-.hero-card{min-height:520px;border-radius:30px;overflow:hidden;position:relative;border:1px solid var(--line);
-background:linear-gradient(180deg,#0000,#000b),url("menu-1.png") center/cover}
-.hero-card:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.8))}
-.hero-card .label{position:absolute;z-index:2;bottom:25px;left:25px;right:25px;padding:19px;border-radius:18px;background:#0d0a08d9;border:1px solid #ffffff18}
-.label strong{font-size:22px}.label small{color:#cbbeb0}
-section{padding:100px 0}.head{margin-bottom:38px}.kicker{color:var(--yellow);font-weight:950;text-transform:uppercase;font-size:12px;letter-spacing:1.7px}
-h2{font-size:clamp(34px,5vw,56px);line-height:1;letter-spacing:-2px;margin-top:8px}
-.head p{color:var(--muted);max-width:650px;margin-top:15px}
-.menu-nav{display:flex;gap:8px;flex-wrap:wrap;margin:25px 0}.filter{border:1px solid var(--line);background:#ffffff06;color:#ddd0c3;padding:9px 14px;border-radius:999px;cursor:pointer}
-.filter.active,.filter:hover{background:var(--yellow);color:#171006;border-color:var(--yellow)}
-.menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-.menu-card{background:linear-gradient(145deg,#241910,#130f0b);border:1px solid var(--line);border-radius:22px;padding:24px}
-.menu-card h3{font-size:22px;margin-bottom:15px;color:var(--yellow)}
-.item{display:flex;justify-content:space-between;gap:15px;padding:9px 0;border-bottom:1px dashed #ffffff18;font-size:14px}
-.item:last-child{border-bottom:0}.price{font-weight:950;color:#fff;white-space:nowrap}
-.note{font-size:12px;color:#9e9084;margin-top:13px}
-.special{background:#0d0a08;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.feature{padding:28px;border:1px solid var(--line);border-radius:22px;background:#ffffff04}
-.icon{font-size:28px;margin-bottom:14px}.feature h3{margin-bottom:6px}.feature p{color:var(--muted);font-size:14px}
-.gallery{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
-.gallery img{width:100%;height:100%;object-fit:cover;border-radius:24px;border:1px solid var(--line);display:block}
-.gallery .big{height:620px}.gallery .small{height:620px}
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.info{background:#17110c;border:1px solid var(--line);border-radius:24px;padding:28px}
-.row{display:flex;gap:15px;padding:14px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}
-.row span:first-child{width:120px;color:#9f9185;font-size:13px}.row span:last-child{font-weight:750}
-.map{min-height:350px;border-radius:24px;border:1px solid var(--line);position:relative;overflow:hidden;
-background:linear-gradient(135deg,#22170f,#0c0907)}
-.map:before{content:"";position:absolute;inset:-20%;background:repeating-linear-gradient(35deg,transparent 0 45px,#ffffff09 46px 48px),repeating-linear-gradient(120deg,transparent 0 70px,#ffffff06 71px 73px);transform:rotate(-8deg)}
-.pin{position:absolute;left:50%;top:46%;font-size:55px;transform:translate(-50%,-50%);filter:drop-shadow(0 8px 8px #000)}
-.maplabel{position:absolute;bottom:18px;left:18px;right:18px;background:#0c0907e8;padding:16px;border-radius:15px;border:1px solid var(--line)}
-footer{padding:35px 0;border-top:1px solid var(--line);color:#9e9185;font-size:13px}
-.footer{display:flex;justify-content:space-between;gap:20px}
-@media(max-width:850px){
- .links{display:none}.hero-grid,.gallery,.info-grid{grid-template-columns:1fr}
- .hero-card{min-height:420px}.features{grid-template-columns:1fr}.menu-grid{grid-template-columns:1fr}
- .gallery .big,.gallery .small{height:470px}
-}
-@media(max-width:520px){
- section{padding:75px 0}h1{letter-spacing:-2px}.cta{display:none}
- .hero-card{min-height:390px}.footer{flex-direction:column}
-}
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Moul Chowaya — Grillades, tacos, burgers, sandwichs et spécialités marocaines à Nouaceur." />
+    <meta name="theme-color" content="#0b0907" />
+
+    <!-- ═══ FAVICON (navicon) ═══ -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0907'/%3E%3Ctext x='16' y='24' font-size='20' text-anchor='middle' fill='%23ffd21a'%3E🔥%3C/text%3E%3C/svg%3E" type="image/svg+xml" />
+    <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0907'/%3E%3Ctext x='16' y='24' font-size='20' text-anchor='middle' fill='%23ffd21a'%3E🔥%3C/text%3E%3C/svg%3E" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0907'/%3E%3Ctext x='16' y='24' font-size='20' text-anchor='middle' fill='%23ffd21a'%3E🔥%3C/text%3E%3C/svg%3E" />
+
+    <title>Moul Chowaya | Grillades & Saveurs</title>
+    <style>
+        /* ── Reset & vars ── */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        :root {
+            --bg: #0b0907;
+            --panel: #15110d;
+            --panel2: #201810;
+            --yellow: #ffd21a;
+            --red: #b8291c;
+            --cream: #fff5df;
+            --muted: #c9bcae;
+            --line: rgba(255, 255, 255, .1);
+            --gold: #f2a900;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        html.rtl {
+            direction: rtl;
+        }
+        body {
+            font-family: Inter, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--cream);
+            line-height: 1.55;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .wrap {
+            width: min(1160px, 92%);
+            margin: auto;
+        }
+
+        /* ── Navigation ── */
+        nav {
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(11, 9, 7, .86);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+        }
+        .nav {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .logo {
+            font-weight: 950;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .logo b {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--yellow);
+            color: #111;
+            display: grid;
+            place-items: center;
+        }
+        .links {
+            display: flex;
+            gap: 28px;
+            font-size: 14px;
+            color: #e8ddd0;
+        }
+        .links a:hover {
+            color: var(--yellow);
+        }
+        .cta {
+            background: var(--yellow);
+            color: #171006;
+            padding: 11px 17px;
+            border-radius: 999px;
+            font-weight: 900;
+            font-size: 13px;
+            flex-shrink: 0;
+            transition: opacity .2s;
+        }
+        .cta:hover {
+            opacity: .8;
+        }
+
+        /* ── Language toggle ── */
+        .lang-toggle {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: .2s;
+            flex-shrink: 0;
+            letter-spacing: 0.3px;
+        }
+        .lang-toggle:hover {
+            background: var(--yellow);
+            color: #171006;
+            border-color: var(--yellow);
+        }
+
+        /* ── Hamburger ── */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 6px 4px;
+            z-index: 1001;
+        }
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background: var(--cream);
+            border-radius: 3px;
+            transition: .3s ease;
+            transform-origin: center;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
+        /* ── Mobile menu overlay ── */
+        .mobile-menu {
+            position: fixed;
+            top: 72px;
+            left: 0;
+            right: 0;
+            background: rgba(11, 9, 7, .96);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--line);
+            padding: 28px 5% 34px;
+            transform: translateY(-120%);
+            opacity: 0;
+            visibility: hidden;
+            transition: transform .4s cubic-bezier(.22, .61, .36, 1),
+                opacity .35s ease,
+                visibility .35s ease;
+            z-index: 998;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, .6);
+        }
+        .mobile-menu.open {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+        .mobile-menu-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .mobile-menu-inner a {
+            font-size: 20px;
+            font-weight: 700;
+            color: #e8ddd0;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .05);
+            transition: color .2s;
+        }
+        .mobile-menu-inner a:hover,
+        .mobile-menu-inner a:focus {
+            color: var(--yellow);
+        }
+        .mobile-menu-inner .mobile-cta {
+            background: var(--yellow);
+            color: #171006;
+            border: none;
+            text-align: center;
+            padding: 14px 20px;
+            border-radius: 999px;
+            font-weight: 900;
+            font-size: 17px;
+            margin-top: 6px;
+            border-bottom: none;
+        }
+        .mobile-menu-inner .mobile-cta:hover {
+            opacity: .85;
+            color: #171006;
+        }
+        .mobile-menu-inner .mobile-lang {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+            padding: 12px 20px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 17px;
+            cursor: pointer;
+            transition: .2s;
+            text-align: center;
+            margin-top: 4px;
+        }
+        .mobile-menu-inner .mobile-lang:hover {
+            background: var(--yellow);
+            color: #171006;
+            border-color: var(--yellow);
+        }
+
+        /* ── Hero etc ── */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            align-items: center;
+            padding: 115px 0 70px;
+            background: radial-gradient(circle at 80% 35%, rgba(184, 41, 28, .28), transparent 30%), radial-gradient(circle at 15% 75%, rgba(255, 210, 26, .1), transparent 28%), linear-gradient(135deg, #0a0806, #21130b);
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: 65px;
+            align-items: center;
+        }
+        .tag {
+            display: inline-block;
+            color: #111;
+            background: var(--yellow);
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 950;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: clamp(48px, 7vw, 86px);
+            line-height: .92;
+            letter-spacing: -4px;
+        }
+        h1 span {
+            color: var(--yellow);
+        }
+        .hero p {
+            font-size: 18px;
+            color: var(--muted);
+            max-width: 610px;
+            margin: 24px 0 30px;
+        }
+        .buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 15px 21px;
+            border-radius: 13px;
+            font-weight: 900;
+            display: inline-flex;
+            gap: 9px;
+            align-items: center;
+        }
+        .primary {
+            background: var(--yellow);
+            color: #161006;
+        }
+        .secondary {
+            border: 1px solid var(--line);
+            background: #ffffff08;
+        }
+        .hero-card {
+            min-height: 520px;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--line);
+            background: linear-gradient(180deg, #0000, #000b), url("menu-1.png") center/cover;
+        }
+        .hero-card:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, .8));
+        }
+        .hero-card .label {
+            position: absolute;
+            z-index: 2;
+            bottom: 25px;
+            left: 25px;
+            right: 25px;
+            padding: 19px;
+            border-radius: 18px;
+            background: #0d0a08d9;
+            border: 1px solid #ffffff18;
+        }
+        .label strong {
+            font-size: 22px;
+        }
+        .label small {
+            color: #cbbeb0;
+        }
+        section {
+            padding: 100px 0;
+        }
+        .head {
+            margin-bottom: 38px;
+        }
+        .kicker {
+            color: var(--yellow);
+            font-weight: 950;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1.7px;
+        }
+        h2 {
+            font-size: clamp(34px, 5vw, 56px);
+            line-height: 1;
+            letter-spacing: -2px;
+            margin-top: 8px;
+        }
+        .head p {
+            color: var(--muted);
+            max-width: 650px;
+            margin-top: 15px;
+        }
+        .menu-nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+        .filter {
+            border: 1px solid var(--line);
+            background: #ffffff06;
+            color: #ddd0c3;
+            padding: 9px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: .2s;
+        }
+        .filter.active,
+        .filter:hover {
+            background: var(--yellow);
+            color: #171006;
+            border-color: var(--yellow);
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+        .menu-card {
+            background: linear-gradient(145deg, #241910, #130f0b);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            padding: 24px;
+        }
+        .menu-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--yellow);
+        }
+        .item {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 9px 0;
+            border-bottom: 1px dashed #ffffff18;
+            font-size: 14px;
+        }
+        .item:last-child {
+            border-bottom: 0;
+        }
+        .item .name {
+            flex: 1;
+        }
+        .price {
+            font-weight: 950;
+            color: #fff;
+            white-space: nowrap;
+        }
+        .note {
+            font-size: 12px;
+            color: #9e9084;
+            margin-top: 13px;
+        }
+        .special {
+            background: #0d0a08;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .feature {
+            padding: 28px;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: #ffffff04;
+        }
+        .icon {
+            font-size: 28px;
+            margin-bottom: 14px;
+        }
+        .feature h3 {
+            margin-bottom: 6px;
+        }
+        .feature p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 18px;
+        }
+        .gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            display: block;
+        }
+        .gallery .big {
+            height: 620px;
+        }
+        .gallery .small {
+            height: 620px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        .info {
+            background: #17110c;
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 28px;
+        }
+        .row {
+            display: flex;
+            gap: 15px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--line);
+        }
+        .row:last-child {
+            border: 0;
+        }
+        .row span:first-child {
+            width: 120px;
+            color: #9f9185;
+            font-size: 13px;
+        }
+        .row span:last-child {
+            font-weight: 750;
+        }
+        .map {
+            min-height: 350px;
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #22170f, #0c0907);
+            display: block;
+            cursor: pointer;
+        }
+        .map:before {
+            content: "";
+            position: absolute;
+            inset: -20%;
+            background: repeating-linear-gradient(35deg, transparent 0 45px, #ffffff09 46px 48px), repeating-linear-gradient(120deg, transparent 0 70px, #ffffff06 71px 73px);
+            transform: rotate(-8deg);
+        }
+        .pin {
+            position: absolute;
+            left: 50%;
+            top: 46%;
+            font-size: 55px;
+            transform: translate(-50%, -50%);
+            filter: drop-shadow(0 8px 8px #000);
+        }
+        .maplabel {
+            position: absolute;
+            bottom: 18px;
+            left: 18px;
+            right: 18px;
+            background: #0c0907e8;
+            padding: 16px;
+            border-radius: 15px;
+            border: 1px solid var(--line);
+        }
+        footer {
+            padding: 35px 0;
+            border-top: 1px solid var(--line);
+            color: #9e9185;
+            font-size: 13px;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        /* ── Responsive ── */
+        @media(max-width:850px) {
+            .links {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .nav .cta {
+                display: none;
+            }
+            .hero-grid,
+            .gallery,
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-card {
+                min-height: 420px;
+            }
+            .features {
+                grid-template-columns: 1fr;
+            }
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            .gallery .big,
+            .gallery .small {
+                height: 470px;
+            }
+        }
+
+        @media(max-width:520px) {
+            section {
+                padding: 75px 0;
+            }
+            h1 {
+                letter-spacing: -2px;
+            }
+            .hero-card {
+                min-height: 390px;
+            }
+            .footer {
+                flex-direction: column;
+            }
+            .mobile-menu {
+                padding: 22px 5% 28px;
+            }
+            .mobile-menu-inner a {
+                font-size: 18px;
+                padding: 8px 0;
+            }
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /* RTL tweaks */
+        html.rtl .row span:first-child {
+            width: 130px;
+        }
+        html.rtl .hero p {
+            margin-right: 0;
+        }
+        html.rtl .buttons {
+            justify-content: flex-start;
+        }
+        html.rtl .menu-nav {
+            justify-content: flex-start;
+        }
+    </style>
 </head>
 <body>
-<nav><div class="wrap nav">
- <a class="logo" href="#top"><b>🔥</b>Moul Chowaya</a>
- <div class="links"><a href="#menu">La carte</a><a href="#atouts">Pourquoi nous</a><a href="#photos">Photos</a><a href="#contact">Contact</a></div>
- <a class="cta" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank">📍 Itinéraire</a>
-</div></nav>
 
-<main id="top">
-<section class="hero"><div class="wrap hero-grid">
- <div>
-  <div class="tag">🔥 Grillades • Nouaceur</div>
-  <h1>Le goût du <span>vrai chwa.</span></h1>
-  <p>Grillades au feu, tacos, burgers, sandwichs et spécialités marocaines. Une carte généreuse, des prix accessibles et le plaisir du barbecue.</p>
-  <div class="buttons"><a class="btn primary" href="#menu">🍽️ Voir la carte</a><a class="btn secondary" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank">📍 Nous trouver</a></div>
- </div>
- <div class="hero-card"><div class="label"><strong>La grillade est notre spécialité.</strong><br><small>Viandes au kilo, poulet grillé, boulfaf, tacos, burgers & plus.</small></div></div>
-</div></section>
+    <!-- ═══ NAVIGATION ═══ -->
+    <nav>
+        <div class="wrap nav">
+            <a class="logo" href="#top"><b>🔥</b>Moul Chowaya</a>
 
-<section id="menu"><div class="wrap">
- <div class="head"><div class="kicker">La carte</div><h2>Tout droit du grill.</h2><p>Les prix ci-dessous sont repris des photos de la carte fournies. Les prix et disponibilités peuvent changer.</p></div>
- <div class="menu-nav">
-  <button class="filter active" data-filter="all">Tout</button><button class="filter" data-filter="grill">Grillades</button><button class="filter" data-filter="tacos">Tacos</button><button class="filter" data-filter="burger">Burgers</button><button class="filter" data-filter="sandwich">Sandwichs</button><button class="filter" data-filter="drink">Boissons</button><button class="filter" data-filter="salad">Salades</button>
- </div>
- <div class="menu-grid">
-  <article class="menu-card" data-cat="grill"><h3>🥩 Grillades au kilo</h3>
-   <div class="item"><span>Viande hachée</span><span class="price">140 DH</span></div><div class="item"><span>V.H du fromage</span><span class="price">140 DH</span></div><div class="item"><span>V.H de bœuf fromage</span><span class="price">150 DH</span></div><div class="item"><span>V.H royale</span><span class="price">150 DH</span></div><div class="item"><span>Côtelettes d'agneau</span><span class="price">170 DH</span></div><div class="item"><span>Côtelettes de bœuf</span><span class="price">170 DH</span></div><div class="item"><span>Brochettes de poulet</span><span class="price">120 DH</span></div><div class="item"><span>Filet de viande</span><span class="price">190 DH</span></div><div class="item"><span>Saucisse viande</span><span class="price">140 DH</span></div><div class="item"><span>Viande vapeur</span><span class="price">200 DH</span></div><div class="item"><span>Foie</span><span class="price">200 DH</span></div><div class="item"><span>Boulfaf</span><span class="price">200 DH</span></div><div class="item"><span>Cœur</span><span class="price">140 DH</span></div><div class="item"><span>Rognons</span><span class="price">140 DH</span></div><div class="item"><span>Poulet grillé</span><span class="price">120 DH</span></div><div class="item"><span>Demi-poulet grillé</span><span class="price">60 DH</span></div>
-  </article>
-  <article class="menu-card" data-cat="tacos"><h3>🌮 Tacos naturel</h3>
-   <div class="item"><span>Tacos poulet</span><span class="price">35 DH</span></div><div class="item"><span>Tacos saucisse</span><span class="price">35 DH</span></div><div class="item"><span>Tacos mixte</span><span class="price">40 DH</span></div><div class="item"><span>Tacos V.H</span><span class="price">40 DH</span></div><div class="item"><span>Tacos boulfaf</span><span class="price">60 DH</span></div>
-  </article>
-  <article class="menu-card" data-cat="burger"><h3>🍔 Burgers naturel</h3>
-   <div class="item"><span>Burger poulet</span><span class="price">35 DH</span></div><div class="item"><span>Burger dinde</span><span class="price">35 DH</span></div><div class="item"><span>Burger V.H</span><span class="price">40 DH</span></div><div class="item"><span>Burger mixte</span><span class="price">50 DH</span></div><div class="item"><span>Burger spécial Chowaya</span><span class="price">60 DH</span></div>
-  </article>
-  <article class="menu-card" data-cat="sandwich"><h3>🥪 Sandwichs naturel</h3>
-   <div class="item"><span>Sandwich dinde</span><span class="price">25 DH</span></div><div class="item"><span>Sandwich saucisse</span><span class="price">30 DH</span></div><div class="item"><span>Sandwich V.H</span><span class="price">30 DH</span></div><div class="item"><span>Sandwich mixte</span><span class="price">35 DH</span></div><div class="item"><span>Sandwich foie</span><span class="price">40 DH</span></div><div class="item"><span>Sandwich haballou</span><span class="price">55 DH</span></div>
-  </article>
-  <article class="menu-card" data-cat="salad"><h3>🥗 Salades & frites</h3>
-   <div class="item"><span>Petite salade marocaine</span><span class="price">10 DH</span></div><div class="item"><span>Grande salade marocaine</span><span class="price">15 DH</span></div><div class="item"><span>Frites</span><span class="price">10 DH</span></div>
-  </article>
-  <article class="menu-card" data-cat="drink"><h3>🥤 Boissons</h3>
-   <div class="item"><span>Thé petit</span><span class="price">7 DH</span></div><div class="item"><span>Thé moyen</span><span class="price">10 DH</span></div><div class="item"><span>Thé grand</span><span class="price">15 DH</span></div><div class="item"><span>Soda bouteille grande</span><span class="price">8 DH</span></div><div class="item"><span>Soda bouteille petite</span><span class="price">8 DH</span></div><div class="item"><span>Soda 1/2 L</span><span class="price">10 DH</span></div><div class="item"><span>Soda plastique 1 L</span><span class="price">15 DH</span></div>
-  </article>
- </div>
-</div></section>
+            <div class="links">
+                <a href="#menu" data-i18n="nav.menu">La carte</a>
+                <a href="#atouts" data-i18n="nav.about">Pourquoi nous</a>
+                <a href="#photos" data-i18n="nav.photos">Photos</a>
+                <a href="#contact" data-i18n="nav.contact">Contact</a>
+            </div>
 
-<section class="special" id="atouts"><div class="wrap">
- <div class="head"><div class="kicker">Pourquoi Moul Chowaya</div><h2>Une adresse faite pour les amateurs de grillades.</h2></div>
- <div class="features">
-  <div class="feature"><div class="icon">🔥</div><h3>Grillades généreuses</h3><p>Une carte centrée sur la viande grillée, le poulet, le boulfaf et les brochettes.</p></div>
-  <div class="feature"><div class="icon">🇲🇦</div><h3>Saveurs marocaines</h3><p>Des classiques du chwa marocain accompagnés de salades et de frites.</p></div>
-  <div class="feature"><div class="icon">💰</div><h3>Pour tous les budgets</h3><p>Des formules et portions allant du sandwich à la grillade au kilo.</p></div>
- </div>
-</div></section>
+            <a class="cta" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank" data-i18n="nav.cta">📍 Itinéraire</a>
 
-<section id="photos"><div class="wrap">
- <div class="head"><div class="kicker">Notre carte</div><h2>Voyez ce qui vous attend.</h2><p>Les photos originales de la carte sont intégrées directement dans la page.</p></div>
- <div class="gallery">
-  <img class="big" src="menu-1.png" alt="Carte Moul Chowaya - grillades, tacos, burgers et boissons">
-  <img class="small" src="menu-2.png" alt="Carte Moul Chowaya - grillades au kilo">
- </div>
-</div></section>
+            <!-- Language toggle (desktop) -->
+            <button class="lang-toggle" id="langToggle" aria-label="Toggle language">🇫🇷 FR</button>
 
-<section id="contact"><div class="wrap">
- <div class="head"><div class="kicker">Infos pratiques</div><h2>À bientôt chez Moul Chowaya.</h2></div>
- <div class="info-grid">
-  <div class="info">
-   <div class="row"><span>📍 Adresse</span><span>9FF4+897, Nouaceur, Maroc</span></div>
-   <div class="row"><span>📞 Téléphone</span><span>+212 687 294 929</span></div>
-   <div class="row"><span>💰 Budget</span><span>Environ 50–100 DH / personne</span></div>
-   <div class="row"><span>🍖 Spécialité</span><span>Grillades & barbecue marocain</span></div>
-   <div style="margin-top:22px"><a class="btn primary" href="tel:+212687294929">📞 Appeler maintenant</a></div>
-  </div>
-  <a class="map" target="_blank" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl">
-   <div class="pin">📍</div><div class="maplabel"><strong>Moul Chowaya</strong><br><small>Nouaceur · Ouvrir Google Maps ↗</small></div>
-  </a>
- </div>
-</div></section>
-</main>
+            <!-- Hamburger -->
+            <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
 
-<footer><div class="wrap footer"><span><strong style="color:#fff5df">Moul Chowaya</strong> · Grillades & saveurs</span><span>© <span id="year"></span></span></div></footer>
+        <!-- Mobile menu -->
+        <div class="mobile-menu" id="mobileMenu" role="navigation" aria-hidden="true">
+            <div class="mobile-menu-inner">
+                <a href="#menu" class="mobile-link" data-i18n="nav.menu">🍽️ La carte</a>
+                <a href="#atouts" class="mobile-link" data-i18n="nav.about">🔥 Pourquoi nous</a>
+                <a href="#photos" class="mobile-link" data-i18n="nav.photos">📸 Photos</a>
+                <a href="#contact" class="mobile-link" data-i18n="nav.contact">📞 Contact</a>
+                <a href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank" class="mobile-cta" data-i18n="nav.cta">📍 Itinéraire</a>
+                <button class="mobile-lang" id="mobileLangToggle">🇫🇷 FR</button>
+            </div>
+        </div>
+    </nav>
 
-<script>
-document.getElementById("year").textContent=new Date().getFullYear();
-const buttons=document.querySelectorAll(".filter"), cards=document.querySelectorAll(".menu-card");
-buttons.forEach(btn=>btn.addEventListener("click",()=>{
- buttons.forEach(x=>x.classList.remove("active"));btn.classList.add("active");
- const cat=btn.dataset.filter;
- cards.forEach(card=>card.style.display=(cat==="all"||card.dataset.cat===cat)?"block":"none");
-}));
-</script>
+    <!-- ═══ MAIN ═══ -->
+    <main id="top">
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="wrap hero-grid">
+                <div>
+                    <div class="tag" data-i18n="hero.tag">🔥 Grillades • Nouaceur</div>
+                    <h1 data-i18n="hero.title">Le goût du <span>vrai chwa.</span></h1>
+                    <p data-i18n="hero.desc">Grillades au feu, tacos, burgers, sandwichs et spécialités marocaines. Une carte généreuse, des prix accessibles et le plaisir du barbecue.</p>
+                    <div class="buttons">
+                        <a class="btn primary" href="#menu" data-i18n="hero.btn1">🍽️ Voir la carte</a>
+                        <a class="btn secondary" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank" data-i18n="hero.btn2">📍 Nous trouver</a>
+                    </div>
+                </div>
+                <div class="hero-card">
+                    <div class="label">
+                        <strong data-i18n="hero.card_title">La grillade est notre spécialité.</strong><br />
+                        <small data-i18n="hero.card_sub">Viandes au kilo, poulet grillé, boulfaf, tacos, burgers & plus.</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu -->
+        <section id="menu">
+            <div class="wrap">
+                <div class="head">
+                    <div class="kicker" data-i18n="menu.kicker">La carte</div>
+                    <h2 data-i18n="menu.title">Tout droit du grill.</h2>
+                    <p data-i18n="menu.desc">Les prix ci-dessous sont repris des photos de la carte fournies. Les prix et disponibilités peuvent changer.</p>
+                </div>
+                <div class="menu-nav">
+                    <button class="filter active" data-filter="all" data-i18n="filter.all">Tout</button>
+                    <button class="filter" data-filter="grill" data-i18n="filter.grill">Grillades</button>
+                    <button class="filter" data-filter="tacos" data-i18n="filter.tacos">Tacos</button>
+                    <button class="filter" data-filter="burger" data-i18n="filter.burger">Burgers</button>
+                    <button class="filter" data-filter="sandwich" data-i18n="filter.sandwich">Sandwichs</button>
+                    <button class="filter" data-filter="drink" data-i18n="filter.drink">Boissons</button>
+                    <button class="filter" data-filter="salad" data-i18n="filter.salad">Salades</button>
+                </div>
+                <div class="menu-grid">
+                    <article class="menu-card" data-cat="grill">
+                        <h3 data-i18n="menu-card.grill">🥩 Grillades au kilo</h3>
+                        <div class="item"><span class="name" data-fr="Viande hachée">Viande hachée</span><span class="price">140 DH</span></div>
+                        <div class="item"><span class="name" data-fr="V.H du fromage">V.H du fromage</span><span class="price">140 DH</span></div>
+                        <div class="item"><span class="name" data-fr="V.H de bœuf fromage">V.H de bœuf fromage</span><span class="price">150 DH</span></div>
+                        <div class="item"><span class="name" data-fr="V.H royale">V.H royale</span><span class="price">150 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Côtelettes d'agneau">Côtelettes d'agneau</span><span class="price">170 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Côtelettes de bœuf">Côtelettes de bœuf</span><span class="price">170 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Brochettes de poulet">Brochettes de poulet</span><span class="price">120 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Filet de viande">Filet de viande</span><span class="price">190 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Saucisse viande">Saucisse viande</span><span class="price">140 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Viande vapeur">Viande vapeur</span><span class="price">200 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Foie">Foie</span><span class="price">200 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Boulfaf">Boulfaf</span><span class="price">200 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Cœur">Cœur</span><span class="price">140 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Rognons">Rognons</span><span class="price">140 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Poulet grillé">Poulet grillé</span><span class="price">120 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Demi-poulet grillé">Demi-poulet grillé</span><span class="price">60 DH</span></div>
+                    </article>
+
+                    <article class="menu-card" data-cat="tacos">
+                        <h3 data-i18n="menu-card.tacos">🌮 Tacos naturel</h3>
+                        <div class="item"><span class="name" data-fr="Tacos poulet">Tacos poulet</span><span class="price">35 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Tacos saucisse">Tacos saucisse</span><span class="price">35 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Tacos mixte">Tacos mixte</span><span class="price">40 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Tacos V.H">Tacos V.H</span><span class="price">40 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Tacos boulfaf">Tacos boulfaf</span><span class="price">60 DH</span></div>
+                    </article>
+
+                    <article class="menu-card" data-cat="burger">
+                        <h3 data-i18n="menu-card.burger">🍔 Burgers naturel</h3>
+                        <div class="item"><span class="name" data-fr="Burger poulet">Burger poulet</span><span class="price">35 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Burger dinde">Burger dinde</span><span class="price">35 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Burger V.H">Burger V.H</span><span class="price">40 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Burger mixte">Burger mixte</span><span class="price">50 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Burger spécial Chowaya">Burger spécial Chowaya</span><span class="price">60 DH</span></div>
+                    </article>
+
+                    <article class="menu-card" data-cat="sandwich">
+                        <h3 data-i18n="menu-card.sandwich">🥪 Sandwichs naturel</h3>
+                        <div class="item"><span class="name" data-fr="Sandwich dinde">Sandwich dinde</span><span class="price">25 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Sandwich saucisse">Sandwich saucisse</span><span class="price">30 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Sandwich V.H">Sandwich V.H</span><span class="price">30 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Sandwich mixte">Sandwich mixte</span><span class="price">35 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Sandwich foie">Sandwich foie</span><span class="price">40 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Sandwich haballou">Sandwich haballou</span><span class="price">55 DH</span></div>
+                    </article>
+
+                    <article class="menu-card" data-cat="salad">
+                        <h3 data-i18n="menu-card.salad">🥗 Salades & frites</h3>
+                        <div class="item"><span class="name" data-fr="Petite salade marocaine">Petite salade marocaine</span><span class="price">10 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Grande salade marocaine">Grande salade marocaine</span><span class="price">15 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Frites">Frites</span><span class="price">10 DH</span></div>
+                    </article>
+
+                    <article class="menu-card" data-cat="drink">
+                        <h3 data-i18n="menu-card.drink">🥤 Boissons</h3>
+                        <div class="item"><span class="name" data-fr="Thé petit">Thé petit</span><span class="price">7 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Thé moyen">Thé moyen</span><span class="price">10 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Thé grand">Thé grand</span><span class="price">15 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Soda bouteille grande">Soda bouteille grande</span><span class="price">8 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Soda bouteille petite">Soda bouteille petite</span><span class="price">8 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Soda 1/2 L">Soda 1/2 L</span><span class="price">10 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Soda plastique 1 L">Soda plastique 1 L</span><span class="price">15 DH</span></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Atouts -->
+        <section class="special" id="atouts">
+            <div class="wrap">
+                <div class="head">
+                    <div class="kicker" data-i18n="atouts.kicker">Pourquoi Moul Chowaya</div>
+                    <h2 data-i18n="atouts.title">Une adresse faite pour les amateurs de grillades.</h2>
+                </div>
+                <div class="features">
+                    <div class="feature">
+                        <div class="icon">🔥</div>
+                        <h3 data-i18n="atouts.f1_title">Grillades généreuses</h3>
+                        <p data-i18n="atouts.f1_desc">Une carte centrée sur la viande grillée, le poulet, le boulfaf et les brochettes.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="icon">🇲🇦</div>
+                        <h3 data-i18n="atouts.f2_title">Saveurs marocaines</h3>
+                        <p data-i18n="atouts.f2_desc">Des classiques du chwa marocain accompagnés de salades et de frites.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="icon">💰</div>
+                        <h3 data-i18n="atouts.f3_title">Pour tous les budgets</h3>
+                        <p data-i18n="atouts.f3_desc">Des formules et portions allant du sandwich à la grillade au kilo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photos -->
+        <section id="photos">
+            <div class="wrap">
+                <div class="head">
+                    <div class="kicker" data-i18n="photos.kicker">Notre carte</div>
+                    <h2 data-i18n="photos.title">Voyez ce qui vous attend.</h2>
+                    <p data-i18n="photos.desc">Les photos originales de la carte sont intégrées directement dans la page.</p>
+                </div>
+                <div class="gallery">
+                    <img class="big" src="menu-1.png" alt="Carte Moul Chowaya - grillades, tacos, burgers et boissons" loading="lazy" />
+                    <img class="small" src="menu-2.png" alt="Carte Moul Chowaya - grillades au kilo" loading="lazy" />
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact">
+            <div class="wrap">
+                <div class="head">
+                    <div class="kicker" data-i18n="contact.kicker">Infos pratiques</div>
+                    <h2 data-i18n="contact.title">À bientôt chez Moul Chowaya.</h2>
+                </div>
+                <div class="info-grid">
+                    <div class="info">
+                        <div class="row">
+                            <span data-i18n="contact.addr_label">📍 Adresse</span>
+                            <span data-i18n="contact.addr_val">9FF4+897, Nouaceur, Maroc</span>
+                        </div>
+                        <div class="row">
+                            <span data-i18n="contact.phone_label">📞 Téléphone</span>
+                            <span data-i18n="contact.phone_val">+212 687 294 929</span>
+                        </div>
+                        <div class="row">
+                            <span data-i18n="contact.budget_label">💰 Budget</span>
+                            <span data-i18n="contact.budget_val">Environ 50–100 DH / personne</span>
+                        </div>
+                        <div class="row">
+                            <span data-i18n="contact.spec_label">🍖 Spécialité</span>
+                            <span data-i18n="contact.spec_val">Grillades & barbecue marocain</span>
+                        </div>
+                        <div style="margin-top:22px">
+                            <a class="btn primary" href="tel:+212687294929" data-i18n="contact.btn">📞 Appeler maintenant</a>
+                        </div>
+                    </div>
+                    <a class="map" target="_blank" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl">
+                        <div class="pin">📍</div>
+                        <div class="maplabel">
+                            <strong>Moul Chowaya</strong><br />
+                            <small>Nouaceur · Ouvrir Google Maps ↗</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer>
+        <div class="wrap footer">
+            <span data-i18n="footer.text"><strong style="color:#fff5df">Moul Chowaya</strong> · Grillades & saveurs</span>
+            <span>© <span id="year"></span></span>
+        </div>
+    </footer>
+
+    <!-- ═══ SCRIPTS ═══ -->
+    <script>
+        // ── Translations ──
+        const translations = {
+            fr: {
+                'nav.menu': 'La carte',
+                'nav.about': 'Pourquoi nous',
+                'nav.photos': 'Photos',
+                'nav.contact': 'Contact',
+                'nav.cta': '📍 Itinéraire',
+                'hero.tag': '🔥 Grillades • Nouaceur',
+                'hero.title': 'Le goût du <span>vrai chwa.</span>',
+                'hero.desc': 'Grillades au feu, tacos, burgers, sandwichs et spécialités marocaines. Une carte généreuse, des prix accessibles et le plaisir du barbecue.',
+                'hero.btn1': '🍽️ Voir la carte',
+                'hero.btn2': '📍 Nous trouver',
+                'hero.card_title': 'La grillade est notre spécialité.',
+                'hero.card_sub': 'Viandes au kilo, poulet grillé, boulfaf, tacos, burgers & plus.',
+                'menu.kicker': 'La carte',
+                'menu.title': 'Tout droit du grill.',
+                'menu.desc': 'Les prix ci-dessous sont repris des photos de la carte fournies. Les prix et disponibilités peuvent changer.',
+                'filter.all': 'Tout',
+                'filter.grill': 'Grillades',
+                'filter.tacos': 'Tacos',
+                'filter.burger': 'Burgers',
+                'filter.sandwich': 'Sandwichs',
+                'filter.drink': 'Boissons',
+                'filter.salad': 'Salades',
+                'menu-card.grill': '🥩 Grillades au kilo',
+                'menu-card.tacos': '🌮 Tacos naturel',
+                'menu-card.burger': '🍔 Burgers naturel',
+                'menu-card.sandwich': '🥪 Sandwichs naturel',
+                'menu-card.salad': '🥗 Salades & frites',
+                'menu-card.drink': '🥤 Boissons',
+                'atouts.kicker': 'Pourquoi Moul Chowaya',
+                'atouts.title': 'Une adresse faite pour les amateurs de grillades.',
+                'atouts.f1_title': 'Grillades généreuses',
+                'atouts.f1_desc': 'Une carte centrée sur la viande grillée, le poulet, le boulfaf et les brochettes.',
+                'atouts.f2_title': 'Saveurs marocaines',
+                'atouts.f2_desc': 'Des classiques du chwa marocain accompagnés de salades et de frites.',
+                'atouts.f3_title': 'Pour tous les budgets',
+                'atouts.f3_desc': 'Des formules et portions allant du sandwich à la grillade au kilo.',
+                'photos.kicker': 'Notre carte',
+                'photos.title': 'Voyez ce qui vous attend.',
+                'photos.desc': 'Les photos originales de la carte sont intégrées directement dans la page.',
+                'contact.kicker': 'Infos pratiques',
+                'contact.title': 'À bientôt chez Moul Chowaya.',
+                'contact.addr_label': '📍 Adresse',
+                'contact.addr_val': '9FF4+897, Nouaceur, Maroc',
+                'contact.phone_label': '📞 Téléphone',
+                'contact.phone_val': '+212 687 294 929',
+                'contact.budget_label': '💰 Budget',
+                'contact.budget_val': 'Environ 50–100 DH / personne',
+                'contact.spec_label': '🍖 Spécialité',
+                'contact.spec_val': 'Grillades & barbecue marocain',
+                'contact.btn': '📞 Appeler maintenant',
+                'footer.text': 'Moul Chowaya · Grillades & saveurs'
+            },
+            ar: {
+                'nav.menu': 'القائمة',
+                'nav.about': 'لماذا نحن',
+                'nav.photos': 'الصور',
+                'nav.contact': 'اتصل بنا',
+                'nav.cta': '📍 الموقع',
+                'hero.tag': '🔥 مشاوي • النواصر',
+                'hero.title': 'طعم <span>الشواء الحقيقي.</span>',
+                'hero.desc': 'مشاوي على النار، تاكو، برغر، ساندويتشات وأطباق مغربية خاصة. قائمة غنية، أسعار مناسبة ومتعة الشواء.',
+                'hero.btn1': '🍽️ شاهد القائمة',
+                'hero.btn2': '📍 اعثر علينا',
+                'hero.card_title': 'المشاوي هي تخصصنا.',
+                'hero.card_sub': 'لحوم بالكيلو، دجاج مشوي، بولفاف، تاكو، برغر والمزيد.',
+                'menu.kicker': 'القائمة',
+                'menu.title': 'مباشرة من المشواة.',
+                'menu.desc': 'الأسعار أدناه مأخوذة من صور القائمة المرفقة. الأسعار والتوفر قد تتغير.',
+                'filter.all': 'الكل',
+                'filter.grill': 'مشاوي',
+                'filter.tacos': 'تاكو',
+                'filter.burger': 'برغر',
+                'filter.sandwich': 'ساندويتشات',
+                'filter.drink': 'مشروبات',
+                'filter.salad': 'سلطات',
+                'menu-card.grill': '🥩 مشاوي بالكيلو',
+                'menu-card.tacos': '🌮 تاكو طبيعي',
+                'menu-card.burger': '🍔 برغر طبيعي',
+                'menu-card.sandwich': '🥪 ساندويتشات طبيعي',
+                'menu-card.salad': '🥗 سلطات ومقليات',
+                'menu-card.drink': '🥤 مشروبات',
+                'atouts.kicker': 'لماذا مول شوية',
+                'atouts.title': 'عنوان مصمم لعشاق المشاوي.',
+                'atouts.f1_title': 'مشاوي وفيرة',
+                'atouts.f1_desc': 'قائمة تركز على اللحوم المشوية، الدجاج، البولفاف والأسياخ.',
+                'atouts.f2_title': 'نكهات مغربية',
+                'atouts.f2_desc': 'كلاسيكيات الشواء المغربي مصحوبة بالسلطات والمقليات.',
+                'atouts.f3_title': 'لجميع الميزانيات',
+                'atouts.f3_desc': 'صيغ وحصص تتراوح من الساندويتش إلى المشاوي بالكيلو.',
+                'photos.kicker': 'قائمتنا',
+                'photos.title': 'شاهد ما ينتظرك.',
+                'photos.desc': 'الصور الأصلية للقائمة مدمجة مباشرة في الصفحة.',
+                'contact.kicker': 'معلومات عملية',
+                'contact.title': 'نراكم قريباً في مول شوية.',
+                'contact.addr_label': '📍 العنوان',
+                'contact.addr_val': '9FF4+897، النواصر، المغرب',
+                'contact.phone_label': '📞 الهاتف',
+                'contact.phone_val': '+212 687 294 929',
+                'contact.budget_label': '💰 الميزانية',
+                'contact.budget_val': 'حوالي 50–100 درهم للشخص',
+                'contact.spec_label': '🍖 التخصص',
+                'contact.spec_val': 'مشاوي وشواء مغربي',
+                'contact.btn': '📞 اتصل الآن',
+                'footer.text': 'مول شوية · مشاوي ونكهات'
+            }
+        };
+
+        // ── Menu item translations (French → Arabic) ──
+        const menuTranslations = {
+            'Viande hachée': 'لحم مفروم',
+            'V.H du fromage': 'لحم مفروم بالجبن',
+            'V.H de bœuf fromage': 'لحم بقر مفروم بالجبن',
+            'V.H royale': 'لحم مفروم رويال',
+            'Côtelettes d\'agneau': 'شرائح خروف',
+            'Côtelettes de bœuf': 'شرائح بقر',
+            'Brochettes de poulet': 'أسياخ دجاج',
+            'Filet de viande': 'فيليه لحم',
+            'Saucisse viande': 'سجق لحم',
+            'Viande vapeur': 'لحم على البخار',
+            'Foie': 'كبد',
+            'Boulfaf': 'بولفاف',
+            'Cœur': 'قلب',
+            'Rognons': 'كلى',
+            'Poulet grillé': 'دجاج مشوي',
+            'Demi-poulet grillé': 'نصف دجاجة مشوية',
+            'Tacos poulet': 'تاكو دجاج',
+            'Tacos saucisse': 'تاكو سجق',
+            'Tacos mixte': 'تاكو ميكس',
+            'Tacos V.H': 'تاكو لحم مفروم',
+            'Tacos boulfaf': 'تاكو بولفاف',
+            'Burger poulet': 'برغر دجاج',
+            'Burger dinde': 'برغر ديك رومي',
+            'Burger V.H': 'برغر لحم مفروم',
+            'Burger mixte': 'برغر ميكس',
+            'Burger spécial Chowaya': 'برغر شوية الخاص',
+            'Sandwich dinde': 'ساندويتش ديك رومي',
+            'Sandwich saucisse': 'ساندويتش سجق',
+            'Sandwich V.H': 'ساندويتش لحم مفروم',
+            'Sandwich mixte': 'ساندويتش ميكس',
+            'Sandwich foie': 'ساندويتش كبد',
+            'Sandwich haballou': 'ساندويتش حبالو',
+            'Petite salade marocaine': 'سلطة مغربية صغيرة',
+            'Grande salade marocaine': 'سلطة مغربية كبيرة',
+            'Frites': 'مقليات',
+            'Thé petit': 'شاي صغير',
+            'Thé moyen': 'شاي متوسط',
+            'Thé grand': 'شاي كبير',
+            'Soda bouteille grande': 'صودا زجاجة كبيرة',
+            'Soda bouteille petite': 'صودا زجاجة صغيرة',
+            'Soda 1/2 L': 'صودا نصف لتر',
+            'Soda plastique 1 L': 'صودا بلاستيك 1 لتر'
+        };
+
+        // ── State ──
+        let currentLang = 'fr';
+
+        // ── DOM refs ──
+        const langToggle = document.getElementById('langToggle');
+        const mobileLangToggle = document.getElementById('mobileLangToggle');
+        const htmlEl = document.documentElement;
+        const i18nElements = document.querySelectorAll('[data-i18n]');
+        const menuNameSpans = document.querySelectorAll('.item .name');
+
+        function setLanguage(lang) {
+            currentLang = lang;
+
+            // Update HTML lang and direction
+            htmlEl.lang = lang;
+            if (lang === 'ar') {
+                htmlEl.classList.add('rtl');
+                htmlEl.dir = 'rtl';
+            } else {
+                htmlEl.classList.remove('rtl');
+                htmlEl.dir = 'ltr';
+            }
+
+            // Update button labels
+            const label = lang === 'ar' ? '🇸🇦 ع' : '🇫🇷 FR';
+            langToggle.textContent = label;
+            mobileLangToggle.textContent = label;
+
+            // Update all i18n elements (UI text)
+            i18nElements.forEach(el => {
+                const key = el.dataset.i18n;
+                const translation = translations[lang]?.[key];
+                if (translation !== undefined) {
+                    el.innerHTML = translation;
+                }
+            });
+
+            // ── Update menu item names ──
+            if (lang === 'ar') {
+                menuNameSpans.forEach(span => {
+                    const frText = span.dataset.fr || span.textContent.trim();
+                    const arText = menuTranslations[frText];
+                    if (arText) {
+                        span.textContent = arText;
+                    }
+                });
+            } else {
+                // Restore French from data-fr
+                menuNameSpans.forEach(span => {
+                    const fr = span.dataset.fr;
+                    if (fr) {
+                        span.textContent = fr;
+                    }
+                });
+            }
+
+            // Year
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Persist
+            localStorage.setItem('moul-lang', lang);
+        }
+
+        function toggleLanguage() {
+            const next = currentLang === 'fr' ? 'ar' : 'fr';
+            setLanguage(next);
+        }
+
+        // ── Event listeners ──
+        langToggle.addEventListener('click', toggleLanguage);
+        mobileLangToggle.addEventListener('click', toggleLanguage);
+
+        // ── Load saved preference ──
+        const saved = localStorage.getItem('moul-lang');
+        if (saved === 'ar' || saved === 'fr') {
+            setLanguage(saved);
+        } else {
+            setLanguage('fr');
+        }
+
+        // ── Year ──
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // ── Filter ──
+        const filterBtns = document.querySelectorAll('.filter');
+        const cards = document.querySelectorAll('.menu-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const cat = btn.dataset.filter;
+                cards.forEach(card => {
+                    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'block' : 'none';
+                });
+            });
+        });
+
+        // ── Mobile menu ──
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const body = document.body;
+
+        function toggleMenu(force) {
+            const isOpen = typeof force === 'boolean' ? force : !mobileMenu.classList.contains('open');
+            mobileMenu.classList.toggle('open', isOpen);
+            hamburger.classList.toggle('active', isOpen);
+            hamburger.setAttribute('aria-expanded', isOpen);
+            mobileMenu.setAttribute('aria-hidden', !isOpen);
+            body.classList.toggle('menu-open', isOpen);
+        }
+
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMenu();
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMenu(false);
+            });
+        });
+
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) {
+                toggleMenu(false);
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+                toggleMenu(false);
+                hamburger.focus();
+            }
+        });
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (window.innerWidth > 850 && mobileMenu.classList.contains('open')) {
+                    toggleMenu(false);
+                }
+            }, 150);
+        });
+
+        console.log('🌐 Full Arabic translation ready – menu items now switch to Arabic.');
+    </script>
+
 </body>
 </html>
