@@ -1,4 +1,4 @@
-"Name","NameAr","Category","Price","Description","DescriptionAr","Active","Order"
+"Name","NameAr","Category","Price","Description","DescriptionAr","Active","Order","ImageURL"
 "Viande hachée","لحم مفروم","grill",140,"Viande hachée pure bœuf, grillée à la perfection.","لحم بقر مفروم مشوي بشكل مثالي.","TRUE",1
 "V.H du fromage","لحم مفروم بالجبن","grill",140,"Viande hachée avec fromage fondant.","لحم مفروم مع جبن ذائب.","TRUE",2
 "V.H de bœuf fromage","لحم بقر مفروم بالجبن","grill",150,"Viande de bœuf hachée avec fromage.","لحم بقر مفروم مع جبن.","TRUE",3
