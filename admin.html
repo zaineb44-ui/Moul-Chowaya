@@ -851,7 +851,7 @@
             <div class="menu-header">
                 <div>
                     <h2 data-i18n="admin.menu_title">Gestion du menu</h2>
-                    <p data-i18n="admin.menu_sub">Ajoutez, modifiez ou supprimez des articles. Les images sont fournies par URL (Google Drive, hébergement externe).</p>
+                    <p data-i18n="admin.menu_sub">Ajoutez, modifiez ou supprimez des articles. Pour l'image, collez l'ID Google Drive ou une URL complète.</p>
                 </div>
                 <button class="btn btn-yellow" id="addItemBtn" data-i18n="admin.add_item">➕ Ajouter un article</button>
             </div>
@@ -929,10 +929,10 @@
                     <textarea id="itemDescriptionAr" placeholder="وصف صغير للصنف…" rows="2"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="itemImageUrl" data-i18n="admin.field_image_url">URL de l'image (Google Drive, etc.)</label>
-                    <input type="url" id="itemImageUrl" placeholder="https://drive.google.com/uc?export=view&id=..." />
+                    <label for="itemImageId" data-i18n="admin.field_image_id">ID Google Drive ou URL complète</label>
+                    <input type="text" id="itemImageId" placeholder="Ex: 1ABC123def456  ou https://..." />
                     <div class="image-preview" id="imagePreview"><span class="placeholder" data-i18n="admin.no_image">Aucune image</span></div>
-                    <div class="field-hint" data-i18n="admin.image_url_hint">💡 Collez le lien de partage (ou le lien direct) de votre image. Elle s'affichera automatiquement sur le site.</div>
+                    <div class="field-hint" data-i18n="admin.image_id_hint">💡 Collez uniquement l'ID (ex: 1ABC123def456) ou l'URL complète. L'ID sera automatiquement converti en lien direct.</div>
                 </div>
                 <div class="form-group">
                     <label>
@@ -970,7 +970,7 @@
         // ⚠️ REMPLACEZ AVEC L'ID RÉEL DE VOTRE TABLE MENU ⚠️
         const TABLE_MENU = 'tblH8nnRjF9Yef2Py';
 
-        // Nom du champ pour l'URL de l'image (à créer dans Airtable en tant que texte)
+        // Nom du champ pour l'URL de l'image (texte)
         const IMAGE_URL_FIELD = 'ImageURL';
 
         const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
@@ -1009,7 +1009,7 @@
                 'admin.th_action': 'Action',
                 'admin.no_orders': 'Aucune commande',
                 'admin.menu_title': 'Gestion du menu',
-                'admin.menu_sub': 'Ajoutez, modifiez ou supprimez des articles. Les images sont fournies par URL (Google Drive, hébergement externe).',
+                'admin.menu_sub': 'Ajoutez, modifiez ou supprimez des articles. Pour l\'image, collez l\'ID Google Drive ou une URL complète.',
                 'admin.add_item': '➕ Ajouter un article',
                 'admin.search_menu': '🔍 Rechercher un article…',
                 'admin.cat_all': 'Toutes les catégories',
@@ -1037,9 +1037,9 @@
                 'admin.field_price': 'Prix (DH) *',
                 'admin.field_desc': 'Description (français)',
                 'admin.field_desc_ar': 'Description (arabe)',
-                'admin.field_image_url': 'URL de l\'image (Google Drive, etc.)',
+                'admin.field_image_id': 'ID Google Drive ou URL complète',
                 'admin.no_image': 'Aucune image',
-                'admin.image_url_hint': '💡 Collez le lien de partage (ou le lien direct) de votre image. Elle s\'affichera automatiquement sur le site.',
+                'admin.image_id_hint': '💡 Collez uniquement l\'ID (ex: 1ABC123def456) ou l\'URL complète. L\'ID sera automatiquement converti en lien direct.',
                 'admin.field_active': 'Actif (visible sur le site)',
                 'admin.field_order': "Ordre d'affichage",
                 'admin.cancel': 'Annuler',
@@ -1079,7 +1079,7 @@
                 'admin.th_action': 'إجراء',
                 'admin.no_orders': 'لا توجد طلبات',
                 'admin.menu_title': 'إدارة القائمة',
-                'admin.menu_sub': 'أضف أو عدل أو احذف الأصناف. الصور مقدمة عبر رابط (Google Drive، استضافة خارجية).',
+                'admin.menu_sub': 'أضف أو عدل أو احذف الأصناف. للصورة، الصق معرف Google Drive أو رابط كامل.',
                 'admin.add_item': '➕ إضافة صنف',
                 'admin.search_menu': '🔍 بحث عن صنف…',
                 'admin.cat_all': 'جميع الفئات',
@@ -1107,9 +1107,9 @@
                 'admin.field_price': 'السعر (درهم) *',
                 'admin.field_desc': 'الوصف (فرنسي)',
                 'admin.field_desc_ar': 'الوصف (عربي)',
-                'admin.field_image_url': 'رابط الصورة (Google Drive، إلخ)',
+                'admin.field_image_id': 'معرف Google Drive أو رابط كامل',
                 'admin.no_image': 'لا توجد صورة',
-                'admin.image_url_hint': '💡 الصق رابط المشاركة (أو الرابط المباشر) للصورة. ستظهر تلقائياً على الموقع.',
+                'admin.image_id_hint': '💡 الصق المعرف فقط (مثال: 1ABC123def456) أو الرابط الكامل. سيتم تحويل المعرف تلقائياً إلى رابط مباشر.',
                 'admin.field_active': 'نشط (ظاهر على الموقع)',
                 'admin.field_order': 'ترتيب العرض',
                 'admin.cancel': 'إلغاء',
@@ -1162,7 +1162,7 @@
         const itemPrice = document.getElementById('itemPrice');
         const itemDescription = document.getElementById('itemDescription');
         const itemDescriptionAr = document.getElementById('itemDescriptionAr');
-        const itemImageUrl = document.getElementById('itemImageUrl');
+        const itemImageId = document.getElementById('itemImageId');
         const itemActive = document.getElementById('itemActive');
         const itemOrder = document.getElementById('itemOrder');
         const imagePreview = document.getElementById('imagePreview');
@@ -1440,7 +1440,6 @@
                 const data = await resp.json();
                 menuItems = data.records.map(r => {
                     const fields = r.fields || {};
-                    // On lit l'URL de l'image depuis le champ ImageURL
                     const imageUrl = fields[IMAGE_URL_FIELD] || null;
                     return {
                         id: r.id,
@@ -1452,7 +1451,7 @@
                         DescriptionAr: fields['DescriptionAr'] || '',
                         Active: fields['Active'] !== false,
                         Order: fields['Order'] || 0,
-                        Image: imageUrl // on stocke l'URL
+                        Image: imageUrl
                     };
                 });
                 menuItems.sort((a, b) => (a.Order || 0) - (b.Order || 0));
@@ -1539,11 +1538,33 @@
         }
 
         // ═══════════════════════════════════════════════════════════
-        // SAVE MENU ITEM — avec URL d'image
+        // UTILITAIRE : convertir un ID Google Drive en URL directe
+        // ═══════════════════════════════════════════════════════════
+
+        function buildImageUrl(input) {
+            if (!input) return '';
+            const trimmed = input.trim();
+            // Si ça commence par http, on considère que c'est une URL complète
+            if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+                return trimmed;
+            }
+            // Sinon, on suppose que c'est un ID Google Drive
+            // Nettoyer l'ID (enlever les espaces, les caractères spéciaux)
+            const cleanId = trimmed.replace(/[^a-zA-Z0-9_-]/g, '');
+            if (cleanId) {
+                return `https://drive.google.com/uc?export=view&id=${cleanId}`;
+            }
+            return '';
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // SAVE MENU ITEM — avec conversion automatique de l'ID
         // ═══════════════════════════════════════════════════════════
 
         async function saveMenuItem(data, recordId = null) {
-            // Préparer les champs
+            // Construire l'URL complète à partir de l'entrée
+            const fullUrl = buildImageUrl(data.ImageInput || '');
+
             const fields = {
                 'Name': data.Name.trim(),
                 'NameAr': (data.NameAr || '').trim(),
@@ -1553,8 +1574,7 @@
                 'DescriptionAr': (data.DescriptionAr || '').trim(),
                 'Active': data.Active !== false,
                 'Order': parseInt(data.Order) || 0,
-                // Enregistrer l'URL dans le champ ImageURL
-                [IMAGE_URL_FIELD]: data.ImageUrl ? data.ImageUrl.trim() : ''
+                [IMAGE_URL_FIELD]: fullUrl
             };
 
             const url = recordId ? `${AIRTABLE_URL_MENU}/${recordId}` : AIRTABLE_URL_MENU;
@@ -1644,13 +1664,19 @@
                 itemDescriptionAr.value = data.DescriptionAr || '';
                 itemActive.checked = data.Active !== false;
                 itemOrder.value = data.Order || '';
-                // Image URL
+                // Image input : on affiche l'URL si elle existe, sinon on tente d'extraire l'ID
                 if (data.Image) {
-                    itemImageUrl.value = data.Image;
+                    // On tente d'extraire l'ID à partir de l'URL pour afficher dans le champ
+                    const match = data.Image.match(/[?&]id=([^&]+)/) || data.Image.match(/\/d\/([^\/]+)/);
+                    if (match) {
+                        itemImageId.value = match[1];
+                    } else {
+                        itemImageId.value = data.Image;
+                    }
                     imagePreview.innerHTML =
                         `<img src="${data.Image}" alt="Image" /><span style="color:var(--muted);font-size:13px;">Aperçu</span>`;
                 } else {
-                    itemImageUrl.value = '';
+                    itemImageId.value = '';
                     imagePreview.innerHTML = `<span class="placeholder">${t('admin.no_image')}</span>`;
                 }
             } else {
@@ -1663,7 +1689,7 @@
                 itemDescriptionAr.value = '';
                 itemActive.checked = true;
                 itemOrder.value = '';
-                itemImageUrl.value = '';
+                itemImageId.value = '';
                 imagePreview.innerHTML = `<span class="placeholder">${t('admin.no_image')}</span>`;
             }
             menuModal.classList.add('open');
@@ -1693,8 +1719,9 @@
         // APERÇU DE L'IMAGE EN TEMPS RÉEL
         // ═══════════════════════════════════════════════════════════
 
-        itemImageUrl.addEventListener('input', () => {
-            const url = itemImageUrl.value.trim();
+        itemImageId.addEventListener('input', () => {
+            const input = itemImageId.value.trim();
+            const url = buildImageUrl(input);
             if (url) {
                 imagePreview.innerHTML =
                     `<img src="${url}" alt="Aperçu" /><span style="color:var(--muted);font-size:13px;">Aperçu</span>`;
@@ -1719,7 +1746,7 @@
             const active = itemActive.checked;
             const order = parseInt(itemOrder.value) || 0;
             const recordId = editRecordId.value;
-            const imageUrl = itemImageUrl.value.trim();
+            const imageInput = itemImageId.value.trim();
 
             if (!name) { showToast('❌ Le nom est requis', 'error'); return; }
             if (isNaN(price) || price < 0) { showToast('❌ Prix invalide', 'error'); return; }
@@ -1737,7 +1764,7 @@
                     DescriptionAr: descriptionAr,
                     Active: active,
                     Order: order,
-                    ImageUrl: imageUrl || ''
+                    ImageInput: imageInput // on passe l'entrée brute pour conversion
                 };
 
                 await saveMenuItem(data, recordId);
@@ -1803,7 +1830,7 @@
             fetchMenu();
         }, 30000);
 
-        console.log('📋 Admin panel Moul Chowaya — prêt (avec URL d\'image)');
+        console.log('📋 Admin panel Moul Chowaya — avec conversion automatique des IDs Google Drive');
         console.log('ℹ️ Langue actuelle:', currentLang);
         console.log('ℹ️ Champ image URL utilisé:', IMAGE_URL_FIELD);
     </script>
