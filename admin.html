@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Admin · Moul Chowaya</title>
     <style>
-        /* ... same CSS as before (keep unchanged) ... */
+        /* ... styles (unchanged) ... */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         :root { --bg: #0b0907; --panel: #15110d; --yellow: #ffd21a; --cream: #fff5df; --muted: #c9bcae; --line: rgba(255,255,255,.1); --red: #b8291c; --green: #2e7d32; --blue: #1a73e8; }
         body { font-family: Inter, system-ui, Arial, sans-serif; background: var(--bg); color: var(--cream); padding: 20px; min-height: 100vh; }
@@ -227,9 +227,9 @@
     <script>
         // ═══════════════════════════════════════════════════════
         // ⚠️ REMPLACEZ CETTE VALEUR AVEC L'ID DE VOTRE TABLE MENU ⚠️
-        // Exemple: const TABLE_MENU = 'tblABC123XYZ';
+        // Exemple: const TABLE_MENU = 'tblH8nnRjF9Yef2Py';
         // ═══════════════════════════════════════════════════════
-        const TABLE_MENU = 'tblH8nnRjF9Yef2Py'; // <-- À CHANGER
+        const TABLE_MENU = 'tblH8nnRjF9Yef2Py'; // <-- Mettez votre ID ici
 
         // ═══ CONFIGURATION AIRTABLE ═══
         const AIRTABLE_API_KEY = 'patyj6u0PZd84J6m6.c219829f1b05344107fa54dabea848dce3b6655bf7e655fca6c132292afbb017';
@@ -238,10 +238,13 @@
         const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
         const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
 
+        console.log('🔗 Menu table URL:', AIRTABLE_URL_MENU);
+        console.log('🔗 Orders table URL:', AIRTABLE_URL_ORDERS);
+
         // ═══ VÉRIFICATION ═══
         if (TABLE_MENU === 'tblYOUR_MENU_TABLE_ID') {
-            console.error('⚠️ TABLE_MENU non configuré !');
             alert('⚠️ Erreur : Vous devez modifier la constante TABLE_MENU dans le code JavaScript (ligne ~185) avec l\'ID réel de votre table Menu.\n\nCet ID se trouve dans l\'URL de votre table Airtable :\nhttps://airtable.com/appoeaIgh98U6lUuS/tblVOTRE_ID/...');
+            console.error('TABLE_MENU non configuré !');
         }
 
         // ═══ ÉTAT ═══
@@ -549,7 +552,7 @@
             }
         }
 
-        // ═══ SAVE MENU ITEM ── FIXED IMAGE UPLOAD ═══
+        // ═══ SAVE MENU ITEM ── WITH FIELD TYPE VERIFICATION ═══
         async function saveMenuItem(data, recordId = null) {
             // 1. Prepare fields
             const fields = {
@@ -592,9 +595,29 @@
                 }
                 console.log('✅ Record created/updated, ID:', recordIdFinal);
 
-                // 3. If there's a new image file, upload it as an attachment
+                // 3. Fetch the record to verify the 'Image' field is an attachment field
+                const verifyUrl = `${AIRTABLE_URL_MENU}/${recordIdFinal}`;
+                console.log('🔍 Vérification du record:', verifyUrl);
+                const verifyResp = await fetch(verifyUrl, {
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
+                });
+                if (!verifyResp.ok) {
+                    const errText = await verifyResp.text();
+                    throw new Error(`Record not found: ${errText}`);
+                }
+                const recordData = await verifyResp.json();
+                console.log('✅ Record récupéré:', recordData);
+
+                // Check if 'Image' field exists and is an array (attachment field)
+                const imageField = recordData.fields['Image'];
+                if (imageField !== undefined && !Array.isArray(imageField)) {
+                    // The field exists but is not an array – it's not an attachment field
+                    throw new Error('Le champ "Image" n\'est pas de type "Pièce jointe" (Attachment). Veuillez modifier le type du champ dans Airtable.');
+                }
+                // If it's undefined, that's fine – we can still add it.
+
+                // 4. If there's a new image file, upload it as an attachment
                 if (data.ImageFile) {
-                    // Show progress
                     uploadProgress.classList.add('active');
                     uploadProgressFill.style.width = '30%';
                     uploadProgressText.textContent = 'Téléchargement de l\'image…';
@@ -622,7 +645,6 @@
                         throw new Error(`Upload image failed: ${errText}`);
                     }
 
-                    // Small delay so the user can see the progress
                     await new Promise(r => setTimeout(r, 300));
                 }
 
@@ -790,8 +812,7 @@
         }, 30000);
 
         console.log('📋 Admin panel Moul Chowaya');
-        console.log('🔑 Utilisez les mêmes identifiants Airtable que index.html');
-        console.log('📌 Vérifiez que le champ Image est de type "Pièce jointe" (Attachment) dans Airtable.');
+        console.log('📌 Assurez-vous que le champ "Image" est de type "Pièce jointe" (Attachment).');
         console.log('ℹ️ Si l\'upload échoue, regardez la console pour les détails.');
     </script>
 
