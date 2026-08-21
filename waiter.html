@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Waiter · Moul Chowaya</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧑‍🍳</text></svg>">
+
+    <style>
+        /* ── Reset & vars ── */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        :root {
+            --bg: #0b0907;
+            --panel: #15110d;
+            --panel2: #201810;
+            --yellow: #ffd21a;
+            --red: #b8291c;
+            --cream: #fff5df;
+            --muted: #c9bcae;
+            --line: rgba(255, 255, 255, .1);
+            --green: #2e7d32;
+            --blue: #1a73e8;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        html.rtl {
+            direction: rtl;
+        }
+        body {
+            font-family: Inter, system-ui, -apple-system, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--cream);
+            padding: 0;
+            min-height: 100vh;
+            padding-bottom: 90px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 14px;
+        }
+
+        /* ── Header ── */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(11, 9, 7, .96);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+            padding: 12px 14px;
+            margin: 0 -14px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        header h1 {
+            font-size: clamp(18px, 4vw, 24px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        header h1 span {
+            color: var(--yellow);
+        }
+        .header-actions {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .header-actions .btn {
+            padding: 8px 12px;
+            font-size: 12px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        .btn-yellow {
+            background: var(--yellow);
+            color: #171006;
+        }
+        .btn-yellow:hover {
+            opacity: .8;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, .06);
+        }
+        .btn-danger {
+            background: var(--red);
+            color: #fff;
+        }
+        .btn-danger:hover {
+            opacity: .8;
+        }
+        .btn-success {
+            background: var(--green);
+            color: #fff;
+        }
+        .btn-success:hover {
+            opacity: .8;
+        }
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .lang-toggle {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: .2s;
+        }
+        .lang-toggle:hover {
+            background: var(--yellow);
+            color: #171006;
+            border-color: var(--yellow);
+        }
+
+        /* ── Menu filters ── */
+        .menu-nav {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+            overflow-x: auto;
+            padding: 4px 0 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .menu-nav::-webkit-scrollbar {
+            height: 3px;
+        }
+        .menu-nav::-webkit-scrollbar-thumb {
+            background: var(--line);
+            border-radius: 3px;
+        }
+        .filter {
+            border: 1px solid var(--line);
+            background: transparent;
+            color: var(--muted);
+            padding: 8px 16px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            transition: .2s;
+            font-family: inherit;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .filter.active,
+        .filter:hover {
+            background: var(--yellow);
+            color: #171006;
+            border-color: var(--yellow);
+        }
+
+        /* ── Menu grid ── */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        @media(max-width:520px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .menu-card {
+            background: linear-gradient(145deg, #241910, #130f0b);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 16px;
+        }
+        .menu-card h3 {
+            font-size: 16px;
+            color: var(--yellow);
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 8px;
+        }
+        .item-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, .06);
+            font-size: 13px;
+        }
+        .item-row:last-child {
+            border-bottom: 0;
+        }
+        .item-row .item-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid var(--line);
+            flex-shrink: 0;
+            background: #0f0c09;
+        }
+        .item-row .name {
+            flex: 1;
+            font-weight: 500;
+        }
+        .item-row .price {
+            font-weight: 700;
+            color: #fff;
+            font-size: 13px;
+        }
+        .item-add {
+            background: var(--yellow);
+            border: none;
+            color: #171006;
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .item-add:hover {
+            transform: scale(1.08);
+            opacity: .85;
+        }
+        .item-desc {
+            font-size: 11px;
+            color: var(--muted);
+            padding-left: 42px;
+            margin-top: -2px;
+            margin-bottom: 2px;
+        }
+
+        /* ── Order cart ── */
+        .order-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 60;
+            background: rgba(11, 9, 7, .96);
+            backdrop-filter: blur(14px);
+            border-top: 1px solid var(--line);
+            padding: 10px 14px calc(10px + var(--safe-bottom));
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .order-bar .summary {
+            flex: 1;
+            min-width: 120px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+        .order-bar .summary strong {
+            color: var(--cream);
+            font-size: 15px;
+        }
+        .order-bar .total {
+            font-weight: 950;
+            font-size: 18px;
+            color: var(--yellow);
+        }
+        .order-bar .btn {
+            padding: 10px 18px;
+            font-size: 14px;
+            border-radius: var(--radius-sm);
+            font-weight: 900;
+            border: none;
+            cursor: pointer;
+            transition: .2s;
+            font-family: inherit;
+        }
+        .order-bar .btn:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+        }
+        .order-bar .btn-clear {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--muted);
+        }
+        .order-bar .btn-clear:hover {
+            background: rgba(255, 255, 255, .06);
+        }
+
+        /* ── Order history ── */
+        .order-history {
+            margin-top: 20px;
+            border-top: 1px solid var(--line);
+            padding-top: 18px;
+        }
+        .order-history h3 {
+            font-size: 16px;
+            color: var(--muted);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .order-history .hist-item {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .order-history .hist-item .status {
+            font-weight: 700;
+            font-size: 11px;
+            padding: 2px 10px;
+            border-radius: 999px;
+        }
+        .status-pending {
+            background: #f2a90022;
+            color: #f2a900;
+        }
+        .status-preparing {
+            background: #ff8c0022;
+            color: #ff8c00;
+        }
+        .status-ready {
+            background: #2e7d3222;
+            color: #4caf50;
+        }
+        .status-served {
+            background: #2196f322;
+            color: #64b5f6;
+        }
+        .status-cancelled {
+            background: #b8291c22;
+            color: #ef5350;
+        }
+        .hist-item .meta {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* ── Modal ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .85);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s ease;
+        }
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-box {
+            background: #1a1511;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 24px 20px;
+            width: min(480px, 100%);
+            max-height: 92vh;
+            overflow-y: auto;
+            transform: scale(.95) translateY(20px);
+            transition: transform .3s ease;
+        }
+        .modal-overlay.open .modal-box {
+            transform: scale(1) translateY(0);
+        }
+        .modal-box h2 {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        .modal-box .sub {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line);
+            background: #0f0c09;
+            color: var(--cream);
+            font-size: 15px;
+            font-family: inherit;
+            transition: .2s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--yellow);
+        }
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px;
+        }
+        .form-actions .btn {
+            flex: 1;
+            justify-content: center;
+            padding: 12px;
+            font-weight: 900;
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: .2s;
+        }
+        .form-actions .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+        }
+        .form-actions .btn-primary {
+            background: var(--yellow);
+            color: #171006;
+        }
+        .form-actions .btn-primary:hover {
+            opacity: .85;
+        }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 14px;
+            right: 14px;
+            max-width: 460px;
+            margin: 0 auto;
+            background: #1f1914;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            color: var(--cream);
+            font-weight: 600;
+            font-size: 14px;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: .4s cubic-bezier(.22, .61, .36, 1);
+            z-index: 2000;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .6);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast.success {
+            border-left: 4px solid var(--green);
+        }
+        .toast.error {
+            border-left: 4px solid var(--red);
+        }
+        .toast .toast-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        /* ── Empty state ── */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--muted);
+        }
+        .empty-state .big {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        /* ── Loading ── */
+        .spinner {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border: 4px solid var(--line);
+            border-top: 4px solid var(--yellow);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--line);
+            border-radius: 4px;
+        }
+
+        /* ── Responsive ── */
+        @media(max-width:480px) {
+            header h1 {
+                font-size: 16px;
+            }
+            .header-actions .btn {
+                font-size: 11px;
+                padding: 5px 8px;
+            }
+            .header-actions .lang-toggle {
+                font-size: 11px;
+                padding: 5px 10px;
+            }
+            .filter {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+            .menu-card {
+                padding: 12px;
+            }
+            .item-row {
+                font-size: 12px;
+                padding: 5px 0;
+            }
+            .order-bar {
+                padding: 8px 10px;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .order-bar .summary {
+                font-size: 12px;
+                min-width: 80px;
+            }
+            .order-bar .total {
+                font-size: 16px;
+            }
+            .order-bar .btn {
+                font-size: 12px;
+                padding: 8px 14px;
+            }
+            .modal-box {
+                padding: 18px 14px;
+            }
+            .toast {
+                bottom: 72px;
+                left: 10px;
+                right: 10px;
+                font-size: 13px;
+                padding: 12px 14px;
+            }
+        }
+        @media(min-width:700px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .wrap {
+                padding: 0 24px;
+            }
+            header {
+                padding: 14px 24px;
+                margin: 0 -24px 16px;
+            }
+        }
+        @media(min-width:1000px) {
+            .menu-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .wrap {
+                max-width: 1300px;
+            }
+        }
+
+        /* ── RTL ── */
+        html.rtl .item-row .name {
+            text-align: right;
+        }
+        html.rtl .item-desc {
+            padding-left: 0;
+            padding-right: 42px;
+        }
+        html.rtl .order-bar .summary {
+            text-align: right;
+        }
+        html.rtl .toast {
+            border-left: none;
+            border-right: 4px solid var(--green);
+        }
+        html.rtl .toast.error {
+            border-right-color: var(--red);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══ HEADER ═══ -->
+    <header>
+        <h1>🧑‍🍳 <span>Waiter</span></h1>
+        <div class="header-actions">
+            <button class="lang-toggle" id="langToggle">🇫🇷 FR</button>
+            <a href="admin.html" target="_blank" class="btn btn-outline">📋 Admin</a>
+        </div>
+    </header>
+
+    <div class="wrap">
+
+        <!-- ═══ MENU ═══ -->
+        <div id="menuSection">
+            <div class="menu-nav" id="menuNav">
+                <!-- filters generated by JS -->
+            </div>
+            <div class="menu-grid" id="menuGrid">
+                <div class="empty-state">
+                    <div class="spinner"></div>
+                    <p>Chargement du menu…</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ ORDER HISTORY ═══ -->
+        <div class="order-history" id="orderHistory">
+            <h3>📋 Commandes passées</h3>
+            <div id="historyList">
+                <div class="empty-state"><p>Aucune commande pour le moment.</p></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ═══ ORDER BAR (fixed bottom) ═══ -->
+    <div class="order-bar" id="orderBar">
+        <div class="summary">
+            <span id="orderItemCount">0</span> article(s) · <strong id="orderTotal">0 DH</strong>
+        </div>
+        <button class="btn btn-clear" id="clearOrderBtn">✕ Effacer</button>
+        <button class="btn btn-success" id="submitOrderBtn">📝 Commander</button>
+    </div>
+
+    <!-- ═══ CHECKOUT MODAL ═══ -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-box">
+            <h2>📝 Commander</h2>
+            <p class="sub">Remplissez les infos pour envoyer la commande à la cuisine.</p>
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <label for="waiterName">Nom du serveur *</label>
+                    <input type="text" id="waiterName" placeholder="Votre nom" required />
+                </div>
+                <div class="form-group">
+                    <label for="tableNumber">Numéro de table *</label>
+                    <input type="text" id="tableNumber" placeholder="Ex: 5, 12, Terrasse 3" required />
+                </div>
+                <div class="form-group">
+                    <label for="orderNotes">Instructions spéciales</label>
+                    <textarea id="orderNotes" placeholder="Sans oignon, extra sauce, etc." rows="2"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="checkoutCancelBtn">Annuler</button>
+                    <button type="submit" class="btn btn-primary">✅ Envoyer la commande</button>
+                </div>
+            </form>
+            <div id="checkoutSuccess" style="display:none; text-align:center; padding:20px 0;">
+                <div style="font-size:48px;">✅</div>
+                <h3 style="margin:10px 0 4px;">Commande envoyée !</h3>
+                <p style="color:var(--muted);">La cuisine a bien reçu votre commande.</p>
+                <button class="btn btn-primary" id="checkoutDoneBtn" style="margin-top:16px; width:100%;">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ TOAST ═══ -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✅</span>
+        <span class="toast-msg"></span>
+    </div>
+
+    <!-- ═══ SCRIPTS ═══ -->
+    <script>
+        // ═══════════════════════════════════════════════════════════
+        // CONFIGURATION
+        // ═══════════════════════════════════════════════════════════
+
+        const AIRTABLE_API_KEY = 'patyj6u0PZd84J6m6.c219829f1b05344107fa54dabea848dce3b6655bf7e655fca6c132292afbb017';
+        const AIRTABLE_BASE_ID = 'appoeaIgh98U6lUuS';
+        const TABLE_MENU = 'tblH8nnRjF9Yef2Py';
+        const TABLE_WAITER_ORDERS = 'tblWaiterOrders'; // ⚠️ À créer dans Airtable
+
+        const IMAGE_URL_FIELD = 'ImageURL';
+
+        const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
+        const AIRTABLE_URL_WAITER_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_WAITER_ORDERS}`;
+
+        console.log('🔗 Waiter Orders URL:', AIRTABLE_URL_WAITER_ORDERS);
+        console.log('🔗 Menu URL:', AIRTABLE_URL_MENU);
+
+        // ── Translations ──
+        const translations = {
+            fr: {
+                'filter.all': 'Tout',
+                'filter.grill': 'Grillades',
+                'filter.tacos': 'Tacos',
+                'filter.burger': 'Burgers',
+                'filter.sandwich': 'Sandwichs',
+                'filter.drink': 'Boissons',
+                'filter.salad': 'Salades',
+                'status.pending': 'En attente',
+                'status.preparing': 'En préparation',
+                'status.ready': 'Prêt',
+                'status.served': 'Servi',
+                'status.cancelled': 'Annulé',
+                'toast.added': 'Ajouté au panier',
+                'toast.cleared': 'Panier vidé',
+                'toast.submitted': 'Commande envoyée !',
+                'toast.error': 'Erreur',
+                'toast.loading_error': 'Erreur de chargement',
+                'toast.delete_error': 'Erreur de suppression',
+                'toast.fetch_error': 'Erreur de récupération',
+                'confirm.clear': 'Vider le panier ?',
+                'confirm.delete_order': 'Supprimer cette commande ?',
+                'order.items': 'articles',
+                'order.total': 'Total',
+                'order.empty': 'Votre panier est vide',
+                'order.submit': 'Commander',
+                'order.clear': 'Effacer',
+                'order.table': 'Table',
+                'order.waiter': 'Serveur',
+                'order.date': 'Date',
+            },
+            ar: {
+                'filter.all': 'الكل',
+                'filter.grill': 'مشاوي',
+                'filter.tacos': 'تاكو',
+                'filter.burger': 'برغر',
+                'filter.sandwich': 'ساندويتشات',
+                'filter.drink': 'مشروبات',
+                'filter.salad': 'سلطات',
+                'status.pending': 'قيد الانتظار',
+                'status.preparing': 'قيد التحضير',
+                'status.ready': 'جاهز',
+                'status.served': 'تم التقديم',
+                'status.cancelled': 'ملغي',
+                'toast.added': 'تمت الإضافة إلى السلة',
+                'toast.cleared': 'تم تفريغ السلة',
+                'toast.submitted': 'تم إرسال الطلب!',
+                'toast.error': 'خطأ',
+                'toast.loading_error': 'خطأ في التحميل',
+                'toast.delete_error': 'خطأ في الحذف',
+                'toast.fetch_error': 'خطأ في الجلب',
+                'confirm.clear': 'تفريغ السلة؟',
+                'confirm.delete_order': 'حذف هذا الطلب؟',
+                'order.items': 'أصناف',
+                'order.total': 'المجموع',
+                'order.empty': 'سلتك فارغة',
+                'order.submit': 'طلب',
+                'order.clear': 'مسح',
+                'order.table': 'الطاولة',
+                'order.waiter': 'النادل',
+                'order.date': 'التاريخ',
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════
+        // STATE
+        // ═══════════════════════════════════════════════════════════
+
+        let currentLang = 'fr';
+        let menuItems = [];
+        let cart = [];
+        let waiterOrders = [];
+        let currentFilter = 'all';
+
+        // ═══════════════════════════════════════════════════════════
+        // DOM REFS
+        // ═══════════════════════════════════════════════════════════
+
+        const langToggle = document.getElementById('langToggle');
+        const htmlEl = document.documentElement;
+        const menuNav = document.getElementById('menuNav');
+        const menuGrid = document.getElementById('menuGrid');
+        const orderItemCount = document.getElementById('orderItemCount');
+        const orderTotal = document.getElementById('orderTotal');
+        const clearOrderBtn = document.getElementById('clearOrderBtn');
+        const submitOrderBtn = document.getElementById('submitOrderBtn');
+        const historyList = document.getElementById('historyList');
+        const checkoutModal = document.getElementById('checkoutModal');
+        const checkoutForm = document.getElementById('checkoutForm');
+        const checkoutCancelBtn = document.getElementById('checkoutCancelBtn');
+        const checkoutDoneBtn = document.getElementById('checkoutDoneBtn');
+        const checkoutSuccess = document.getElementById('checkoutSuccess');
+        const waiterName = document.getElementById('waiterName');
+        const tableNumber = document.getElementById('tableNumber');
+        const orderNotes = document.getElementById('orderNotes');
+        const toast = document.getElementById('toast');
+        const toastIcon = toast.querySelector('.toast-icon');
+        const toastMsg = toast.querySelector('.toast-msg');
+
+        // ═══════════════════════════════════════════════════════════
+        // TOAST
+        // ═══════════════════════════════════════════════════════════
+
+        let toastTimeout;
+
+        function showToast(message, type = 'success') {
+            clearTimeout(toastTimeout);
+            toastIcon.textContent = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+            toastMsg.textContent = message;
+            toast.className = `toast ${type}`;
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // LANGUAGE
+        // ═══════════════════════════════════════════════════════════
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            htmlEl.lang = lang;
+            if (lang === 'ar') {
+                htmlEl.classList.add('rtl');
+                htmlEl.dir = 'rtl';
+            } else {
+                htmlEl.classList.remove('rtl');
+                htmlEl.dir = 'ltr';
+            }
+            const label = lang === 'ar' ? '🇸🇦 ع' : '🇫🇷 FR';
+            langToggle.textContent = label;
+
+            // Re-render filters and menu
+            renderFilters();
+            renderMenu();
+            renderHistory();
+
+            localStorage.setItem('waiter-lang', lang);
+        }
+
+        function toggleLanguage() {
+            const next = currentLang === 'fr' ? 'ar' : 'fr';
+            setLanguage(next);
+        }
+
+        langToggle.addEventListener('click', toggleLanguage);
+
+        const savedLang = localStorage.getItem('waiter-lang');
+        if (savedLang === 'ar' || savedLang === 'fr') {
+            setLanguage(savedLang);
+        } else {
+            setLanguage('fr');
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // HELPERS
+        // ═══════════════════════════════════════════════════════════
+
+        function t(key) {
+            return translations[currentLang]?.[key] || key;
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            try {
+                const d = new Date(dateStr);
+                return d.toLocaleString(currentLang === 'ar' ? 'ar-MA' : 'fr-FR', {
+                    day: '2-digit',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            } catch {
+                return dateStr;
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // FETCH MENU
+        // ═══════════════════════════════════════════════════════════
+
+        async function fetchMenu() {
+            try {
+                const resp = await fetch(AIRTABLE_URL_MENU, {
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                const data = await resp.json();
+                menuItems = data.records.map(r => {
+                    const fields = r.fields || {};
+                    return {
+                        id: r.id,
+                        Name: fields['Name'] || 'Sans nom',
+                        NameAr: fields['NameAr'] || '',
+                        Category: fields['Category'] || 'grill',
+                        Price: fields['Price'] || 0,
+                        Description: fields['Description'] || '',
+                        DescriptionAr: fields['DescriptionAr'] || '',
+                        Active: fields['Active'] !== false,
+                        Order: fields['Order'] || 0,
+                        Image: fields[IMAGE_URL_FIELD] || null
+                    };
+                });
+                menuItems.sort((a, b) => (a.Order || 0) - (b.Order || 0));
+                const active = menuItems.filter(item => item.Active);
+                renderFilters(active);
+                renderMenu(active);
+            } catch (err) {
+                console.error('Fetch menu error:', err);
+                showToast(t('toast.loading_error'), 'error');
+                menuGrid.innerHTML =
+                    `<div class="empty-state"><div class="big">❌</div><p>Erreur de chargement du menu.</p></div>`;
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // RENDER FILTERS
+        // ═══════════════════════════════════════════════════════════
+
+        function renderFilters(items) {
+            const cats = [...new Set(items.map(i => i.Category))];
+            let html =
+                `<button class="filter active" data-filter="all" data-i18n="filter.all">${t('filter.all')}</button>`;
+            cats.forEach(cat => {
+                const label = t(`filter.${cat}`) || cat;
+                html += `<button class="filter" data-filter="${cat}">${label}</button>`;
+            });
+            menuNav.innerHTML = html;
+
+            menuNav.querySelectorAll('.filter').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    menuNav.querySelectorAll('.filter').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.filter;
+                    const active = menuItems.filter(i => i.Active);
+                    const filtered = currentFilter === 'all' ? active : active.filter(i => i.Category ===
+                    currentFilter);
+                    renderMenu(filtered);
+                });
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // RENDER MENU
+        // ═══════════════════════════════════════════════════════════
+
+        function renderMenu(items) {
+            if (!items || items.length === 0) {
+                menuGrid.innerHTML = `<div class="empty-state"><div class="big">🍽️</div><p>Aucun article disponible.</p></div>`;
+                return;
+            }
+
+            const grouped = {};
+            items.forEach(item => {
+                if (!grouped[item.Category]) grouped[item.Category] = [];
+                grouped[item.Category].push(item);
+            });
+
+            let html = '';
+            for (const [cat, list] of Object.entries(grouped)) {
+                const catLabel = t(`filter.${cat}`) || cat;
+                html += `<div class="menu-card" data-cat="${cat}">
+                            <h3>${catLabel}</h3>`;
+                list.forEach(item => {
+                    const name = currentLang === 'ar' && item.NameAr ? item.NameAr : item.Name;
+                    const desc = currentLang === 'ar' && item.DescriptionAr ? item.DescriptionAr : item
+                        .Description;
+                    const imgHtml = item.Image ?
+                        `<img src="${item.Image}" class="item-img" alt="${escapeHtml(name)}" loading="lazy" />` :
+                        '';
+                    html += `
+                                <div class="item-row">
+                                    ${imgHtml}
+                                    <span class="name">${escapeHtml(name)}</span>
+                                    <span class="price">${item.Price} DH</span>
+                                    <button class="item-add" data-id="${item.id}" data-name="${escapeHtml(name)}" data-price="${item.Price}">+</button>
+                                </div>
+                                ${desc ? `<div class="item-desc">${escapeHtml(desc)}</div>` : ''}
+                            `;
+                });
+                html += `</div>`;
+            }
+
+            menuGrid.innerHTML = html;
+
+            menuGrid.querySelectorAll('.item-add').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const name = btn.dataset.name;
+                    const price = parseFloat(btn.dataset.price);
+                    if (name && !isNaN(price)) {
+                        addToCart(name, price);
+                        // feedback
+                        btn.textContent = '✓';
+                        btn.style.background = '#2e7d32';
+                        btn.style.color = '#fff';
+                        setTimeout(() => {
+                            btn.textContent = '+';
+                            btn.style.background = '';
+                            btn.style.color = '';
+                        }, 500);
+                    }
+                });
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // CART
+        // ═══════════════════════════════════════════════════════════
+
+        function addToCart(name, price) {
+            const existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ name, price, qty: 1 });
+            }
+            updateCartUI();
+            showToast(t('toast.added'), 'success');
+        }
+
+        function removeFromCart(index) {
+            if (cart[index].qty > 1) {
+                cart[index].qty -= 1;
+            } else {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+
+        function clearCart() {
+            if (cart.length === 0) return;
+            if (confirm(t('confirm.clear'))) {
+                cart = [];
+                updateCartUI();
+                showToast(t('toast.cleared'), 'info');
+            }
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((sum, i) => sum + i.qty, 0);
+            const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            orderItemCount.textContent = count;
+            orderTotal.textContent = `${total} DH`;
+            submitOrderBtn.disabled = count === 0;
+            // update bar visibility
+            const bar = document.getElementById('orderBar');
+            if (count === 0) {
+                // still show but with disabled button
+            }
+            // update cart in localStorage
+            localStorage.setItem('waiter-cart', JSON.stringify(cart));
+        }
+
+        function loadCart() {
+            const saved = localStorage.getItem('waiter-cart');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed)) {
+                        cart = parsed.filter(i => i && typeof i.name === 'string' && typeof i.price === 'number' && typeof i
+                            .qty === 'number' && i.qty > 0);
+                    }
+                } catch { cart = []; }
+            }
+            updateCartUI();
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // SUBMIT ORDER
+        // ═══════════════════════════════════════════════════════════
+
+        function openCheckoutModal() {
+            if (cart.length === 0) return;
+            checkoutSuccess.style.display = 'none';
+            checkoutForm.style.display = 'block';
+            checkoutModal.classList.add('open');
+            waiterName.value = localStorage.getItem('waiter-name') || '';
+            tableNumber.value = '';
+            orderNotes.value = '';
+            setTimeout(() => waiterName.focus(), 200);
+        }
+
+        function closeCheckoutModal() {
+            checkoutModal.classList.remove('open');
+        }
+
+        checkoutCancelBtn.addEventListener('click', closeCheckoutModal);
+        checkoutModal.addEventListener('click', (e) => {
+            if (e.target === checkoutModal) closeCheckoutModal();
+        });
+
+        checkoutDoneBtn.addEventListener('click', () => {
+            closeCheckoutModal();
+            // clear cart
+            cart = [];
+            updateCartUI();
+            localStorage.removeItem('waiter-cart');
+            fetchWaiterOrders(); // refresh history
+        });
+
+        checkoutForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = waiterName.value.trim();
+            const table = tableNumber.value.trim();
+            const notes = orderNotes.value.trim();
+
+            if (!name) {
+                waiterName.style.borderColor = 'var(--red)';
+                setTimeout(() => waiterName.style.borderColor = '', 1500);
+                waiterName.focus();
+                return;
+            }
+            if (!table) {
+                tableNumber.style.borderColor = 'var(--red)';
+                setTimeout(() => tableNumber.style.borderColor = '', 1500);
+                tableNumber.focus();
+                return;
+            }
+
+            // Build items summary
+            const itemsSummary = cart.map(i => `${i.name} ×${i.qty} (${i.price} DH)`).join(' | ');
+            const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+
+            const payload = {
+                records: [{
+                    fields: {
+                        'Waiter Name': name,
+                        'Table Number': table,
+                        'Items': itemsSummary,
+                        'Total': total,
+                        'Status': 'Pending',
+                        'Notes': notes || '',
+                        'Order Date': new Date().toISOString()
+                    }
+                }]
+            };
+
+            const submitBtn = checkoutForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Envoi…';
+
+            try {
+                const resp = await fetch(AIRTABLE_URL_WAITER_ORDERS, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await resp.json();
+                if (!resp.ok) {
+                    let errMsg = `Erreur ${resp.status}`;
+                    if (data.error) {
+                        errMsg += `: ${data.error.message || JSON.stringify(data.error)}`;
+                    }
+                    throw new Error(errMsg);
+                }
+
+                // Save waiter name
+                localStorage.setItem('waiter-name', name);
+
+                // Show success
+                checkoutForm.style.display = 'none';
+                checkoutSuccess.style.display = 'block';
+                showToast(t('toast.submitted'), 'success');
+
+                // Refresh history
+                await fetchWaiterOrders();
+
+            } catch (err) {
+                console.error('Submit error:', err);
+                showToast(`${t('toast.error')}: ${err.message}`, 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '✅ Envoyer la commande';
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════
+        // FETCH WAITER ORDERS (history)
+        // ═══════════════════════════════════════════════════════════
+
+        async function fetchWaiterOrders() {
+            try {
+                const resp = await fetch(AIRTABLE_URL_WAITER_ORDERS, {
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                const data = await resp.json();
+                waiterOrders = data.records.map(r => ({
+                    id: r.id,
+                    ...r.fields,
+                    'Waiter Name': r.fields['Waiter Name'] || '—',
+                    'Table Number': r.fields['Table Number'] || '—',
+                    'Items': r.fields['Items'] || '—',
+                    'Total': r.fields['Total'] || 0,
+                    'Status': r.fields['Status'] || 'Pending',
+                    'Notes': r.fields['Notes'] || '',
+                    'Order Date': r.fields['Order Date'] || r.createdTime || ''
+                }));
+                // sort newest first
+                waiterOrders.sort((a, b) =>
+                    new Date(b['Order Date'] || b.createdTime || 0) -
+                    new Date(a['Order Date'] || a.createdTime || 0)
+                );
+                renderHistory();
+            } catch (err) {
+                console.error('Fetch waiter orders error:', err);
+                // don't show toast on initial load
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // RENDER HISTORY
+        // ═══════════════════════════════════════════════════════════
+
+        function renderHistory() {
+            if (waiterOrders.length === 0) {
+                historyList.innerHTML =
+                    `<div class="empty-state"><p>${t('order.empty')}</p></div>`;
+                return;
+            }
+
+            const statusLabels = {
+                'Pending': t('status.pending'),
+                'Preparing': t('status.preparing'),
+                'Ready': t('status.ready'),
+                'Served': t('status.served'),
+                'Cancelled': t('status.cancelled')
+            };
+
+            let html = '';
+            waiterOrders.slice(0, 20).forEach(order => {
+                const statusClass = `status-${(order['Status'] || 'pending').toLowerCase()}`;
+                const statusLabel = statusLabels[order['Status']] || order['Status'];
+                const dateStr = formatDate(order['Order Date']);
+                html += `
+                        <div class="hist-item" data-id="${order.id}">
+                            <div>
+                                <div style="font-weight:600;">${escapeHtml(order['Items'])}</div>
+                                <div class="meta">
+                                    ${t('order.table')} ${escapeHtml(order['Table Number'])} · 
+                                    ${t('order.waiter')} ${escapeHtml(order['Waiter Name'])} · 
+                                    ${order['Total']} DH
+                                </div>
+                                <div class="meta">${dateStr}</div>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                                <span class="status ${statusClass}">${statusLabel}</span>
+                                <button class="btn btn-danger btn-sm delete-waiter-order" data-id="${order.id}" style="padding:2px 8px;font-size:11px;">✕</button>
+                            </div>
+                        </div>
+                    `;
+            });
+            historyList.innerHTML = html;
+
+            historyList.querySelectorAll('.delete-waiter-order').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (confirm(t('confirm.delete_order'))) {
+                        await deleteWaiterOrder(btn.dataset.id);
+                    }
+                });
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // DELETE WAITER ORDER
+        // ═══════════════════════════════════════════════════════════
+
+        async function deleteWaiterOrder(id) {
+            try {
+                const resp = await fetch(`${AIRTABLE_URL_WAITER_ORDERS}/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                waiterOrders = waiterOrders.filter(o => o.id !== id);
+                renderHistory();
+                showToast('Commande supprimée', 'success');
+            } catch (err) {
+                console.error('Delete error:', err);
+                showToast(t('toast.delete_error'), 'error');
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // EVENTS
+        // ═══════════════════════════════════════════════════════════
+
+        clearOrderBtn.addEventListener('click', clearCart);
+
+        submitOrderBtn.addEventListener('click', openCheckoutModal);
+
+        // Keyboard shortcut: 'c' for checkout
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'c' || e.key === 'C') {
+                e.preventDefault();
+                if (cart.length > 0) openCheckoutModal();
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════
+        // INIT
+        // ═══════════════════════════════════════════════════════════
+
+        loadCart();
+        fetchMenu();
+        fetchWaiterOrders();
+
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            fetchWaiterOrders();
+        }, 30000);
+
+        console.log('🧑‍🍳 Waiter panel Moul Chowaya');
+        console.log('ℹ️ Langue:', currentLang);
+        console.log('ℹ️ Table waiter orders:', TABLE_WAITER_ORDERS);
+        console.log('💡 Appuyez sur "C" pour commander rapidement');
+    </script>
+
+</body>
+</html>
