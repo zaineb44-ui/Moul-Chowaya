@@ -456,6 +456,7 @@
             object-fit: cover;
             border: 1px solid var(--line);
             flex-shrink: 0;
+            background: #0f0c09;
         }
         .price {
             font-weight: 950;
@@ -1242,8 +1243,9 @@
         const AIRTABLE_API_KEY = 'patyj6u0PZd84J6m6.c219829f1b05344107fa54dabea848dce3b6655bf7e655fca6c132292afbb017';
         const AIRTABLE_BASE_ID = 'appoeaIgh98U6lUuS';
         const TABLE_ORDERS = 'tblJw87JqJtftBlVj';
-        // ⚠️ REMPLACEZ AVEC L'ID DE VOTRE TABLE MENU (ex: 'tblABC123XYZ') ⚠️
         const TABLE_MENU = 'tblH8nnRjF9Yef2Py';
+        const IMAGE_URL_FIELD = 'ImageURL'; // nom du champ texte contenant l'URL de l'image
+
         const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
         const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
 
@@ -1486,8 +1488,8 @@
                     DescriptionAr: r.fields['DescriptionAr'] || '',
                     Active: r.fields['Active'] !== false,
                     Order: r.fields['Order'] || 0,
-                    // Image is an array of attachments; we take the first one's URL
-                    Image: r.fields['Image'] && r.fields['Image'].length > 0 ? r.fields['Image'][0].url : null
+                    // Récupérer l'URL de l'image depuis le champ ImageURL
+                    Image: r.fields[IMAGE_URL_FIELD] || null
                 }));
                 // Sort by Order
                 menuItems.sort((a, b) => (a.Order || 0) - (b.Order || 0));
@@ -1551,6 +1553,7 @@
                             ${items.map(item => {
                                 const name = currentLang === 'ar' && item.NameAr ? item.NameAr : item.Name;
                                 const desc = currentLang === 'ar' && item.DescriptionAr ? item.DescriptionAr : item.Description;
+                                // Afficher l'image si une URL est présente
                                 const imgHtml = item.Image ? `<img src="${item.Image}" class="item-img" alt="${name}" loading="lazy" />` : '';
                                 return `
                                     <div class="item">
@@ -1820,8 +1823,9 @@
         loadCart();
         fetchMenu();
 
-        console.log('🔥 Moul Chowaya — Menu dynamique et commandes en ligne');
+        console.log('🔥 Moul Chowaya — Menu dynamique avec images par URL');
         console.log('📋 Admin panel disponible dans admin.html');
+        console.log('ℹ️ Champ image utilisé:', IMAGE_URL_FIELD);
 
         // Keyboard shortcut: 'c' for cart
         document.addEventListener('keydown', (e) => {
