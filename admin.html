@@ -501,6 +501,82 @@
             color: var(--muted);
             font-size: 13px;
         }
+        .image-input-row {
+            display: flex;
+            gap: 8px;
+        }
+        .image-input-row input {
+            flex: 1;
+        }
+        .image-input-row .btn {
+            flex-shrink: 0;
+        }
+        .image-picker-panel {
+            display: none;
+            margin-top: 10px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-sm);
+            background: #0f0c09;
+            padding: 12px;
+        }
+        .image-picker-panel.open {
+            display: block;
+        }
+        .image-picker-panel .picker-search {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line);
+            background: var(--panel);
+            color: var(--cream);
+            font-family: inherit;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        .image-picker-status {
+            color: var(--muted);
+            font-size: 13px;
+            padding: 8px 0;
+        }
+        .image-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+            gap: 8px;
+            max-height: 260px;
+            overflow-y: auto;
+        }
+        .image-picker-item {
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: var(--radius-sm);
+            padding: 4px;
+            text-align: center;
+            transition: .15s;
+            background: var(--panel);
+        }
+        .image-picker-item:hover {
+            border-color: var(--yellow);
+        }
+        .image-picker-item.selected {
+            border-color: var(--yellow);
+            background: rgba(255, 210, 26, .08);
+        }
+        .image-picker-item img {
+            width: 100%;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+            display: block;
+        }
+        .image-picker-item span {
+            display: block;
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         /* ── Toast ── */
         .toast {
@@ -851,7 +927,7 @@
             <div class="menu-header">
                 <div>
                     <h2 data-i18n="admin.menu_title">Gestion du menu</h2>
-                    <p data-i18n="admin.menu_sub">Ajoutez, modifiez ou supprimez des articles. Pour l'image, collez l'ID Google Drive ou une URL complète.</p>
+                    <p data-i18n="admin.menu_sub">Ajoutez, modifiez ou supprimez des articles. Pour l'image, choisissez un fichier dans le dossier Images.</p>
                 </div>
                 <button class="btn btn-yellow" id="addItemBtn" data-i18n="admin.add_item">➕ Ajouter un article</button>
             </div>
@@ -929,10 +1005,19 @@
                     <textarea id="itemDescriptionAr" placeholder="وصف صغير للصنف…" rows="2"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="itemImageId" data-i18n="admin.field_image_id">ID Google Drive ou URL complète</label>
-                    <input type="text" id="itemImageId" placeholder="Ex: 1ABC123def456  ou https://..." />
+                    <label for="itemImageId" data-i18n="admin.field_image_id">Image</label>
+                    <div class="image-input-row">
+                        <input type="text" id="itemImageId" list="imageNamesList" placeholder="Ex: burger.jpg" autocomplete="off" />
+                        <button type="button" class="btn btn-outline btn-sm" id="imageBrowseBtn" data-i18n="admin.browse_images">📁 Parcourir</button>
+                    </div>
+                    <datalist id="imageNamesList"></datalist>
+                    <div class="image-picker-panel" id="imagePickerPanel">
+                        <input type="text" class="picker-search" id="imagePickerSearch" data-i18n-placeholder="admin.search_images" placeholder="🔍 Rechercher une image…" />
+                        <div class="image-picker-status" id="imagePickerStatus" data-i18n="admin.loading_images">Chargement…</div>
+                        <div class="image-picker-grid" id="imagePickerGrid"></div>
+                    </div>
                     <div class="image-preview" id="imagePreview"><span class="placeholder" data-i18n="admin.no_image">Aucune image</span></div>
-                    <div class="field-hint" data-i18n="admin.image_id_hint">💡 Collez uniquement l'ID (ex: 1ABC123def456) ou l'URL complète. L'ID sera automatiquement converti en lien direct.</div>
+                    <div class="field-hint" data-i18n="admin.image_id_hint">💡 Tapez le nom d'un fichier du dossier Images (ex: burger.jpg), cliquez sur « Parcourir » pour choisir une image, ou collez une URL complète.</div>
                 </div>
                 <div class="form-group">
                     <label>
@@ -976,6 +1061,13 @@
         const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
         const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
 
+        // ── Dossier Images sur GitHub ──
+        const GITHUB_OWNER = 'zaineb44-ui';
+        const GITHUB_REPO = 'Moul-Chowaya';
+        const IMAGES_FOLDER = 'Images';
+        const GITHUB_IMAGES_API = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${IMAGES_FOLDER}`;
+        const IMAGE_EXT_RE = /\.(jpe?g|png|webp|gif|svg)$/i;
+
         console.log('🔗 Menu URL:', AIRTABLE_URL_MENU);
         console.log('🔗 Orders URL:', AIRTABLE_URL_ORDERS);
 
@@ -1009,7 +1101,7 @@
                 'admin.th_action': 'Action',
                 'admin.no_orders': 'Aucune commande',
                 'admin.menu_title': 'Gestion du menu',
-                'admin.menu_sub': 'Ajoutez, modifiez ou supprimez des articles. Pour l\'image, collez l\'ID Google Drive ou une URL complète.',
+                'admin.menu_sub': 'Ajoutez, modifiez ou supprimez des articles. Pour l\'image, choisissez un fichier dans le dossier Images.',
                 'admin.add_item': '➕ Ajouter un article',
                 'admin.search_menu': '🔍 Rechercher un article…',
                 'admin.cat_all': 'Toutes les catégories',
@@ -1037,9 +1129,14 @@
                 'admin.field_price': 'Prix (DH) *',
                 'admin.field_desc': 'Description (français)',
                 'admin.field_desc_ar': 'Description (arabe)',
-                'admin.field_image_id': 'ID Google Drive ou URL complète',
+                'admin.field_image_id': 'Image',
                 'admin.no_image': 'Aucune image',
-                'admin.image_id_hint': '💡 Collez uniquement l\'ID (ex: 1ABC123def456) ou l\'URL complète. L\'ID sera automatiquement converti en lien direct.',
+                'admin.image_id_hint': '💡 Tapez le nom d\'un fichier du dossier Images (ex: burger.jpg), cliquez sur « Parcourir » pour choisir une image, ou collez une URL complète.',
+                'admin.browse_images': '📁 Parcourir',
+                'admin.search_images': '🔍 Rechercher une image…',
+                'admin.loading_images': 'Chargement…',
+                'admin.no_images_found': 'Aucune image trouvée.',
+                'admin.images_load_error': '⚠️ Impossible de charger le dossier Images.',
                 'admin.field_active': 'Actif (visible sur le site)',
                 'admin.field_order': "Ordre d'affichage",
                 'admin.cancel': 'Annuler',
@@ -1079,7 +1176,7 @@
                 'admin.th_action': 'إجراء',
                 'admin.no_orders': 'لا توجد طلبات',
                 'admin.menu_title': 'إدارة القائمة',
-                'admin.menu_sub': 'أضف أو عدل أو احذف الأصناف. للصورة، الصق معرف Google Drive أو رابط كامل.',
+                'admin.menu_sub': 'أضف أو عدل أو احذف الأصناف. للصورة، اختر ملفًا من مجلد Images.',
                 'admin.add_item': '➕ إضافة صنف',
                 'admin.search_menu': '🔍 بحث عن صنف…',
                 'admin.cat_all': 'جميع الفئات',
@@ -1107,9 +1204,14 @@
                 'admin.field_price': 'السعر (درهم) *',
                 'admin.field_desc': 'الوصف (فرنسي)',
                 'admin.field_desc_ar': 'الوصف (عربي)',
-                'admin.field_image_id': 'معرف Google Drive أو رابط كامل',
+                'admin.field_image_id': 'الصورة',
                 'admin.no_image': 'لا توجد صورة',
-                'admin.image_id_hint': '💡 الصق المعرف فقط (مثال: 1ABC123def456) أو الرابط الكامل. سيتم تحويل المعرف تلقائياً إلى رابط مباشر.',
+                'admin.image_id_hint': '💡 اكتب اسم ملف من مجلد Images (مثال: burger.jpg)، اضغط «تصفح» لاختيار صورة، أو الصق رابطًا كاملاً.',
+                'admin.browse_images': '📁 تصفح',
+                'admin.search_images': '🔍 ابحث عن صورة…',
+                'admin.loading_images': 'جارٍ التحميل…',
+                'admin.no_images_found': 'لم يتم العثور على صور.',
+                'admin.images_load_error': '⚠️ تعذر تحميل مجلد Images.',
                 'admin.field_active': 'نشط (ظاهر على الموقع)',
                 'admin.field_order': 'ترتيب العرض',
                 'admin.cancel': 'إلغاء',
@@ -1166,6 +1268,12 @@
         const itemActive = document.getElementById('itemActive');
         const itemOrder = document.getElementById('itemOrder');
         const imagePreview = document.getElementById('imagePreview');
+        const imageBrowseBtn = document.getElementById('imageBrowseBtn');
+        const imagePickerPanel = document.getElementById('imagePickerPanel');
+        const imagePickerSearch = document.getElementById('imagePickerSearch');
+        const imagePickerStatus = document.getElementById('imagePickerStatus');
+        const imagePickerGrid = document.getElementById('imagePickerGrid');
+        const imageNamesList = document.getElementById('imageNamesList');
         const modalCancelBtn = document.getElementById('modalCancelBtn');
         const modalSubmitBtn = document.getElementById('modalSubmitBtn');
         const menuModalTitle = document.getElementById('menuModalTitle');
@@ -1538,23 +1646,144 @@
         }
 
         // ═══════════════════════════════════════════════════════════
-        // UTILITAIRE : convertir un ID Google Drive en URL directe
+        // DOSSIER IMAGES (GitHub) — chargement + sélecteur
+        // ═══════════════════════════════════════════════════════════
+
+        let availableImages = []; // [{ name, url }]
+        let imagesLoaded = false;
+        let imagesLoading = false;
+
+        async function loadAvailableImages(force = false) {
+            if (imagesLoading) return;
+            if (imagesLoaded && !force) return;
+            imagesLoading = true;
+            imagePickerStatus.style.display = 'block';
+            imagePickerStatus.textContent = t('admin.loading_images');
+            try {
+                const resp = await fetch(GITHUB_IMAGES_API);
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                const files = await resp.json();
+                availableImages = (Array.isArray(files) ? files : [])
+                    .filter(f => f.type === 'file' && IMAGE_EXT_RE.test(f.name))
+                    .map(f => ({ name: f.name, url: f.download_url }))
+                    .sort((a, b) => a.name.localeCompare(b.name));
+                imagesLoaded = true;
+
+                // Datalist pour l'autocomplétion en tapant
+                imageNamesList.innerHTML = availableImages
+                    .map(img => `<option value="${escapeHtml(img.name)}"></option>`)
+                    .join('');
+
+                renderImagePickerGrid(imagePickerSearch.value.trim());
+            } catch (err) {
+                console.error('❌ loadAvailableImages error:', err);
+                imagesLoaded = false;
+                imagePickerStatus.style.display = 'block';
+                imagePickerStatus.textContent = t('admin.images_load_error');
+                imagePickerGrid.innerHTML = '';
+            } finally {
+                imagesLoading = false;
+            }
+        }
+
+        function renderImagePickerGrid(filter = '') {
+            const q = filter.toLowerCase();
+            const list = q
+                ? availableImages.filter(img => img.name.toLowerCase().includes(q))
+                : availableImages;
+
+            if (!imagesLoaded) return; // status message already shown/handled by loadAvailableImages
+
+            if (list.length === 0) {
+                imagePickerStatus.style.display = 'block';
+                imagePickerStatus.textContent = t('admin.no_images_found');
+                imagePickerGrid.innerHTML = '';
+                return;
+            }
+
+            imagePickerStatus.style.display = 'none';
+            const currentVal = itemImageId.value.trim().toLowerCase();
+            imagePickerGrid.innerHTML = list.map(img => `
+                <div class="image-picker-item${img.name.toLowerCase() === currentVal ? ' selected' : ''}" data-name="${escapeHtml(img.name)}">
+                    <img src="${img.url}" alt="${escapeHtml(img.name)}" loading="lazy" />
+                    <span>${escapeHtml(img.name)}</span>
+                </div>
+            `).join('');
+        }
+
+        imagePickerGrid.addEventListener('click', (e) => {
+            const item = e.target.closest('.image-picker-item');
+            if (!item) return;
+            const name = item.dataset.name;
+            itemImageId.value = name;
+            updateImagePreview();
+            renderImagePickerGrid(imagePickerSearch.value.trim());
+            imagePickerPanel.classList.remove('open');
+        });
+
+        imagePickerSearch.addEventListener('input', () => {
+            renderImagePickerGrid(imagePickerSearch.value.trim());
+        });
+
+        imageBrowseBtn.addEventListener('click', () => {
+            const opening = !imagePickerPanel.classList.contains('open');
+            imagePickerPanel.classList.toggle('open');
+            if (opening) {
+                loadAvailableImages();
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════
+        // UTILITAIRE : construire l'URL d'affichage d'une image
         // ═══════════════════════════════════════════════════════════
 
         function buildImageUrl(input) {
             if (!input) return '';
             const trimmed = input.trim();
-            // Si ça commence par http, on considère que c'est une URL complète
+            // URL complète déjà fournie (y compris un lien du dossier Images)
             if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
                 return trimmed;
             }
-            // Sinon, on suppose que c'est un ID Google Drive
-            // Nettoyer l'ID (enlever les espaces, les caractères spéciaux)
+            // Chemin déjà relatif au dossier Images
+            if (/^Images\//i.test(trimmed)) {
+                return trimmed;
+            }
+            // Nom de fichier connu dans le dossier Images → URL directe GitHub
+            const match = availableImages.find(img => img.name.toLowerCase() === trimmed.toLowerCase());
+            if (match) return match.url;
+            // Ressemble à un nom de fichier image (pas encore chargé) → chemin relatif
+            if (IMAGE_EXT_RE.test(trimmed)) {
+                return `${IMAGES_FOLDER}/${trimmed}`;
+            }
+            // Rétrocompatibilité : ancien ID Google Drive
             const cleanId = trimmed.replace(/[^a-zA-Z0-9_-]/g, '');
             if (cleanId) {
                 return `https://drive.google.com/uc?export=view&id=${cleanId}`;
             }
             return '';
+        }
+
+        // Extrait une valeur affichable dans le champ texte à partir d'une image déjà enregistrée
+        function extractImageInputValue(imageUrl) {
+            if (!imageUrl) return '';
+            // Lien direct du dossier Images (raw.githubusercontent.com ou chemin relatif)
+            const imagesMatch = imageUrl.match(/Images\/([^/?#]+)/i);
+            if (imagesMatch) return decodeURIComponent(imagesMatch[1]);
+            // Ancien format Google Drive
+            const driveMatch = imageUrl.match(/[?&]id=([^&]+)/) || imageUrl.match(/\/d\/([^/]+)/);
+            if (driveMatch) return driveMatch[1];
+            return imageUrl;
+        }
+
+        function updateImagePreview() {
+            const input = itemImageId.value.trim();
+            const url = buildImageUrl(input);
+            if (url) {
+                imagePreview.innerHTML =
+                    `<img src="${url}" alt="Aperçu" /><span style="color:var(--muted);font-size:13px;">Aperçu</span>`;
+            } else {
+                imagePreview.innerHTML = `<span class="placeholder">${t('admin.no_image')}</span>`;
+            }
         }
 
         // ═══════════════════════════════════════════════════════════
@@ -1664,15 +1893,9 @@
                 itemDescriptionAr.value = data.DescriptionAr || '';
                 itemActive.checked = data.Active !== false;
                 itemOrder.value = data.Order || '';
-                // Image input : on affiche l'URL si elle existe, sinon on tente d'extraire l'ID
+                // Image input : on affiche le nom de fichier si on peut l'extraire, sinon l'URL brute
                 if (data.Image) {
-                    // On tente d'extraire l'ID à partir de l'URL pour afficher dans le champ
-                    const match = data.Image.match(/[?&]id=([^&]+)/) || data.Image.match(/\/d\/([^\/]+)/);
-                    if (match) {
-                        itemImageId.value = match[1];
-                    } else {
-                        itemImageId.value = data.Image;
-                    }
+                    itemImageId.value = extractImageInputValue(data.Image);
                     imagePreview.innerHTML =
                         `<img src="${data.Image}" alt="Image" /><span style="color:var(--muted);font-size:13px;">Aperçu</span>`;
                 } else {
@@ -1692,6 +1915,8 @@
                 itemImageId.value = '';
                 imagePreview.innerHTML = `<span class="placeholder">${t('admin.no_image')}</span>`;
             }
+            imagePickerPanel.classList.remove('open');
+            imagePickerSearch.value = '';
             menuModal.classList.add('open');
         }
 
@@ -1720,14 +1945,16 @@
         // ═══════════════════════════════════════════════════════════
 
         itemImageId.addEventListener('input', () => {
-            const input = itemImageId.value.trim();
-            const url = buildImageUrl(input);
-            if (url) {
-                imagePreview.innerHTML =
-                    `<img src="${url}" alt="Aperçu" /><span style="color:var(--muted);font-size:13px;">Aperçu</span>`;
-            } else {
-                imagePreview.innerHTML = `<span class="placeholder">${t('admin.no_image')}</span>`;
-            }
+            updateImagePreview();
+            if (imagesLoaded) renderImagePickerGrid(imagePickerSearch.value.trim());
+        });
+
+        // Fermer le sélecteur d'images si on clique en dehors
+        document.addEventListener('click', (e) => {
+            if (!imagePickerPanel.classList.contains('open')) return;
+            if (e.target === imageBrowseBtn) return;
+            if (imagePickerPanel.contains(e.target)) return;
+            imagePickerPanel.classList.remove('open');
         });
 
         // ═══════════════════════════════════════════════════════════
@@ -1823,6 +2050,7 @@
 
         fetchOrders();
         fetchMenu();
+        loadAvailableImages(); // pré-charge la liste des images (pour l'autocomplétion)
 
         // Auto-refresh toutes les 30 secondes
         setInterval(() => {
@@ -1830,7 +2058,7 @@
             fetchMenu();
         }, 30000);
 
-        console.log('📋 Admin panel Moul Chowaya — avec conversion automatique des IDs Google Drive');
+        console.log('📋 Admin panel Moul Chowaya — avec sélecteur d\'images depuis le dossier Images');
         console.log('ℹ️ Langue actuelle:', currentLang);
         console.log('ℹ️ Champ image URL utilisé:', IMAGE_URL_FIELD);
     </script>
