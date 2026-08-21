@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Admin · Moul Chowaya</title>
-    <!-- Favicon / Nav Icon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
 
     <style>
@@ -311,6 +310,10 @@
             color: #4caf50;
         }
         .badge-delivered {
+            background: #2196f322;
+            color: #64b5f6;
+        }
+        .badge-served {
             background: #2196f322;
             color: #64b5f6;
         }
@@ -883,6 +886,7 @@
         <div class="tabs" id="tabs">
             <button class="tab active" data-tab="orders" data-i18n="admin.tab_orders">📦 Commandes</button>
             <button class="tab" data-tab="menu" data-i18n="admin.tab_menu">🍽️ Menu</button>
+            <button class="tab" data-tab="waiter-orders" data-i18n="admin.tab_waiter">🧑‍🍳 Commandes serveur</button>
         </div>
 
         <!-- ═══ ORDERS TAB ═══ -->
@@ -961,6 +965,46 @@
                     </thead>
                     <tbody id="menuBody">
                         <tr><td colspan="7"><div class="empty-state"><div class="big">🍽️</div><p data-i18n="admin.loading_menu">Chargement du menu…</p></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ═══ WAITER ORDERS TAB ═══ -->
+        <div class="tab-content" id="tab-waiter-orders">
+            <div class="menu-header">
+                <div>
+                    <h2 data-i18n="admin.waiter_title">Commandes des serveurs</h2>
+                    <p data-i18n="admin.waiter_sub">Gérez les commandes passées par les serveurs.</p>
+                </div>
+            </div>
+            <div class="controls">
+                <input type="text" id="waiterSearch" placeholder="🔍 Rechercher…" data-i18n-placeholder="admin.search_waiter" />
+                <select id="waiterStatusFilter">
+                    <option value="all" data-i18n="admin.status_all">Tous les statuts</option>
+                    <option value="Pending" data-i18n="admin.status_pending">⏳ En attente</option>
+                    <option value="Preparing" data-i18n="admin.status_preparing">👨‍🍳 En préparation</option>
+                    <option value="Ready" data-i18n="admin.status_ready">✅ Prêt</option>
+                    <option value="Served" data-i18n="admin.status_served">📦 Servi</option>
+                    <option value="Cancelled" data-i18n="admin.status_cancelled">❌ Annulé</option>
+                </select>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th data-i18n="admin.waiter_th_waiter">Serveur</th>
+                            <th data-i18n="admin.waiter_th_table">Table</th>
+                            <th data-i18n="admin.waiter_th_items">Articles</th>
+                            <th data-i18n="admin.waiter_th_total">Total</th>
+                            <th data-i18n="admin.waiter_th_status">Statut</th>
+                            <th data-i18n="admin.waiter_th_date">Date</th>
+                            <th style="width:60px;" data-i18n="admin.th_action">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="waiterOrdersBody">
+                        <tr><td colspan="8"><div class="empty-state"><div class="big">📭</div><p data-i18n="admin.no_waiter_orders">Aucune commande serveur</p></div></td></tr>
                     </tbody>
                 </table>
             </div>
@@ -1055,16 +1099,15 @@
         const AIRTABLE_API_KEY = 'patyj6u0PZd84J6m6.c219829f1b05344107fa54dabea848dce3b6655bf7e655fca6c132292afbb017';
         const AIRTABLE_BASE_ID = 'appoeaIgh98U6lUuS';
         const TABLE_ORDERS = 'tblJw87JqJtftBlVj';
-        // ⚠️ REMPLACEZ AVEC L'ID RÉEL DE VOTRE TABLE MENU ⚠️
         const TABLE_MENU = 'tblH8nnRjF9Yef2Py';
+        const TABLE_WAITER_ORDERS = 'tblc9i0FsPGHbdu28'; // ⚠️ Remplacez par l'ID réel de votre table waiter orders
 
-        // Nom du champ pour l'URL de l'image (texte)
         const IMAGE_URL_FIELD = 'ImageURL';
 
         const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
         const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
+        const AIRTABLE_URL_WAITER_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_WAITER_ORDERS}`;
 
-        // ── Dossier Images sur GitHub ──
         const GITHUB_OWNER = 'zaineb44-ui';
         const GITHUB_REPO = 'Moul-Chowaya';
         const IMAGES_FOLDER = 'Images';
@@ -1073,6 +1116,7 @@
 
         console.log('🔗 Menu URL:', AIRTABLE_URL_MENU);
         console.log('🔗 Orders URL:', AIRTABLE_URL_ORDERS);
+        console.log('🔗 Waiter Orders URL:', AIRTABLE_URL_WAITER_ORDERS);
 
         // ═══════════════════════════════════════════════════════════
         // TRADUCTIONS
@@ -1084,6 +1128,7 @@
                 'admin.refresh': '🔄 Actualiser',
                 'admin.tab_orders': '📦 Commandes',
                 'admin.tab_menu': '🍽️ Menu',
+                'admin.tab_waiter': '🧑‍🍳 Commandes serveur',
                 'admin.stat_total': 'Total',
                 'admin.stat_pending': 'En attente',
                 'admin.stat_preparing': 'En préparation',
@@ -1094,6 +1139,7 @@
                 'admin.status_preparing': '👨‍🍳 En préparation',
                 'admin.status_ready': '✅ Prêt',
                 'admin.status_delivered': '📦 Livré',
+                'admin.status_served': '📦 Servi',
                 'admin.status_cancelled': '❌ Annulé',
                 'admin.th_customer': 'Client',
                 'admin.th_phone': 'Téléphone',
@@ -1153,12 +1199,23 @@
                 'admin.confirm_delete': 'Supprimer définitivement cet article ?',
                 'admin.confirm_delete_order': 'Supprimer cette commande ?',
                 'admin.status_updated': 'Statut → {status}',
+                'admin.waiter_title': 'Commandes des serveurs',
+                'admin.waiter_sub': 'Gérez les commandes passées par les serveurs.',
+                'admin.search_waiter': '🔍 Rechercher une commande serveur…',
+                'admin.waiter_th_waiter': 'Serveur',
+                'admin.waiter_th_table': 'Table',
+                'admin.waiter_th_items': 'Articles',
+                'admin.waiter_th_total': 'Total',
+                'admin.waiter_th_status': 'Statut',
+                'admin.waiter_th_date': 'Date',
+                'admin.no_waiter_orders': 'Aucune commande serveur',
             },
             ar: {
                 'admin.view_site': '🌐 عرض الموقع',
                 'admin.refresh': '🔄 تحديث',
                 'admin.tab_orders': '📦 الطلبات',
                 'admin.tab_menu': '🍽️ القائمة',
+                'admin.tab_waiter': '🧑‍🍳 طلبات النادل',
                 'admin.stat_total': 'المجموع',
                 'admin.stat_pending': 'قيد الانتظار',
                 'admin.stat_preparing': 'قيد التحضير',
@@ -1169,6 +1226,7 @@
                 'admin.status_preparing': '👨‍🍳 قيد التحضير',
                 'admin.status_ready': '✅ جاهز',
                 'admin.status_delivered': '📦 تم التوصيل',
+                'admin.status_served': '📦 تم التقديم',
                 'admin.status_cancelled': '❌ ملغي',
                 'admin.th_customer': 'العميل',
                 'admin.th_phone': 'الهاتف',
@@ -1228,6 +1286,16 @@
                 'admin.confirm_delete': 'حذف هذا الصنف نهائياً؟',
                 'admin.confirm_delete_order': 'حذف هذا الطلب؟',
                 'admin.status_updated': 'الحالة → {status}',
+                'admin.waiter_title': 'طلبات النادلين',
+                'admin.waiter_sub': 'إدارة الطلبات التي يقدمها النادلون.',
+                'admin.search_waiter': '🔍 بحث عن طلب نادل…',
+                'admin.waiter_th_waiter': 'النادل',
+                'admin.waiter_th_table': 'الطاولة',
+                'admin.waiter_th_items': 'الأصناف',
+                'admin.waiter_th_total': 'المجموع',
+                'admin.waiter_th_status': 'الحالة',
+                'admin.waiter_th_date': 'التاريخ',
+                'admin.no_waiter_orders': 'لا توجد طلبات نادل',
             }
         };
 
@@ -1238,6 +1306,7 @@
         let currentLang = 'fr';
         let orders = [];
         let menuItems = [];
+        let waiterOrders = [];
 
         // ═══════════════════════════════════════════════════════════
         // DOM REFS
@@ -1248,6 +1317,7 @@
         const tabs = document.querySelectorAll('.tab');
         const tabOrders = document.getElementById('tab-orders');
         const tabMenu = document.getElementById('tab-menu');
+        const tabWaiterOrders = document.getElementById('tab-waiter-orders');
         const ordersBody = document.getElementById('ordersBody');
         const orderSearch = document.getElementById('orderSearch');
         const orderStatusFilter = document.getElementById('orderStatusFilter');
@@ -1258,6 +1328,9 @@
         const menuBody = document.getElementById('menuBody');
         const menuSearch = document.getElementById('menuSearch');
         const menuCategoryFilter = document.getElementById('menuCategoryFilter');
+        const waiterOrdersBody = document.getElementById('waiterOrdersBody');
+        const waiterSearch = document.getElementById('waiterSearch');
+        const waiterStatusFilter = document.getElementById('waiterStatusFilter');
         const menuModal = document.getElementById('menuModal');
         const menuForm = document.getElementById('menuForm');
         const editRecordId = document.getElementById('editRecordId');
@@ -1340,6 +1413,7 @@
 
             renderOrders();
             renderMenu();
+            renderWaiterOrders();
 
             localStorage.setItem('moul-admin-lang', lang);
         }
@@ -1368,10 +1442,16 @@
                 tab.classList.add('active');
                 const target = tab.dataset.tab;
                 document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-                if (target === 'orders') tabOrders.classList.add('active');
-                else tabMenu.classList.add('active');
-                if (target === 'orders') renderOrders();
-                if (target === 'menu') renderMenu();
+                if (target === 'orders') {
+                    tabOrders.classList.add('active');
+                    renderOrders();
+                } else if (target === 'menu') {
+                    tabMenu.classList.add('active');
+                    renderMenu();
+                } else if (target === 'waiter-orders') {
+                    tabWaiterOrders.classList.add('active');
+                    fetchWaiterOrders();
+                }
             });
         });
 
@@ -1649,10 +1729,157 @@
         }
 
         // ═══════════════════════════════════════════════════════════
+        // WAITER ORDERS
+        // ═══════════════════════════════════════════════════════════
+
+        async function fetchWaiterOrders() {
+            try {
+                const resp = await fetch(AIRTABLE_URL_WAITER_ORDERS, {
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                const data = await resp.json();
+                waiterOrders = data.records.map(r => ({
+                    id: r.id,
+                    ...r.fields,
+                    'Waiter Name': r.fields['Waiter Name'] || '—',
+                    'Table Number': r.fields['Table Number'] || '—',
+                    'Items': r.fields['Items'] || '—',
+                    'Total': r.fields['Total'] || 0,
+                    'Status': r.fields['Status'] || 'Pending',
+                    'Notes': r.fields['Notes'] || '',
+                    'Order Date': r.fields['Order Date'] || r.createdTime || ''
+                }));
+                waiterOrders.sort((a, b) =>
+                    new Date(b['Order Date'] || b.createdTime || 0) -
+                    new Date(a['Order Date'] || a.createdTime || 0)
+                );
+                renderWaiterOrders();
+            } catch (err) {
+                console.error('Fetch waiter orders error:', err);
+                showToast(t('admin.toast_loading_error'), 'error');
+            }
+        }
+
+        function renderWaiterOrders() {
+            const search = waiterSearch.value.toLowerCase().trim();
+            const status = waiterStatusFilter.value;
+            let filtered = waiterOrders.filter(o => {
+                const name = (o['Waiter Name'] || '').toLowerCase();
+                const table = (o['Table Number'] || '').toLowerCase();
+                const items = (o['Items'] || '').toLowerCase();
+                const match = !search || name.includes(search) || table.includes(search) || items.includes(search);
+                const matchStatus = status === 'all' || o['Status'] === status;
+                return match && matchStatus;
+            });
+
+            if (filtered.length === 0) {
+                waiterOrdersBody.innerHTML =
+                    `<tr><td colspan="8"><div class="empty-state"><div class="big">🔍</div><p>${t('admin.no_waiter_orders')}</p></div></td></tr>`;
+                return;
+            }
+
+            let html = '';
+            filtered.forEach((o, i) => {
+                const statusClass = `badge-${(o['Status'] || 'pending').toLowerCase()}`;
+                const dateStr = o['Order Date'] ?
+                    new Date(o['Order Date']).toLocaleString(currentLang === 'ar' ? 'ar-MA' : 'fr-FR', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) :
+                    '—';
+                const statusLabels = {
+                    'Pending': t('admin.status_pending'),
+                    'Preparing': t('admin.status_preparing'),
+                    'Ready': t('admin.status_ready'),
+                    'Served': t('admin.status_served'),
+                    'Cancelled': t('admin.status_cancelled')
+                };
+                html += `
+                        <tr data-id="${o.id}">
+                            <td>${i+1}</td>
+                            <td><strong>${escapeHtml(o['Waiter Name'])}</strong></td>
+                            <td>${escapeHtml(o['Table Number'])}</td>
+                            <td style="max-width:180px; font-size:13px; word-break:break-word;">${escapeHtml(o['Items'])}</td>
+                            <td><strong>${o['Total']} DH</strong></td>
+                            <td>
+                                <select class="status-select waiter-status-select" data-id="${o.id}" data-current="${o['Status']}">
+                                    <option value="Pending" ${o['Status']==='Pending'?'selected':''}>${t('admin.status_pending')}</option>
+                                    <option value="Preparing" ${o['Status']==='Preparing'?'selected':''}>${t('admin.status_preparing')}</option>
+                                    <option value="Ready" ${o['Status']==='Ready'?'selected':''}>${t('admin.status_ready')}</option>
+                                    <option value="Served" ${o['Status']==='Served'?'selected':''}>${t('admin.status_served')}</option>
+                                    <option value="Cancelled" ${o['Status']==='Cancelled'?'selected':''}>${t('admin.status_cancelled')}</option>
+                                </select>
+                                <span class="badge ${statusClass}" style="display:inline-block;margin-top:4px;">${statusLabels[o['Status']] || o['Status']}</span>
+                            </td>
+                            <td style="font-size:12px;color:var(--muted);">${dateStr}</td>
+                            <td><button class="btn btn-danger btn-sm delete-waiter-order" data-id="${o.id}">🗑️</button></td>
+                        </tr>
+                    `;
+            });
+            waiterOrdersBody.innerHTML = html;
+
+            waiterOrdersBody.querySelectorAll('.waiter-status-select').forEach(sel => {
+                sel.addEventListener('change', async () => {
+                    const id = sel.dataset.id;
+                    const newStatus = sel.value;
+                    await updateWaiterOrderStatus(id, newStatus);
+                });
+            });
+            waiterOrdersBody.querySelectorAll('.delete-waiter-order').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (confirm(t('admin.confirm_delete_order'))) {
+                        await deleteWaiterOrder(btn.dataset.id);
+                    }
+                });
+            });
+        }
+
+        async function updateWaiterOrderStatus(id, status) {
+            try {
+                const resp = await fetch(`${AIRTABLE_URL_WAITER_ORDERS}/${id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ fields: { 'Status': status } })
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                const o = waiterOrders.find(x => x.id === id);
+                if (o) o['Status'] = status;
+                renderWaiterOrders();
+                showToast(t('admin.toast_status_updated'), 'success');
+            } catch (err) {
+                showToast(`${t('admin.toast_error')}: ${err.message}`, 'error');
+                await fetchWaiterOrders();
+            }
+        }
+
+        async function deleteWaiterOrder(id) {
+            try {
+                const resp = await fetch(`${AIRTABLE_URL_WAITER_ORDERS}/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                waiterOrders = waiterOrders.filter(o => o.id !== id);
+                renderWaiterOrders();
+                showToast(t('admin.toast_order_deleted'), 'success');
+            } catch (err) {
+                showToast(`${t('admin.toast_error')}: ${err.message}`, 'error');
+                await fetchWaiterOrders();
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════
         // DOSSIER IMAGES (GitHub) — chargement + sélecteur
         // ═══════════════════════════════════════════════════════════
 
-        let availableImages = []; // [{ name, url }]
+        let availableImages = [];
         let imagesLoaded = false;
         let imagesLoading = false;
 
@@ -1672,7 +1899,6 @@
                     .sort((a, b) => a.name.localeCompare(b.name));
                 imagesLoaded = true;
 
-                // Datalist pour l'autocomplétion en tapant
                 imageNamesList.innerHTML = availableImages
                     .map(img => `<option value="${escapeHtml(img.name)}"></option>`)
                     .join('');
@@ -1695,7 +1921,7 @@
                 ? availableImages.filter(img => img.name.toLowerCase().includes(q))
                 : availableImages;
 
-            if (!imagesLoaded) return; // status message already shown/handled by loadAvailableImages
+            if (!imagesLoaded) return;
 
             if (list.length === 0) {
                 imagePickerStatus.style.display = 'block';
@@ -1736,29 +1962,20 @@
             }
         });
 
-        // ═══════════════════════════════════════════════════════════
-        // UTILITAIRE : construire l'URL d'affichage d'une image
-        // ═══════════════════════════════════════════════════════════
-
         function buildImageUrl(input) {
             if (!input) return '';
             const trimmed = input.trim();
-            // URL complète déjà fournie (y compris un lien du dossier Images)
             if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
                 return trimmed;
             }
-            // Chemin déjà relatif au dossier Images
             if (/^Images\//i.test(trimmed)) {
                 return trimmed;
             }
-            // Nom de fichier connu dans le dossier Images → URL directe GitHub
             const match = availableImages.find(img => img.name.toLowerCase() === trimmed.toLowerCase());
             if (match) return match.url;
-            // Ressemble à un nom de fichier image (pas encore chargé) → chemin relatif
             if (IMAGE_EXT_RE.test(trimmed)) {
                 return `${IMAGES_FOLDER}/${trimmed}`;
             }
-            // Rétrocompatibilité : ancien ID Google Drive
             const cleanId = trimmed.replace(/[^a-zA-Z0-9_-]/g, '');
             if (cleanId) {
                 return `https://drive.google.com/uc?export=view&id=${cleanId}`;
@@ -1766,13 +1983,10 @@
             return '';
         }
 
-        // Extrait une valeur affichable dans le champ texte à partir d'une image déjà enregistrée
         function extractImageInputValue(imageUrl) {
             if (!imageUrl) return '';
-            // Lien direct du dossier Images (raw.githubusercontent.com ou chemin relatif)
             const imagesMatch = imageUrl.match(/Images\/([^/?#]+)/i);
             if (imagesMatch) return decodeURIComponent(imagesMatch[1]);
-            // Ancien format Google Drive
             const driveMatch = imageUrl.match(/[?&]id=([^&]+)/) || imageUrl.match(/\/d\/([^/]+)/);
             if (driveMatch) return driveMatch[1];
             return imageUrl;
@@ -1790,11 +2004,10 @@
         }
 
         // ═══════════════════════════════════════════════════════════
-        // SAVE MENU ITEM — avec conversion automatique de l'ID
+        // SAVE MENU ITEM
         // ═══════════════════════════════════════════════════════════
 
         async function saveMenuItem(data, recordId = null) {
-            // Construire l'URL complète à partir de l'entrée
             const fullUrl = buildImageUrl(data.ImageInput || '');
 
             const fields = {
@@ -1837,9 +2050,6 @@
                     throw new Error('Aucun ID retourné après création/mise à jour.');
                 }
 
-                console.log('✅ Record créé/mis à jour, ID:', recordIdFinal);
-
-                // Récupérer le record final pour mettre à jour la liste locale
                 const finalResp = await fetch(`${AIRTABLE_URL_MENU}/${recordIdFinal}`, {
                     headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
                 });
@@ -1896,7 +2106,6 @@
                 itemDescriptionAr.value = data.DescriptionAr || '';
                 itemActive.checked = data.Active !== false;
                 itemOrder.value = data.Order || '';
-                // Image input : on affiche le nom de fichier si on peut l'extraire, sinon l'URL brute
                 if (data.Image) {
                     itemImageId.value = extractImageInputValue(data.Image);
                     imagePreview.innerHTML =
@@ -1943,16 +2152,11 @@
             if (e.target === menuModal) closeModal();
         });
 
-        // ═══════════════════════════════════════════════════════════
-        // APERÇU DE L'IMAGE EN TEMPS RÉEL
-        // ═══════════════════════════════════════════════════════════
-
         itemImageId.addEventListener('input', () => {
             updateImagePreview();
             if (imagesLoaded) renderImagePickerGrid(imagePickerSearch.value.trim());
         });
 
-        // Fermer le sélecteur d'images si on clique en dehors
         document.addEventListener('click', (e) => {
             if (!imagePickerPanel.classList.contains('open')) return;
             if (e.target === imageBrowseBtn) return;
@@ -1994,7 +2198,7 @@
                     DescriptionAr: descriptionAr,
                     Active: active,
                     Order: order,
-                    ImageInput: imageInput // on passe l'entrée brute pour conversion
+                    ImageInput: imageInput
                 };
 
                 await saveMenuItem(data, recordId);
@@ -2032,7 +2236,7 @@
         refreshAllBtn.addEventListener('click', async () => {
             refreshAllBtn.disabled = true;
             refreshAllBtn.textContent = '⏳…';
-            await Promise.all([fetchOrders(), fetchMenu()]);
+            await Promise.all([fetchOrders(), fetchMenu(), fetchWaiterOrders()]);
             refreshAllBtn.disabled = false;
             refreshAllBtn.textContent = '🔄 ' + t('admin.refresh');
             showToast('✅ Données actualisées', 'success');
@@ -2046,6 +2250,8 @@
         orderStatusFilter.addEventListener('change', renderOrders);
         menuSearch.addEventListener('input', renderMenu);
         menuCategoryFilter.addEventListener('change', renderMenu);
+        waiterSearch.addEventListener('input', renderWaiterOrders);
+        waiterStatusFilter.addEventListener('change', renderWaiterOrders);
 
         // ═══════════════════════════════════════════════════════════
         // INIT
@@ -2053,15 +2259,16 @@
 
         fetchOrders();
         fetchMenu();
-        loadAvailableImages(); // pré-charge la liste des images (pour l'autocomplétion)
+        fetchWaiterOrders();
+        loadAvailableImages();
 
-        // Auto-refresh toutes les 30 secondes
         setInterval(() => {
             fetchOrders();
             fetchMenu();
+            fetchWaiterOrders();
         }, 30000);
 
-        console.log('📋 Admin panel Moul Chowaya — avec sélecteur d\'images depuis le dossier Images');
+        console.log('📋 Admin panel Moul Chowaya — avec onglet Commandes serveur');
         console.log('ℹ️ Langue actuelle:', currentLang);
         console.log('ℹ️ Champ image URL utilisé:', IMAGE_URL_FIELD);
     </script>
