@@ -167,6 +167,21 @@
             color: var(--cream);
             background: rgba(255, 255, 255, .04);
         }
+        .tab {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            direction: ltr;
+        }
+        .tab-icon {
+            flex: 0 0 auto;
+            line-height: 1;
+        }
+        .tab-label {
+            display: inline-block;
+            direction: inherit;
+        }
         .tab.active {
             color: var(--yellow);
             background: rgba(255, 210, 26, .08);
@@ -807,6 +822,14 @@
         html.rtl .header-actions .lang-toggle {
             direction: ltr;
         }
+        /* Keep tab icons on the LEFT in Arabic too. The label itself remains RTL. */
+        html.rtl .tab {
+            direction: ltr;
+        }
+        html.rtl .tab-label {
+            direction: rtl;
+            unicode-bidi: plaintext;
+        }
         html.rtl .form-group input[type="file"]::file-selector-button {
             margin-right: 0;
             margin-left: 10px;
@@ -1137,8 +1160,14 @@
 
         <!-- ═══ TABS ═══ -->
         <div class="tabs" id="tabs">
-            <button class="tab active" data-tab="orders" data-i18n="admin.tab_orders">📦 Commandes</button>
-            <button class="tab" data-tab="menu" data-i18n="admin.tab_menu">🍽️ Menu</button>
+            <button class="tab active" data-tab="orders" aria-label="Commandes">
+                <span class="tab-icon" aria-hidden="true">📦</span>
+                <span class="tab-label" data-i18n="admin.tab_orders">Commandes</span>
+            </button>
+            <button class="tab" data-tab="menu" aria-label="Menu">
+                <span class="tab-icon" aria-hidden="true">🍽️</span>
+                <span class="tab-label" data-i18n="admin.tab_menu">Menu</span>
+            </button>
         </div>
 
         <!-- ═══ ORDERS TAB ═══ -->
