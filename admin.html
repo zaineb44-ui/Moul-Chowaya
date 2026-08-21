@@ -5,258 +5,1184 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Admin · Moul Chowaya</title>
     <style>
-        /* ... styles (unchanged) ... */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        :root { --bg: #0b0907; --panel: #15110d; --yellow: #ffd21a; --cream: #fff5df; --muted: #c9bcae; --line: rgba(255,255,255,.1); --red: #b8291c; --green: #2e7d32; --blue: #1a73e8; }
-        body { font-family: Inter, system-ui, Arial, sans-serif; background: var(--bg); color: var(--cream); padding: 20px; min-height: 100vh; }
-        .wrap { max-width: 1400px; margin: 0 auto; }
-        header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--line); margin-bottom: 30px; }
-        header h1 { font-size: 26px; letter-spacing: -0.5px; }
-        header h1 span { color: var(--yellow); }
-        .header-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-        .btn { padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; border: none; transition: .2s; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
-        .btn-yellow { background: var(--yellow); color: #171006; }
-        .btn-yellow:hover { opacity: .8; }
-        .btn-outline { background: transparent; border: 1px solid var(--line); color: var(--cream); }
-        .btn-outline:hover { background: rgba(255,255,255,.05); }
-        .btn-danger { background: var(--red); color: #fff; }
-        .btn-danger:hover { opacity: .8; }
-        .btn-sm { padding: 6px 14px; font-size: 13px; }
-        .tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--line); padding-bottom: 4px; flex-wrap: wrap; }
-        .tab { padding: 10px 22px; border-radius: 10px 10px 0 0; cursor: pointer; font-weight: 700; font-size: 14px; color: var(--muted); transition: .2s; border: none; background: transparent; }
-        .tab:hover { color: var(--cream); background: rgba(255,255,255,.04); }
-        .tab.active { color: var(--yellow); background: rgba(255,210,26,.08); border-bottom: 2px solid var(--yellow); }
-        .tab-content { display: none; animation: fadeIn .3s ease; }
-        .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin-bottom: 28px; }
-        .stat-card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 16px 20px; }
-        .stat-card .num { font-size: 32px; font-weight: 950; color: var(--yellow); }
-        .stat-card .label { font-size: 13px; color: var(--muted); margin-top: 2px; }
-        .controls { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; align-items: center; }
-        .controls input, .controls select { padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line); background: #0f0c09; color: var(--cream); font-size: 14px; font-family: inherit; min-width: 160px; }
-        .controls input:focus, .controls select:focus { outline: none; border-color: var(--yellow); }
-        .controls input { flex: 1; min-width: 180px; }
-        .table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--line); background: var(--panel); }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 700px; }
-        th { text-align: left; padding: 14px 16px; background: #1f1914; color: var(--muted); font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: .5px; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 2; }
-        td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,.04); vertical-align: middle; }
-        tr:hover td { background: rgba(255,255,255,.03); }
-        .badge { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; }
-        .badge-pending { background: #f2a90022; color: #f2a900; }
-        .badge-preparing { background: #ff8c0022; color: #ff8c00; }
-        .badge-ready { background: #2e7d3222; color: #4caf50; }
-        .badge-delivered { background: #2196f322; color: #64b5f6; }
-        .badge-cancelled { background: #b8291c22; color: #ef5350; }
-        .badge-active { background: #2e7d3222; color: #4caf50; }
-        .badge-inactive { background: #b8291c22; color: #ef5350; }
-        .status-select { background: transparent; border: 1px solid var(--line); color: var(--cream); padding: 4px 8px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; }
-        .status-select:focus { outline: none; border-color: var(--yellow); }
-        .status-select option { background: #1a1511; }
-        .thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); background: #0f0c09; }
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.8); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: .3s ease; }
-        .modal-overlay.open { opacity: 1; visibility: visible; }
-        .modal-box { background: #1a1511; border: 1px solid var(--line); border-radius: 24px; padding: 32px 28px; width: min(560px, 100%); max-height: 90vh; overflow-y: auto; transform: scale(.95) translateY(20px); transition: transform .3s ease; }
-        .modal-overlay.open .modal-box { transform: scale(1) translateY(0); }
-        .modal-box h2 { font-size: 24px; margin-bottom: 6px; letter-spacing: -0.5px; }
-        .modal-box .sub { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: #0f0c09; color: var(--cream); font-size: 15px; font-family: inherit; transition: .2s; }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--yellow); }
-        .form-group textarea { resize: vertical; min-height: 50px; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-        .form-actions { display: flex; gap: 12px; margin-top: 20px; }
-        .form-actions .btn { flex: 1; justify-content: center; }
-        .image-preview { margin-top: 10px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-        .image-preview img { max-width: 120px; max-height: 120px; border-radius: 12px; border: 1px solid var(--line); object-fit: cover; }
-        .image-preview .placeholder { color: var(--muted); font-size: 13px; }
-        .toast { position: fixed; bottom: 30px; right: 30px; background: #1f1914; border: 1px solid var(--line); border-radius: 14px; padding: 16px 24px; color: var(--cream); font-weight: 600; font-size: 14px; transform: translateY(120px); opacity: 0; transition: .4s cubic-bezier(.22,.61,.36,1); z-index: 2000; box-shadow: 0 12px 32px rgba(0,0,0,.6); display: flex; align-items: center; gap: 12px; max-width: 90vw; }
-        .toast.show { transform: translateY(0); opacity: 1; }
-        .toast.success { border-left: 4px solid var(--green); }
-        .toast.error { border-left: 4px solid var(--red); }
-        .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
-        .empty-state .big { font-size: 48px; margin-bottom: 12px; }
-        .upload-progress { display: none; margin-top: 8px; font-size: 13px; color: var(--muted); align-items: center; gap: 10px; }
-        .upload-progress.active { display: flex; }
-        .upload-progress .bar { flex: 1; height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
-        .upload-progress .bar .fill { height: 100%; width: 0%; background: var(--yellow); transition: width .3s ease; border-radius: 4px; }
-        @media(max-width:600px) { header h1 { font-size: 20px; } .form-row { grid-template-columns: 1fr; } .stats { grid-template-columns: 1fr 1fr; } .controls input { min-width: 120px; } .modal-box { padding: 20px 16px; } .tab { padding: 8px 14px; font-size: 13px; } }
+        /* ── Reset & vars ── */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        :root {
+            --bg: #0b0907;
+            --panel: #15110d;
+            --yellow: #ffd21a;
+            --cream: #fff5df;
+            --muted: #c9bcae;
+            --line: rgba(255, 255, 255, .1);
+            --red: #b8291c;
+            --green: #2e7d32;
+            --blue: #1a73e8;
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        html.rtl {
+            direction: rtl;
+        }
+        body {
+            font-family: Inter, system-ui, -apple-system, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--cream);
+            padding: 16px;
+            min-height: 100vh;
+        }
+        body.menu-open {
+            overflow: hidden;
+        }
+        .wrap {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ── Header ── */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--line);
+            margin-bottom: 24px;
+        }
+        header h1 {
+            font-size: clamp(20px, 4vw, 28px);
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        header h1 span {
+            color: var(--yellow);
+        }
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .header-actions .lang-toggle {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: .2s;
+        }
+        .header-actions .lang-toggle:hover {
+            background: var(--yellow);
+            color: #171006;
+            border-color: var(--yellow);
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            transition: .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        .btn-yellow {
+            background: var(--yellow);
+            color: #171006;
+        }
+        .btn-yellow:hover {
+            opacity: .8;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, .06);
+        }
+        .btn-danger {
+            background: var(--red);
+            color: #fff;
+        }
+        .btn-danger:hover {
+            opacity: .8;
+        }
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 13px;
+        }
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+        .btn:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+        }
+
+        /* ── Tabs ── */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 4px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 10px 20px;
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--muted);
+            transition: .2s;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        .tab:hover {
+            color: var(--cream);
+            background: rgba(255, 255, 255, .04);
+        }
+        .tab.active {
+            color: var(--yellow);
+            background: rgba(255, 210, 26, .08);
+            border-bottom: 2px solid var(--yellow);
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn .3s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Stats ── */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 14px 18px;
+        }
+        .stat-card .num {
+            font-size: 28px;
+            font-weight: 950;
+            color: var(--yellow);
+            line-height: 1.2;
+        }
+        .stat-card .label {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* ── Controls ── */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 18px;
+            align-items: center;
+        }
+        .controls input,
+        .controls select {
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line);
+            background: #0f0c09;
+            color: var(--cream);
+            font-size: 14px;
+            font-family: inherit;
+            min-width: 140px;
+            flex: 1 1 160px;
+            transition: .2s;
+        }
+        .controls input:focus,
+        .controls select:focus {
+            outline: none;
+            border-color: var(--yellow);
+        }
+        .controls input::placeholder {
+            color: #6a5f55;
+        }
+        .controls select option {
+            background: #1a1511;
+        }
+
+        /* ── Tables ── */
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            background: var(--panel);
+            -webkit-overflow-scrolling: touch;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 600px;
+        }
+        th {
+            text-align: left;
+            padding: 12px 14px;
+            background: #1f1914;
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: .4px;
+            border-bottom: 1px solid var(--line);
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            white-space: nowrap;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, .04);
+            vertical-align: middle;
+            word-break: break-word;
+        }
+        tr:hover td {
+            background: rgba(255, 255, 255, .03);
+        }
+        tr:last-child td {
+            border-bottom: 0;
+        }
+
+        /* ── Badges ── */
+        .badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .badge-pending {
+            background: #f2a90022;
+            color: #f2a900;
+        }
+        .badge-preparing {
+            background: #ff8c0022;
+            color: #ff8c00;
+        }
+        .badge-ready {
+            background: #2e7d3222;
+            color: #4caf50;
+        }
+        .badge-delivered {
+            background: #2196f322;
+            color: #64b5f6;
+        }
+        .badge-cancelled {
+            background: #b8291c22;
+            color: #ef5350;
+        }
+        .badge-active {
+            background: #2e7d3222;
+            color: #4caf50;
+        }
+        .badge-inactive {
+            background: #b8291c22;
+            color: #ef5350;
+        }
+
+        /* ── Status select ── */
+        .status-select {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            width: 100%;
+            max-width: 140px;
+        }
+        .status-select:focus {
+            outline: none;
+            border-color: var(--yellow);
+        }
+        .status-select option {
+            background: #1a1511;
+        }
+
+        /* ── Thumbnail ── */
+        .thumb {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line);
+            background: #0f0c09;
+            display: block;
+        }
+        .thumb-placeholder {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line);
+            background: #0f0c09;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--muted);
+        }
+
+        /* ── Empty state ── */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--muted);
+        }
+        .empty-state .big {
+            font-size: 44px;
+            margin-bottom: 10px;
+        }
+        .empty-state p {
+            font-size: 15px;
+        }
+
+        /* ── Modal ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .8);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s ease;
+        }
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-box {
+            background: #1a1511;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            width: min(580px, 100%);
+            max-height: 95vh;
+            overflow-y: auto;
+            transform: scale(.95) translateY(20px);
+            transition: transform .3s ease;
+        }
+        .modal-overlay.open .modal-box {
+            transform: scale(1) translateY(0);
+        }
+        .modal-box h2 {
+            font-size: 24px;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+        .modal-box .sub {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* ── Form ── */
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+        .form-group label .req {
+            color: var(--red);
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line);
+            background: #0f0c09;
+            color: var(--cream);
+            font-size: 15px;
+            font-family: inherit;
+            transition: .2s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--yellow);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 50px;
+        }
+        .form-group input[type="file"] {
+            padding: 8px 10px;
+            cursor: pointer;
+        }
+        .form-group input[type="file"]::file-selector-button {
+            background: var(--yellow);
+            color: #171006;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            margin-right: 10px;
+        }
+        .form-group input[type="file"]::file-selector-button:hover {
+            opacity: .8;
+        }
+        .form-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+            accent-color: var(--yellow);
+            transform: scale(1.1);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .form-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+        .image-preview {
+            margin-top: 10px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .image-preview img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line);
+            object-fit: cover;
+        }
+        .image-preview .placeholder {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* ── Upload progress ── */
+        .upload-progress {
+            display: none;
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--muted);
+            align-items: center;
+            gap: 10px;
+        }
+        .upload-progress.active {
+            display: flex;
+        }
+        .upload-progress .bar {
+            flex: 1;
+            height: 4px;
+            border-radius: 4px;
+            background: var(--line);
+            overflow: hidden;
+        }
+        .upload-progress .bar .fill {
+            height: 100%;
+            width: 0%;
+            background: var(--yellow);
+            transition: width .3s ease;
+            border-radius: 4px;
+        }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            max-width: 460px;
+            margin: 0 auto;
+            background: #1f1914;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 14px 20px;
+            color: var(--cream);
+            font-weight: 600;
+            font-size: 14px;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: .4s cubic-bezier(.22, .61, .36, 1);
+            z-index: 2000;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .6);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast.success {
+            border-left: 4px solid var(--green);
+        }
+        .toast.error {
+            border-left: 4px solid var(--red);
+        }
+        .toast .toast-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        /* ── Menu header ── */
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+            align-items: center;
+        }
+        .menu-header h2 {
+            font-size: clamp(18px, 3vw, 24px);
+            letter-spacing: -0.5px;
+        }
+        .menu-header p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* ── Responsive ── */
+        @media(max-width:768px) {
+            body {
+                padding: 12px;
+            }
+            header h1 {
+                font-size: 18px;
+            }
+            .header-actions .btn-sm {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+            .tab {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .stat-card .num {
+                font-size: 22px;
+            }
+            .controls input,
+            .controls select {
+                min-width: 120px;
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+            table {
+                font-size: 13px;
+                min-width: 500px;
+            }
+            th,
+            td {
+                padding: 8px 10px;
+            }
+            .modal-box {
+                padding: 20px 16px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .form-actions {
+                flex-direction: column;
+            }
+            .form-actions .btn {
+                width: 100%;
+            }
+            .thumb {
+                width: 36px;
+                height: 36px;
+            }
+            .thumb-placeholder {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+            .toast {
+                left: 12px;
+                right: 12px;
+                bottom: 12px;
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+            .menu-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .menu-header .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .header-actions .lang-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            .btn {
+                font-size: 13px;
+                padding: 8px 16px;
+            }
+            .btn-sm {
+                font-size: 12px;
+                padding: 4px 10px;
+            }
+            .status-select {
+                font-size: 11px;
+                padding: 3px 6px;
+                max-width: 100px;
+            }
+            .badge {
+                font-size: 11px;
+                padding: 2px 10px;
+            }
+        }
+
+        @media(max-width:480px) {
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .stat-card {
+                padding: 10px 14px;
+            }
+            .stat-card .num {
+                font-size: 20px;
+            }
+            .stat-card .label {
+                font-size: 11px;
+            }
+            .controls input,
+            .controls select {
+                min-width: 100px;
+                flex: 1 1 100%;
+                font-size: 13px;
+            }
+            table {
+                font-size: 12px;
+                min-width: 420px;
+            }
+            th,
+            td {
+                padding: 6px 8px;
+            }
+            .modal-box {
+                padding: 16px 12px;
+            }
+            .modal-box h2 {
+                font-size: 20px;
+            }
+            .header-actions {
+                gap: 4px;
+            }
+            .header-actions .btn-sm {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+            .header-actions .lang-toggle {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+            .tab {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                font-size: 14px;
+                padding: 9px 12px;
+            }
+        }
+
+        /* ── RTL overrides ── */
+        html.rtl .controls input,
+        html.rtl .controls select {
+            direction: rtl;
+        }
+        html.rtl .form-group input,
+        html.rtl .form-group textarea,
+        html.rtl .form-group select {
+            direction: rtl;
+        }
+        html.rtl .toast {
+            right: auto;
+            left: 20px;
+        }
+        html.rtl .header-actions .lang-toggle {
+            direction: ltr;
+        }
+        html.rtl .form-group input[type="file"]::file-selector-button {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+        @media(max-width:768px) {
+            html.rtl .toast {
+                left: 12px;
+                right: 12px;
+            }
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--line);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--muted);
+        }
+
+        /* ── Misc ── */
+        .text-muted {
+            color: var(--muted);
+        }
+        .text-yellow {
+            color: var(--yellow);
+        }
+        .mt-2 {
+            margin-top: 8px;
+        }
+        .mb-2 {
+            margin-bottom: 8px;
+        }
+        .flex {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .gap-1 {
+            gap: 4px;
+        }
+        .w-full {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
 
-    <div class="wrap">
+    <div class="wrap" id="app">
+        <!-- ═══ HEADER ═══ -->
         <header>
             <h1>📋 Admin · <span>Moul Chowaya</span></h1>
             <div class="header-actions">
-                <a href="index.html" target="_blank" class="btn btn-outline btn-sm">🌐 Voir le site</a>
-                <button class="btn btn-yellow btn-sm" id="refreshAllBtn">🔄 Actualiser</button>
+                <button class="lang-toggle" id="langToggle" aria-label="Toggle language">🇫🇷 FR</button>
+                <a href="index.html" target="_blank" class="btn btn-outline btn-sm" data-i18n="admin.view_site">🌐 Voir le site</a>
+                <button class="btn btn-yellow btn-sm" id="refreshAllBtn" data-i18n="admin.refresh">🔄 Actualiser</button>
             </div>
         </header>
 
+        <!-- ═══ TABS ═══ -->
         <div class="tabs" id="tabs">
-            <button class="tab active" data-tab="orders">📦 Commandes</button>
-            <button class="tab" data-tab="menu">🍽️ Menu</button>
+            <button class="tab active" data-tab="orders" data-i18n="admin.tab_orders">📦 Commandes</button>
+            <button class="tab" data-tab="menu" data-i18n="admin.tab_menu">🍽️ Menu</button>
         </div>
 
-        <!-- ORDERS -->
+        <!-- ═══ ORDERS TAB ═══ -->
         <div class="tab-content active" id="tab-orders">
             <div class="stats" id="orderStats">
-                <div class="stat-card"><div class="num" id="statTotal">0</div><div class="label">Total commandes</div></div>
-                <div class="stat-card"><div class="num" id="statPending">0</div><div class="label">En attente</div></div>
-                <div class="stat-card"><div class="num" id="statPreparing">0</div><div class="label">En préparation</div></div>
-                <div class="stat-card"><div class="num" id="statReady">0</div><div class="label">Prêtes</div></div>
+                <div class="stat-card"><div class="num" id="statTotal">0</div><div class="label" data-i18n="admin.stat_total">Total</div></div>
+                <div class="stat-card"><div class="num" id="statPending">0</div><div class="label" data-i18n="admin.stat_pending">En attente</div></div>
+                <div class="stat-card"><div class="num" id="statPreparing">0</div><div class="label" data-i18n="admin.stat_preparing">En préparation</div></div>
+                <div class="stat-card"><div class="num" id="statReady">0</div><div class="label" data-i18n="admin.stat_ready">Prêtes</div></div>
             </div>
             <div class="controls">
-                <input type="text" id="orderSearch" placeholder="🔍 Rechercher…" />
+                <input type="text" id="orderSearch" placeholder="🔍 Rechercher…" data-i18n-placeholder="admin.search_orders" />
                 <select id="orderStatusFilter">
-                    <option value="all">Tous les statuts</option>
-                    <option value="Pending">⏳ En attente</option>
-                    <option value="Preparing">👨‍🍳 En préparation</option>
-                    <option value="Ready">✅ Prêt</option>
-                    <option value="Delivered">📦 Livré</option>
-                    <option value="Cancelled">❌ Annulé</option>
+                    <option value="all" data-i18n="admin.status_all">Tous les statuts</option>
+                    <option value="Pending" data-i18n="admin.status_pending">⏳ En attente</option>
+                    <option value="Preparing" data-i18n="admin.status_preparing">👨‍🍳 En préparation</option>
+                    <option value="Ready" data-i18n="admin.status_ready">✅ Prêt</option>
+                    <option value="Delivered" data-i18n="admin.status_delivered">📦 Livré</option>
+                    <option value="Cancelled" data-i18n="admin.status_cancelled">❌ Annulé</option>
                 </select>
             </div>
             <div class="table-wrap">
                 <table>
-                    <thead><tr><th>#</th><th>Client</th><th>Téléphone</th><th>Articles</th><th>Total</th><th>Statut</th><th>Date</th><th style="width:60px;">Action</th></tr></thead>
-                    <tbody id="ordersBody"><tr><td colspan="8"><div class="empty-state"><div class="big">📭</div><p>Aucune commande</p></div></td></tr></tbody>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th data-i18n="admin.th_customer">Client</th>
+                            <th data-i18n="admin.th_phone">Téléphone</th>
+                            <th data-i18n="admin.th_items">Articles</th>
+                            <th data-i18n="admin.th_total">Total</th>
+                            <th data-i18n="admin.th_status">Statut</th>
+                            <th data-i18n="admin.th_date">Date</th>
+                            <th style="width:60px;" data-i18n="admin.th_action">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersBody">
+                        <tr><td colspan="8"><div class="empty-state"><div class="big">📭</div><p data-i18n="admin.no_orders">Aucune commande</p></div></td></tr>
+                    </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- MENU -->
+        <!-- ═══ MENU TAB ═══ -->
         <div class="tab-content" id="tab-menu">
-            <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px;">
+            <div class="menu-header">
                 <div>
-                    <h2 style="font-size:22px; letter-spacing:-0.5px;">Gestion du menu</h2>
-                    <p style="color:var(--muted); font-size:14px;">Ajoutez, modifiez ou supprimez des articles. Les images sont hébergées sur Airtable.</p>
+                    <h2 data-i18n="admin.menu_title">Gestion du menu</h2>
+                    <p data-i18n="admin.menu_sub">Ajoutez, modifiez ou supprimez des articles. Les images sont hébergées sur Airtable.</p>
                 </div>
-                <button class="btn btn-yellow" id="addItemBtn">➕ Ajouter un article</button>
+                <button class="btn btn-yellow" id="addItemBtn" data-i18n="admin.add_item">➕ Ajouter un article</button>
             </div>
             <div class="controls">
-                <input type="text" id="menuSearch" placeholder="🔍 Rechercher un article…" />
+                <input type="text" id="menuSearch" placeholder="🔍 Rechercher un article…" data-i18n-placeholder="admin.search_menu" />
                 <select id="menuCategoryFilter">
-                    <option value="all">Toutes les catégories</option>
-                    <option value="grill">Grillades</option>
-                    <option value="tacos">Tacos</option>
-                    <option value="burger">Burgers</option>
-                    <option value="sandwich">Sandwichs</option>
-                    <option value="salad">Salades</option>
-                    <option value="drink">Boissons</option>
+                    <option value="all" data-i18n="admin.cat_all">Toutes les catégories</option>
+                    <option value="grill" data-i18n="admin.cat_grill">Grillades</option>
+                    <option value="tacos" data-i18n="admin.cat_tacos">Tacos</option>
+                    <option value="burger" data-i18n="admin.cat_burger">Burgers</option>
+                    <option value="sandwich" data-i18n="admin.cat_sandwich">Sandwichs</option>
+                    <option value="salad" data-i18n="admin.cat_salad">Salades</option>
+                    <option value="drink" data-i18n="admin.cat_drink">Boissons</option>
                 </select>
             </div>
             <div class="table-wrap">
                 <table>
-                    <thead><tr><th>Image</th><th>Nom</th><th>Catégorie</th><th>Prix</th><th>Description</th><th>Statut</th><th style="width:120px;">Actions</th></tr></thead>
-                    <tbody id="menuBody"><tr><td colspan="7"><div class="empty-state"><div class="big">🍽️</div><p>Chargez le menu…</p></div></td></tr></tbody>
+                    <thead>
+                        <tr>
+                            <th data-i18n="admin.th_image">Image</th>
+                            <th data-i18n="admin.th_name">Nom</th>
+                            <th data-i18n="admin.th_category">Catégorie</th>
+                            <th data-i18n="admin.th_price">Prix</th>
+                            <th data-i18n="admin.th_description">Description</th>
+                            <th data-i18n="admin.th_status">Statut</th>
+                            <th style="width:120px;" data-i18n="admin.th_actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menuBody">
+                        <tr><td colspan="7"><div class="empty-state"><div class="big">🍽️</div><p data-i18n="admin.loading_menu">Chargement du menu…</p></div></td></tr>
+                    </tbody>
                 </table>
             </div>
         </div>
-
     </div>
 
-    <!-- MODAL -->
+    <!-- ═══ MODAL ═══ -->
     <div class="modal-overlay" id="menuModal">
         <div class="modal-box">
-            <h2 id="menuModalTitle">➕ Ajouter un article</h2>
-            <p class="sub" id="menuModalSub">Remplissez les champs ci-dessous.</p>
+            <h2 id="menuModalTitle" data-i18n="admin.modal_add_title">➕ Ajouter un article</h2>
+            <p class="sub" id="menuModalSub" data-i18n="admin.modal_add_sub">Remplissez les champs ci-dessous.</p>
             <form id="menuForm" enctype="multipart/form-data">
                 <input type="hidden" id="editRecordId" value="" />
                 <div class="form-group">
-                    <label for="itemName">Nom (français) *</label>
+                    <label for="itemName" data-i18n="admin.field_name">Nom (français) <span class="req">*</span></label>
                     <input type="text" id="itemName" placeholder="Ex: Burger poulet" required />
                 </div>
                 <div class="form-group">
-                    <label for="itemNameAr">Nom (arabe) <span style="color:var(--muted);font-weight:400;">(optionnel)</span></label>
+                    <label for="itemNameAr" data-i18n="admin.field_name_ar">Nom (arabe) <span class="text-muted">(optionnel)</span></label>
                     <input type="text" id="itemNameAr" placeholder="برغر دجاج" />
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="itemCategory">Catégorie *</label>
+                        <label for="itemCategory" data-i18n="admin.field_category">Catégorie <span class="req">*</span></label>
                         <select id="itemCategory" required>
-                            <option value="grill">Grillades</option>
-                            <option value="tacos">Tacos</option>
-                            <option value="burger">Burgers</option>
-                            <option value="sandwich">Sandwichs</option>
-                            <option value="salad">Salades</option>
-                            <option value="drink">Boissons</option>
+                            <option value="grill" data-i18n="admin.cat_grill">Grillades</option>
+                            <option value="tacos" data-i18n="admin.cat_tacos">Tacos</option>
+                            <option value="burger" data-i18n="admin.cat_burger">Burgers</option>
+                            <option value="sandwich" data-i18n="admin.cat_sandwich">Sandwichs</option>
+                            <option value="salad" data-i18n="admin.cat_salad">Salades</option>
+                            <option value="drink" data-i18n="admin.cat_drink">Boissons</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="itemPrice">Prix (DH) *</label>
+                        <label for="itemPrice" data-i18n="admin.field_price">Prix (DH) <span class="req">*</span></label>
                         <input type="number" id="itemPrice" placeholder="0" min="0" step="0.5" required />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="itemDescription">Description (français)</label>
+                    <label for="itemDescription" data-i18n="admin.field_desc">Description (français)</label>
                     <textarea id="itemDescription" placeholder="Petite description de l'article…" rows="2"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="itemDescriptionAr">Description (arabe)</label>
+                    <label for="itemDescriptionAr" data-i18n="admin.field_desc_ar">Description (arabe)</label>
                     <textarea id="itemDescriptionAr" placeholder="وصف صغير للصنف…" rows="2"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="itemImage">Image</label>
+                    <label for="itemImage" data-i18n="admin.field_image">Image</label>
                     <input type="file" id="itemImage" accept="image/*" />
-                    <div class="image-preview" id="imagePreview"><span class="placeholder">Aucune image sélectionnée</span></div>
+                    <div class="image-preview" id="imagePreview"><span class="placeholder" data-i18n="admin.no_image">Aucune image sélectionnée</span></div>
                     <div class="upload-progress" id="uploadProgress">
-                        <span id="uploadProgressText">Téléchargement…</span>
+                        <span id="uploadProgressText" data-i18n="admin.uploading">Téléchargement…</span>
                         <div class="bar"><div class="fill" id="uploadProgressFill"></div></div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label><input type="checkbox" id="itemActive" checked style="width:auto; margin-right:8px;" /> Actif (visible sur le site)</label>
+                    <label>
+                        <input type="checkbox" id="itemActive" checked />
+                        <span data-i18n="admin.field_active">Actif (visible sur le site)</span>
+                    </label>
                 </div>
                 <div class="form-group">
-                    <label for="itemOrder">Ordre d'affichage</label>
+                    <label for="itemOrder" data-i18n="admin.field_order">Ordre d'affichage</label>
                     <input type="number" id="itemOrder" placeholder="0" min="0" />
                 </div>
                 <div class="form-actions">
-                    <button type="button" class="btn btn-outline" id="modalCancelBtn">Annuler</button>
-                    <button type="submit" class="btn btn-yellow" id="modalSubmitBtn">💾 Enregistrer</button>
+                    <button type="button" class="btn btn-outline" id="modalCancelBtn" data-i18n="admin.cancel">Annuler</button>
+                    <button type="submit" class="btn btn-yellow" id="modalSubmitBtn" data-i18n="admin.save">💾 Enregistrer</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div class="toast" id="toast"></div>
+    <!-- ═══ TOAST ═══ -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✅</span>
+        <span class="toast-msg"></span>
+    </div>
 
+    <!-- ═══ SCRIPTS ═══ -->
     <script>
-        // ═══════════════════════════════════════════════════════
-        // ⚠️ REMPLACEZ CETTE VALEUR AVEC L'ID DE VOTRE TABLE MENU ⚠️
-        // Exemple: const TABLE_MENU = 'tblH8nnRjF9Yef2Py';
-        // ═══════════════════════════════════════════════════════
-        const TABLE_MENU = 'tblH8nnRjF9Yef2Py'; // <-- Mettez votre ID ici
+        // ═══════════════════════════════════════════════════════════
+        // ⚠️ CONFIGURATION — À MODIFIER SI NÉCESSAIRE ⚠️
+        // ═══════════════════════════════════════════════════════════
 
-        // ═══ CONFIGURATION AIRTABLE ═══
         const AIRTABLE_API_KEY = 'patyj6u0PZd84J6m6.c219829f1b05344107fa54dabea848dce3b6655bf7e655fca6c132292afbb017';
         const AIRTABLE_BASE_ID = 'appoeaIgh98U6lUuS';
         const TABLE_ORDERS = 'tblJw87JqJtftBlVj';
+        // ⚠️ REMPLACEZ AVEC L'ID RÉEL DE VOTRE TABLE MENU ⚠️
+        const TABLE_MENU = 'tblH8nnRjF9Yef2Py';
+
         const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
         const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
 
-        console.log('🔗 Menu table URL:', AIRTABLE_URL_MENU);
-        console.log('🔗 Orders table URL:', AIRTABLE_URL_ORDERS);
+        console.log('🔗 Menu URL:', AIRTABLE_URL_MENU);
+        console.log('🔗 Orders URL:', AIRTABLE_URL_ORDERS);
 
-        // ═══ VÉRIFICATION ═══
-        if (TABLE_MENU === 'tblYOUR_MENU_TABLE_ID') {
-            alert('⚠️ Erreur : Vous devez modifier la constante TABLE_MENU dans le code JavaScript (ligne ~185) avec l\'ID réel de votre table Menu.\n\nCet ID se trouve dans l\'URL de votre table Airtable :\nhttps://airtable.com/appoeaIgh98U6lUuS/tblVOTRE_ID/...');
-            console.error('TABLE_MENU non configuré !');
-        }
+        // ═══════════════════════════════════════════════════════════
+        // TRADUCTIONS
+        // ═══════════════════════════════════════════════════════════
 
-        // ═══ ÉTAT ═══
+        const translations = {
+            fr: {
+                'admin.view_site': '🌐 Voir le site',
+                'admin.refresh': '🔄 Actualiser',
+                'admin.tab_orders': '📦 Commandes',
+                'admin.tab_menu': '🍽️ Menu',
+                'admin.stat_total': 'Total',
+                'admin.stat_pending': 'En attente',
+                'admin.stat_preparing': 'En préparation',
+                'admin.stat_ready': 'Prêtes',
+                'admin.search_orders': '🔍 Rechercher…',
+                'admin.status_all': 'Tous les statuts',
+                'admin.status_pending': '⏳ En attente',
+                'admin.status_preparing': '👨‍🍳 En préparation',
+                'admin.status_ready': '✅ Prêt',
+                'admin.status_delivered': '📦 Livré',
+                'admin.status_cancelled': '❌ Annulé',
+                'admin.th_customer': 'Client',
+                'admin.th_phone': 'Téléphone',
+                'admin.th_items': 'Articles',
+                'admin.th_total': 'Total',
+                'admin.th_status': 'Statut',
+                'admin.th_date': 'Date',
+                'admin.th_action': 'Action',
+                'admin.no_orders': 'Aucune commande',
+                'admin.menu_title': 'Gestion du menu',
+                'admin.menu_sub': 'Ajoutez, modifiez ou supprimez des articles. Les images sont hébergées sur Airtable.',
+                'admin.add_item': '➕ Ajouter un article',
+                'admin.search_menu': '🔍 Rechercher un article…',
+                'admin.cat_all': 'Toutes les catégories',
+                'admin.cat_grill': 'Grillades',
+                'admin.cat_tacos': 'Tacos',
+                'admin.cat_burger': 'Burgers',
+                'admin.cat_sandwich': 'Sandwichs',
+                'admin.cat_salad': 'Salades',
+                'admin.cat_drink': 'Boissons',
+                'admin.th_image': 'Image',
+                'admin.th_name': 'Nom',
+                'admin.th_category': 'Catégorie',
+                'admin.th_price': 'Prix',
+                'admin.th_description': 'Description',
+                'admin.th_status': 'Statut',
+                'admin.th_actions': 'Actions',
+                'admin.loading_menu': 'Chargement du menu…',
+                'admin.modal_add_title': '➕ Ajouter un article',
+                'admin.modal_add_sub': 'Remplissez les champs ci-dessous.',
+                'admin.modal_edit_title': '✏️ Modifier l\'article',
+                'admin.modal_edit_sub': 'Modifiez les informations ci-dessous.',
+                'admin.field_name': 'Nom (français) *',
+                'admin.field_name_ar': 'Nom (arabe) (optionnel)',
+                'admin.field_category': 'Catégorie *',
+                'admin.field_price': 'Prix (DH) *',
+                'admin.field_desc': 'Description (français)',
+                'admin.field_desc_ar': 'Description (arabe)',
+                'admin.field_image': 'Image',
+                'admin.no_image': 'Aucune image sélectionnée',
+                'admin.uploading': 'Téléchargement…',
+                'admin.field_active': 'Actif (visible sur le site)',
+                'admin.field_order': "Ordre d'affichage",
+                'admin.cancel': 'Annuler',
+                'admin.save': '💾 Enregistrer',
+                'admin.toast_saved': '✅ Article enregistré !',
+                'admin.toast_deleted': '🗑️ Article supprimé',
+                'admin.toast_order_deleted': '🗑️ Commande supprimée',
+                'admin.toast_status_updated': '✅ Statut mis à jour',
+                'admin.toast_error': '❌ Erreur',
+                'admin.toast_loading_error': '❌ Erreur de chargement',
+                'admin.confirm_delete': 'Supprimer définitivement cet article ?',
+                'admin.confirm_delete_order': 'Supprimer cette commande ?',
+                'admin.status_updated': 'Statut → {status}',
+            },
+            ar: {
+                'admin.view_site': '🌐 عرض الموقع',
+                'admin.refresh': '🔄 تحديث',
+                'admin.tab_orders': '📦 الطلبات',
+                'admin.tab_menu': '🍽️ القائمة',
+                'admin.stat_total': 'المجموع',
+                'admin.stat_pending': 'قيد الانتظار',
+                'admin.stat_preparing': 'قيد التحضير',
+                'admin.stat_ready': 'جاهزة',
+                'admin.search_orders': '🔍 بحث…',
+                'admin.status_all': 'جميع الحالات',
+                'admin.status_pending': '⏳ قيد الانتظار',
+                'admin.status_preparing': '👨‍🍳 قيد التحضير',
+                'admin.status_ready': '✅ جاهز',
+                'admin.status_delivered': '📦 تم التوصيل',
+                'admin.status_cancelled': '❌ ملغي',
+                'admin.th_customer': 'العميل',
+                'admin.th_phone': 'الهاتف',
+                'admin.th_items': 'الأصناف',
+                'admin.th_total': 'المجموع',
+                'admin.th_status': 'الحالة',
+                'admin.th_date': 'التاريخ',
+                'admin.th_action': 'إجراء',
+                'admin.no_orders': 'لا توجد طلبات',
+                'admin.menu_title': 'إدارة القائمة',
+                'admin.menu_sub': 'أضف أو عدل أو احذف الأصناف. الصور مستضافة على Airtable.',
+                'admin.add_item': '➕ إضافة صنف',
+                'admin.search_menu': '🔍 بحث عن صنف…',
+                'admin.cat_all': 'جميع الفئات',
+                'admin.cat_grill': 'مشاوي',
+                'admin.cat_tacos': 'تاكو',
+                'admin.cat_burger': 'برغر',
+                'admin.cat_sandwich': 'ساندويتشات',
+                'admin.cat_salad': 'سلطات',
+                'admin.cat_drink': 'مشروبات',
+                'admin.th_image': 'الصورة',
+                'admin.th_name': 'الاسم',
+                'admin.th_category': 'الفئة',
+                'admin.th_price': 'السعر',
+                'admin.th_description': 'الوصف',
+                'admin.th_status': 'الحالة',
+                'admin.th_actions': 'إجراءات',
+                'admin.loading_menu': 'جاري تحميل القائمة…',
+                'admin.modal_add_title': '➕ إضافة صنف',
+                'admin.modal_add_sub': 'املأ الحقول أدناه.',
+                'admin.modal_edit_title': '✏️ تعديل الصنف',
+                'admin.modal_edit_sub': 'عدل المعلومات أدناه.',
+                'admin.field_name': 'الاسم (فرنسي) *',
+                'admin.field_name_ar': 'الاسم (عربي) (اختياري)',
+                'admin.field_category': 'الفئة *',
+                'admin.field_price': 'السعر (درهم) *',
+                'admin.field_desc': 'الوصف (فرنسي)',
+                'admin.field_desc_ar': 'الوصف (عربي)',
+                'admin.field_image': 'الصورة',
+                'admin.no_image': 'لا توجد صورة',
+                'admin.uploading': 'جاري التحميل…',
+                'admin.field_active': 'نشط (ظاهر على الموقع)',
+                'admin.field_order': 'ترتيب العرض',
+                'admin.cancel': 'إلغاء',
+                'admin.save': '💾 حفظ',
+                'admin.toast_saved': '✅ تم حفظ الصنف!',
+                'admin.toast_deleted': '🗑️ تم حذف الصنف',
+                'admin.toast_order_deleted': '🗑️ تم حذف الطلب',
+                'admin.toast_status_updated': '✅ تم تحديث الحالة',
+                'admin.toast_error': '❌ خطأ',
+                'admin.toast_loading_error': '❌ خطأ في التحميل',
+                'admin.confirm_delete': 'حذف هذا الصنف نهائياً؟',
+                'admin.confirm_delete_order': 'حذف هذا الطلب؟',
+                'admin.status_updated': 'الحالة → {status}',
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════
+        // ÉTAT
+        // ═══════════════════════════════════════════════════════════
+
+        let currentLang = 'fr';
         let orders = [];
         let menuItems = [];
 
-        // ═══ DOM REFS ═══
+        // ═══════════════════════════════════════════════════════════
+        // DOM REFS
+        // ═══════════════════════════════════════════════════════════
+
+        const langToggle = document.getElementById('langToggle');
+        const htmlEl = document.documentElement;
         const tabs = document.querySelectorAll('.tab');
-        const tabContents = {
-            orders: document.getElementById('tab-orders'),
-            menu: document.getElementById('tab-menu')
-        };
+        const tabOrders = document.getElementById('tab-orders');
+        const tabMenu = document.getElementById('tab-menu');
         const ordersBody = document.getElementById('ordersBody');
         const orderSearch = document.getElementById('orderSearch');
         const orderStatusFilter = document.getElementById('orderStatusFilter');
@@ -287,36 +1213,108 @@
         const addItemBtn = document.getElementById('addItemBtn');
         const refreshAllBtn = document.getElementById('refreshAllBtn');
         const toast = document.getElementById('toast');
+        const toastIcon = toast.querySelector('.toast-icon');
+        const toastMsg = toast.querySelector('.toast-msg');
         const uploadProgress = document.getElementById('uploadProgress');
         const uploadProgressFill = document.getElementById('uploadProgressFill');
         const uploadProgressText = document.getElementById('uploadProgressText');
 
-        // ═══ TOAST ═══
+        // ═══════════════════════════════════════════════════════════
+        // TOAST
+        // ═══════════════════════════════════════════════════════════
+
         let toastTimeout;
 
         function showToast(message, type = 'success') {
             clearTimeout(toastTimeout);
-            toast.textContent = message;
+            toastIcon.textContent = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+            toastMsg.textContent = message;
             toast.className = `toast ${type}`;
             void toast.offsetWidth;
             toast.classList.add('show');
-            toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 4500);
         }
 
-        // ═══ TABS ═══
+        // ═══════════════════════════════════════════════════════════
+        // LANGUE
+        // ═══════════════════════════════════════════════════════════
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            htmlEl.lang = lang;
+            if (lang === 'ar') {
+                htmlEl.classList.add('rtl');
+                htmlEl.dir = 'rtl';
+            } else {
+                htmlEl.classList.remove('rtl');
+                htmlEl.dir = 'ltr';
+            }
+            const label = lang === 'ar' ? '🇸🇦 ع' : '🇫🇷 FR';
+            langToggle.textContent = label;
+
+            // Traduire tous les éléments avec data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                const t = translations[lang]?.[key];
+                if (t !== undefined) el.textContent = t;
+            });
+
+            // Traduire les placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.dataset.i18nPlaceholder;
+                const t = translations[lang]?.[key];
+                if (t !== undefined) el.placeholder = t;
+            });
+
+            // Traduire les options des selects (simplifié : on met à jour le texte)
+            document.querySelectorAll('select option[data-i18n]').forEach(opt => {
+                const key = opt.dataset.i18n;
+                const t = translations[lang]?.[key];
+                if (t !== undefined) opt.textContent = t;
+            });
+
+            // Re-render orders & menu pour rafraîchir les textes dynamiques
+            renderOrders();
+            renderMenu();
+
+            localStorage.setItem('moul-admin-lang', lang);
+        }
+
+        function toggleLanguage() {
+            const next = currentLang === 'fr' ? 'ar' : 'fr';
+            setLanguage(next);
+        }
+
+        langToggle.addEventListener('click', toggleLanguage);
+
+        const savedLang = localStorage.getItem('moul-admin-lang');
+        if (savedLang === 'ar' || savedLang === 'fr') {
+            setLanguage(savedLang);
+        } else {
+            setLanguage('fr');
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // TABS
+        // ═══════════════════════════════════════════════════════════
+
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 tabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 const target = tab.dataset.tab;
                 document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-                tabContents[target].classList.add('active');
+                if (target === 'orders') tabOrders.classList.add('active');
+                else tabMenu.classList.add('active');
                 if (target === 'orders') renderOrders();
                 if (target === 'menu') renderMenu();
             });
         });
 
-        // ═══ FETCH ORDERS ═══
+        // ═══════════════════════════════════════════════════════════
+        // ORDERS
+        // ═══════════════════════════════════════════════════════════
+
         async function fetchOrders() {
             try {
                 const resp = await fetch(AIRTABLE_URL_ORDERS, {
@@ -336,13 +1334,15 @@
                     'Notes': r.fields['Notes'] || '',
                     'Order Date': r.fields['Order Date'] || r.createdTime || ''
                 }));
-                orders.sort((a, b) => new Date(b['Order Date'] || b.createdTime || 0) - new Date(a['Order Date'] || a
-                    .createdTime || 0));
+                orders.sort((a, b) =>
+                    new Date(b['Order Date'] || b.createdTime || 0) -
+                    new Date(a['Order Date'] || a.createdTime || 0)
+                );
                 renderOrders();
                 updateOrderStats();
             } catch (err) {
                 console.error('Fetch orders error:', err);
-                showToast('❌ Erreur chargement commandes', 'error');
+                showToast(t('admin.toast_loading_error'), 'error');
             }
         }
 
@@ -368,16 +1368,32 @@
                 const matchStatus = status === 'all' || o['Status'] === status;
                 return match && matchStatus;
             });
+
             if (filtered.length === 0) {
                 ordersBody.innerHTML =
-                    `<tr><td colspan="8"><div class="empty-state"><div class="big">🔍</div><p>Aucune commande trouvée</p></div></td></tr>`;
+                    `<tr><td colspan="8"><div class="empty-state"><div class="big">🔍</div><p>${t('admin.no_orders')}</p></div></td></tr>`;
                 return;
             }
+
             let html = '';
             filtered.forEach((o, i) => {
                 const statusClass = `badge-${(o['Status'] || 'pending').toLowerCase()}`;
-                const dateStr = o['Order Date'] ? new Date(o['Order Date']).toLocaleString('fr-FR', { day: '2-digit',
-                    month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+                const dateStr = o['Order Date'] ?
+                    new Date(o['Order Date']).toLocaleString(currentLang === 'ar' ? 'ar-MA' : 'fr-FR', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) :
+                    '—';
+                const statusLabels = {
+                    'Pending': t('admin.status_pending'),
+                    'Preparing': t('admin.status_preparing'),
+                    'Ready': t('admin.status_ready'),
+                    'Delivered': t('admin.status_delivered'),
+                    'Cancelled': t('admin.status_cancelled')
+                };
                 html += `
                         <tr data-id="${o.id}">
                             <td>${i+1}</td>
@@ -387,13 +1403,13 @@
                             <td><strong>${o['Total']} DH</strong></td>
                             <td>
                                 <select class="status-select" data-id="${o.id}" data-current="${o['Status']}">
-                                    <option value="Pending" ${o['Status']==='Pending'?'selected':''}>⏳ En attente</option>
-                                    <option value="Preparing" ${o['Status']==='Preparing'?'selected':''}>👨‍🍳 En préparation</option>
-                                    <option value="Ready" ${o['Status']==='Ready'?'selected':''}>✅ Prêt</option>
-                                    <option value="Delivered" ${o['Status']==='Delivered'?'selected':''}>📦 Livré</option>
-                                    <option value="Cancelled" ${o['Status']==='Cancelled'?'selected':''}>❌ Annulé</option>
+                                    <option value="Pending" ${o['Status']==='Pending'?'selected':''}>${t('admin.status_pending')}</option>
+                                    <option value="Preparing" ${o['Status']==='Preparing'?'selected':''}>${t('admin.status_preparing')}</option>
+                                    <option value="Ready" ${o['Status']==='Ready'?'selected':''}>${t('admin.status_ready')}</option>
+                                    <option value="Delivered" ${o['Status']==='Delivered'?'selected':''}>${t('admin.status_delivered')}</option>
+                                    <option value="Cancelled" ${o['Status']==='Cancelled'?'selected':''}>${t('admin.status_cancelled')}</option>
                                 </select>
-                                <span class="badge ${statusClass}" style="display:inline-block;margin-top:4px;">${o['Status']||'Pending'}</span>
+                                <span class="badge ${statusClass}" style="display:inline-block;margin-top:4px;">${statusLabels[o['Status']] || o['Status']}</span>
                             </td>
                             <td style="font-size:12px;color:var(--muted);">${dateStr}</td>
                             <td><button class="btn btn-danger btn-sm delete-order" data-id="${o.id}">🗑️</button></td>
@@ -401,6 +1417,7 @@
                     `;
             });
             ordersBody.innerHTML = html;
+
             ordersBody.querySelectorAll('.status-select').forEach(sel => {
                 sel.addEventListener('change', async () => {
                     const id = sel.dataset.id;
@@ -410,7 +1427,7 @@
             });
             ordersBody.querySelectorAll('.delete-order').forEach(btn => {
                 btn.addEventListener('click', async () => {
-                    if (confirm('Supprimer cette commande ?')) {
+                    if (confirm(t('admin.confirm_delete_order'))) {
                         await deleteOrder(btn.dataset.id);
                     }
                 });
@@ -432,9 +1449,10 @@
                 if (o) o['Status'] = status;
                 renderOrders();
                 updateOrderStats();
-                showToast(`✅ Statut → ${status}`, 'success');
+                const label = t('admin.status_updated').replace('{status}', status);
+                showToast(label, 'success');
             } catch (err) {
-                showToast(`❌ Erreur: ${err.message}`, 'error');
+                showToast(`${t('admin.toast_error')}: ${err.message}`, 'error');
                 await fetchOrders();
             }
         }
@@ -449,14 +1467,17 @@
                 orders = orders.filter(o => o.id !== id);
                 renderOrders();
                 updateOrderStats();
-                showToast('🗑️ Commande supprimée', 'success');
+                showToast(t('admin.toast_order_deleted'), 'success');
             } catch (err) {
-                showToast(`❌ Erreur: ${err.message}`, 'error');
+                showToast(`${t('admin.toast_error')}: ${err.message}`, 'error');
                 await fetchOrders();
             }
         }
 
-        // ═══ FETCH MENU ═══
+        // ═══════════════════════════════════════════════════════════
+        // MENU
+        // ═══════════════════════════════════════════════════════════
+
         async function fetchMenu() {
             try {
                 const resp = await fetch(AIRTABLE_URL_MENU, {
@@ -464,24 +1485,33 @@
                 });
                 if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
                 const data = await resp.json();
-                menuItems = data.records.map(r => ({
-                    id: r.id,
-                    ...r.fields,
-                    Name: r.fields['Name'] || 'Sans nom',
-                    NameAr: r.fields['NameAr'] || '',
-                    Category: r.fields['Category'] || 'grill',
-                    Price: r.fields['Price'] || 0,
-                    Description: r.fields['Description'] || '',
-                    DescriptionAr: r.fields['DescriptionAr'] || '',
-                    Active: r.fields['Active'] !== false,
-                    Order: r.fields['Order'] || 0,
-                    Image: r.fields['Image'] && r.fields['Image'].length > 0 ? r.fields['Image'][0].url : null
-                }));
+                menuItems = data.records.map(r => {
+                    const fields = r.fields || {};
+                    const imageArr = fields['Image'];
+                    let imageUrl = null;
+                    if (Array.isArray(imageArr) && imageArr.length > 0 && imageArr[0]?.url) {
+                        imageUrl = imageArr[0].url;
+                    } else if (typeof imageArr === 'string' && imageArr.startsWith('http')) {
+                        imageUrl = imageArr;
+                    }
+                    return {
+                        id: r.id,
+                        Name: fields['Name'] || 'Sans nom',
+                        NameAr: fields['NameAr'] || '',
+                        Category: fields['Category'] || 'grill',
+                        Price: fields['Price'] || 0,
+                        Description: fields['Description'] || '',
+                        DescriptionAr: fields['DescriptionAr'] || '',
+                        Active: fields['Active'] !== false,
+                        Order: fields['Order'] || 0,
+                        Image: imageUrl
+                    };
+                });
                 menuItems.sort((a, b) => (a.Order || 0) - (b.Order || 0));
                 renderMenu();
             } catch (err) {
                 console.error('Fetch menu error:', err);
-                showToast('❌ Erreur chargement menu', 'error');
+                showToast(t('admin.toast_loading_error'), 'error');
                 menuItems = [];
                 renderMenu();
             }
@@ -491,30 +1521,37 @@
             const search = menuSearch.value.toLowerCase().trim();
             const cat = menuCategoryFilter.value;
             let filtered = menuItems.filter(item => {
-                const matchName = item.Name.toLowerCase().includes(search) || (item.NameAr || '').toLowerCase().includes(
-                search);
+                const matchName = (item.Name || '').toLowerCase().includes(search) ||
+                    (item.NameAr || '').toLowerCase().includes(search);
                 const matchCat = cat === 'all' || item.Category === cat;
                 return matchName && matchCat;
             });
+
             if (filtered.length === 0) {
                 menuBody.innerHTML =
-                    `<tr><td colspan="7"><div class="empty-state"><div class="big">🍽️</div><p>Aucun article trouvé</p></div></td></tr>`;
+                    `<tr><td colspan="7"><div class="empty-state"><div class="big">🍽️</div><p>${t('admin.no_orders')}</p></div></td></tr>`;
                 return;
             }
+
             let html = '';
             filtered.forEach(item => {
                 const statusBadge = item.Active ? 'badge-active' : 'badge-inactive';
                 const statusText = item.Active ? 'Actif' : 'Inactif';
                 const imgHtml = item.Image ?
-                    `<img src="${item.Image}" class="thumb" alt="${item.Name}" />` :
-                    `<span style="color:var(--muted);font-size:20px;">🖼️</span>`;
+                    `<img src="${item.Image}" class="thumb" alt="${escapeHtml(item.Name)}" loading="lazy" />` :
+                    `<div class="thumb-placeholder">🖼️</div>`;
+                const nameDisplay = currentLang === 'ar' && item.NameAr ? item.NameAr : item.Name;
+                const descDisplay = currentLang === 'ar' && item.DescriptionAr ? item.DescriptionAr : item.Description;
                 html += `
                         <tr data-id="${item.id}">
                             <td>${imgHtml}</td>
-                            <td><strong>${escapeHtml(item.Name)}</strong>${item.NameAr ? `<br /><span style="font-size:12px;color:var(--muted);">${escapeHtml(item.NameAr)}</span>` : ''}</td>
+                            <td><strong>${escapeHtml(nameDisplay)}</strong>
+                                ${item.NameAr && currentLang === 'fr' ? `<br /><span style="font-size:11px;color:var(--muted);">${escapeHtml(item.NameAr)}</span>` : ''}
+                                ${item.Name && currentLang === 'ar' ? `<br /><span style="font-size:11px;color:var(--muted);">${escapeHtml(item.Name)}</span>` : ''}
+                            </td>
                             <td><span class="badge" style="background:#ffffff12;">${item.Category}</span></td>
                             <td><strong>${item.Price} DH</strong></td>
-                            <td style="max-width:140px; font-size:13px; color:var(--muted);">${escapeHtml(item.Description)}</td>
+                            <td style="max-width:140px; font-size:13px; color:var(--muted);">${escapeHtml(descDisplay)}</td>
                             <td><span class="badge ${statusBadge}">${statusText}</span></td>
                             <td>
                                 <button class="btn btn-yellow btn-sm edit-item" data-id="${item.id}">✏️</button>
@@ -524,12 +1561,13 @@
                     `;
             });
             menuBody.innerHTML = html;
+
             menuBody.querySelectorAll('.edit-item').forEach(btn => {
                 btn.addEventListener('click', () => openEditModal(btn.dataset.id));
             });
             menuBody.querySelectorAll('.delete-item').forEach(btn => {
                 btn.addEventListener('click', async () => {
-                    if (confirm(`Supprimer définitivement cet article ?`)) {
+                    if (confirm(t('admin.confirm_delete'))) {
                         await deleteMenuItem(btn.dataset.id);
                     }
                 });
@@ -545,35 +1583,37 @@
                 if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
                 menuItems = menuItems.filter(item => item.id !== id);
                 renderMenu();
-                showToast('🗑️ Article supprimé', 'success');
+                showToast(t('admin.toast_deleted'), 'success');
             } catch (err) {
-                showToast(`❌ Erreur: ${err.message}`, 'error');
+                showToast(`${t('admin.toast_error')}: ${err.message}`, 'error');
                 await fetchMenu();
             }
         }
 
-        // ═══ SAVE MENU ITEM ── WITH FIELD TYPE VERIFICATION ═══
+        // ═══════════════════════════════════════════════════════════
+        // SAVE MENU ITEM — avec upload d'image fiable
+        // ═══════════════════════════════════════════════════════════
+
         async function saveMenuItem(data, recordId = null) {
-            // 1. Prepare fields
+            // 1. Préparer les champs (sans image)
             const fields = {
-                'Name': data.Name,
-                'NameAr': data.NameAr || '',
+                'Name': data.Name.trim(),
+                'NameAr': (data.NameAr || '').trim(),
                 'Category': data.Category,
                 'Price': parseFloat(data.Price),
-                'Description': data.Description || '',
-                'DescriptionAr': data.DescriptionAr || '',
+                'Description': (data.Description || '').trim(),
+                'DescriptionAr': (data.DescriptionAr || '').trim(),
                 'Active': data.Active !== false,
                 'Order': parseInt(data.Order) || 0
             };
 
-            // 2. Create or update the record (without image first)
             const url = recordId ? `${AIRTABLE_URL_MENU}/${recordId}` : AIRTABLE_URL_MENU;
             const method = recordId ? 'PATCH' : 'POST';
 
-            let recordResponse;
             let recordIdFinal;
 
             try {
+                // Étape 1 : Créer ou mettre à jour le record (sans image)
                 console.log(`➡️ ${method} ${url}`);
                 const resp = await fetch(url, {
                     method: method,
@@ -583,50 +1623,55 @@
                     },
                     body: JSON.stringify({ fields })
                 });
+
                 if (!resp.ok) {
                     const errData = await resp.json();
-                    throw new Error(`Record ${method} failed: ${errData.error?.message || 'HTTP '+resp.status}`);
+                    const msg = errData.error?.message || `HTTP ${resp.status}`;
+                    throw new Error(`Airtable: ${msg}`);
                 }
-                recordResponse = await resp.json();
-                const record = recordResponse.records ? recordResponse.records[0] : recordResponse;
-                recordIdFinal = record.id;
-                if (!recordIdFinal) {
-                    throw new Error('No record ID returned after creation/update.');
-                }
-                console.log('✅ Record created/updated, ID:', recordIdFinal);
 
-                // 3. Fetch the record to verify the 'Image' field is an attachment field
-                const verifyUrl = `${AIRTABLE_URL_MENU}/${recordIdFinal}`;
-                console.log('🔍 Vérification du record:', verifyUrl);
-                const verifyResp = await fetch(verifyUrl, {
+                const recordResp = await resp.json();
+                const record = recordResp.records ? recordResp.records[0] : recordResp;
+                recordIdFinal = record.id;
+
+                if (!recordIdFinal) {
+                    throw new Error('Aucun ID retourné après création/mise à jour.');
+                }
+
+                console.log('✅ Record créé/mis à jour, ID:', recordIdFinal);
+
+                // Étape 2 : Vérifier que le champ Image est de type "Pièce jointe"
+                // On récupère le record pour voir la structure du champ Image
+                const verifyResp = await fetch(`${AIRTABLE_URL_MENU}/${recordIdFinal}`, {
                     headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
                 });
                 if (!verifyResp.ok) {
                     const errText = await verifyResp.text();
-                    throw new Error(`Record not found: ${errText}`);
+                    throw new Error(`Impossible de vérifier le record: ${errText}`);
                 }
-                const recordData = await verifyResp.json();
-                console.log('✅ Record récupéré:', recordData);
+                const verifyData = await verifyResp.json();
+                const imageField = verifyData.fields?.['Image'];
 
-                // Check if 'Image' field exists and is an array (attachment field)
-                const imageField = recordData.fields['Image'];
+                // Si le champ existe et n'est pas un tableau, ce n'est pas un champ "Pièce jointe"
                 if (imageField !== undefined && !Array.isArray(imageField)) {
-                    // The field exists but is not an array – it's not an attachment field
-                    throw new Error('Le champ "Image" n\'est pas de type "Pièce jointe" (Attachment). Veuillez modifier le type du champ dans Airtable.');
+                    throw new Error(
+                        'Le champ "Image" n\'est pas de type "Pièce jointe" (Attachment). ' +
+                        'Veuillez modifier le type du champ dans Airtable.'
+                    );
                 }
-                // If it's undefined, that's fine – we can still add it.
 
-                // 4. If there's a new image file, upload it as an attachment
+                // Étape 3 : Upload de l'image si présente
                 if (data.ImageFile) {
                     uploadProgress.classList.add('active');
-                    uploadProgressFill.style.width = '30%';
-                    uploadProgressText.textContent = 'Téléchargement de l\'image…';
+                    uploadProgressFill.style.width = '20%';
+                    uploadProgressText.textContent = t('admin.uploading');
 
                     const formData = new FormData();
                     formData.append('file', data.ImageFile);
 
-                    const uploadUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}/${recordIdFinal}/attachments`;
-                    console.log('⬆️ Uploading to:', uploadUrl);
+                    const uploadUrl =
+                        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}/${recordIdFinal}/attachments`;
+                    console.log('⬆️ Upload vers:', uploadUrl);
 
                     const uploadResp = await fetch(uploadUrl, {
                         method: 'POST',
@@ -637,18 +1682,57 @@
                     });
 
                     uploadProgressFill.style.width = '100%';
-                    uploadProgressText.textContent = 'Image téléchargée !';
+                    uploadProgressText.textContent = '✅ Image téléchargée !';
 
                     if (!uploadResp.ok) {
-                        const errText = await uploadResp.text();
-                        console.error('Upload response:', uploadResp.status, errText);
-                        throw new Error(`Upload image failed: ${errText}`);
+                        let errMsg = `Upload failed: ${uploadResp.status}`;
+                        try {
+                            const errText = await uploadResp.text();
+                            errMsg += ` - ${errText}`;
+                        } catch (_) { /* ignore */ }
+                        throw new Error(errMsg);
                     }
 
-                    await new Promise(r => setTimeout(r, 300));
+                    // Attendre un instant pour que Airtable traite l'image
+                    await new Promise(r => setTimeout(r, 400));
                 }
 
-                return recordResponse;
+                // Étape 4 : Retourner le record mis à jour
+                // Récupérer le record final avec l'image
+                const finalResp = await fetch(`${AIRTABLE_URL_MENU}/${recordIdFinal}`, {
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
+                });
+                if (!finalResp.ok) {
+                    const errText = await finalResp.text();
+                    throw new Error(`Impossible de récupérer le record final: ${errText}`);
+                }
+                const finalData = await finalResp.json();
+
+                // Mettre à jour la liste locale
+                const idx = menuItems.findIndex(i => i.id === recordIdFinal);
+                const newItem = {
+                    id: recordIdFinal,
+                    Name: finalData.fields['Name'] || 'Sans nom',
+                    NameAr: finalData.fields['NameAr'] || '',
+                    Category: finalData.fields['Category'] || 'grill',
+                    Price: finalData.fields['Price'] || 0,
+                    Description: finalData.fields['Description'] || '',
+                    DescriptionAr: finalData.fields['DescriptionAr'] || '',
+                    Active: finalData.fields['Active'] !== false,
+                    Order: finalData.fields['Order'] || 0,
+                    Image: finalData.fields['Image'] && finalData.fields['Image'].length > 0 ?
+                        finalData.fields['Image'][0].url :
+                        null
+                };
+
+                if (idx >= 0) {
+                    menuItems[idx] = newItem;
+                } else {
+                    menuItems.push(newItem);
+                }
+                menuItems.sort((a, b) => (a.Order || 0) - (b.Order || 0));
+
+                return finalData;
 
             } catch (err) {
                 console.error('❌ saveMenuItem error:', err);
@@ -659,10 +1743,14 @@
             }
         }
 
-        // ═══ MODAL ═══
-        function openModal(title, sub, data = null) {
-            menuModalTitle.textContent = title;
-            menuModalSub.textContent = sub;
+        // ═══════════════════════════════════════════════════════════
+        // MODAL
+        // ═══════════════════════════════════════════════════════════
+
+        function openModal(titleKey, subKey, data = null) {
+            menuModalTitle.textContent = t(titleKey);
+            menuModalSub.textContent = t(subKey);
+
             if (data) {
                 editRecordId.value = data.id || '';
                 itemName.value = data.Name || '';
@@ -674,9 +1762,10 @@
                 itemActive.checked = data.Active !== false;
                 itemOrder.value = data.Order || '';
                 if (data.Image) {
-                    imagePreview.innerHTML = `<img src="${data.Image}" alt="Image actuelle" /><span style="color:var(--muted);font-size:13px;">Image actuelle</span>`;
+                    imagePreview.innerHTML =
+                        `<img src="${data.Image}" alt="Image actuelle" /><span style="color:var(--muted);font-size:13px;">Image actuelle</span>`;
                 } else {
-                    imagePreview.innerHTML = `<span class="placeholder">Aucune image</span>`;
+                    imagePreview.innerHTML = `<span class="placeholder">${t('admin.no_image')}</span>`;
                 }
             } else {
                 editRecordId.value = '';
@@ -688,7 +1777,7 @@
                 itemDescriptionAr.value = '';
                 itemActive.checked = true;
                 itemOrder.value = '';
-                imagePreview.innerHTML = `<span class="placeholder">Aucune image sélectionnée</span>`;
+                imagePreview.innerHTML = `<span class="placeholder">${t('admin.no_image')}</span>`;
                 itemImage.value = '';
             }
             menuModal.classList.add('open');
@@ -702,11 +1791,13 @@
 
         function openEditModal(id) {
             const item = menuItems.find(i => i.id === id);
-            if (item) openModal('✏️ Modifier l\'article', 'Modifiez les informations ci-dessous.', item);
+            if (item) {
+                openModal('admin.modal_edit_title', 'admin.modal_edit_sub', item);
+            }
         }
 
         addItemBtn.addEventListener('click', () => {
-            openModal('➕ Ajouter un article', 'Remplissez les champs pour créer un nouvel article.');
+            openModal('admin.modal_add_title', 'admin.modal_add_sub');
         });
 
         modalCancelBtn.addEventListener('click', closeModal);
@@ -714,7 +1805,10 @@
             if (e.target === menuModal) closeModal();
         });
 
-        // ═══ FORM SUBMIT ═══
+        // ═══════════════════════════════════════════════════════════
+        // FORM SUBMIT
+        // ═══════════════════════════════════════════════════════════
+
         menuForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -727,14 +1821,13 @@
             const active = itemActive.checked;
             const order = parseInt(itemOrder.value) || 0;
             const recordId = editRecordId.value;
+            const file = itemImage.files[0];
 
             if (!name) { showToast('❌ Le nom est requis', 'error'); return; }
             if (isNaN(price) || price < 0) { showToast('❌ Prix invalide', 'error'); return; }
 
-            const file = itemImage.files[0];
-
             modalSubmitBtn.disabled = true;
-            modalSubmitBtn.textContent = '⏳ Envoi…';
+            modalSubmitBtn.textContent = '⏳…';
 
             try {
                 const data = {
@@ -750,19 +1843,22 @@
                 };
 
                 await saveMenuItem(data, recordId);
-                showToast('✅ Article enregistré !', 'success');
+                showToast(t('admin.toast_saved'), 'success');
                 closeModal();
-                await fetchMenu();
+                renderMenu();
             } catch (err) {
                 console.error('Save error:', err);
-                showToast(`❌ Erreur: ${err.message}`, 'error');
+                showToast(`${t('admin.toast_error')}: ${err.message}`, 'error');
             } finally {
                 modalSubmitBtn.disabled = false;
-                modalSubmitBtn.textContent = '💾 Enregistrer';
+                modalSubmitBtn.textContent = '💾 ' + t('admin.save');
             }
         });
 
-        // ═══ IMAGE PREVIEW ═══
+        // ═══════════════════════════════════════════════════════════
+        // IMAGE PREVIEW
+        // ═══════════════════════════════════════════════════════════
+
         itemImage.addEventListener('change', () => {
             const file = itemImage.files[0];
             if (file) {
@@ -773,11 +1869,14 @@
                 };
                 reader.readAsDataURL(file);
             } else {
-                imagePreview.innerHTML = `<span class="placeholder">Aucune image sélectionnée</span>`;
+                imagePreview.innerHTML = `<span class="placeholder">${t('admin.no_image')}</span>`;
             }
         });
 
-        // ═══ HELPERS ═══
+        // ═══════════════════════════════════════════════════════════
+        // HELPERS
+        // ═══════════════════════════════════════════════════════════
+
         function escapeHtml(text) {
             if (!text) return '';
             const div = document.createElement('div');
@@ -785,35 +1884,48 @@
             return div.innerHTML;
         }
 
-        // ═══ REFRESH ═══
+        function t(key) {
+            return translations[currentLang]?.[key] || key;
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // REFRESH
+        // ═══════════════════════════════════════════════════════════
+
         refreshAllBtn.addEventListener('click', async () => {
             refreshAllBtn.disabled = true;
             refreshAllBtn.textContent = '⏳…';
             await Promise.all([fetchOrders(), fetchMenu()]);
             refreshAllBtn.disabled = false;
-            refreshAllBtn.textContent = '🔄 Actualiser';
+            refreshAllBtn.textContent = '🔄 ' + t('admin.refresh');
             showToast('✅ Données actualisées', 'success');
         });
 
-        // ═══ FILTERS ═══
+        // ═══════════════════════════════════════════════════════════
+        // FILTERS
+        // ═══════════════════════════════════════════════════════════
+
         orderSearch.addEventListener('input', renderOrders);
         orderStatusFilter.addEventListener('change', renderOrders);
         menuSearch.addEventListener('input', renderMenu);
         menuCategoryFilter.addEventListener('change', renderMenu);
 
-        // ═══ INIT ═══
+        // ═══════════════════════════════════════════════════════════
+        // INIT
+        // ═══════════════════════════════════════════════════════════
+
         fetchOrders();
         fetchMenu();
 
-        // Auto-refresh every 30s
+        // Auto-refresh toutes les 30 secondes
         setInterval(() => {
             fetchOrders();
             fetchMenu();
         }, 30000);
 
-        console.log('📋 Admin panel Moul Chowaya');
+        console.log('📋 Admin panel Moul Chowaya — prêt');
         console.log('📌 Assurez-vous que le champ "Image" est de type "Pièce jointe" (Attachment).');
-        console.log('ℹ️ Si l\'upload échoue, regardez la console pour les détails.');
+        console.log('ℹ️ Langue actuelle:', currentLang);
     </script>
 
 </body>
