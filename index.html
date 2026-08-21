@@ -6,14 +6,12 @@
     <meta name="description" content="Moul Chowaya — Grillades, tacos, burgers, sandwichs et spécialités marocaines à Nouaceur." />
     <meta name="theme-color" content="#0b0907" />
 
-    <!-- ═══ FAVICON (navicon) ═══ -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0907'/%3E%3Ctext x='16' y='24' font-size='20' text-anchor='middle' fill='%23ffd21a'%3E🔥%3C/text%3E%3C/svg%3E" type="image/svg+xml" />
     <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0907'/%3E%3Ctext x='16' y='24' font-size='20' text-anchor='middle' fill='%23ffd21a'%3E🔥%3C/text%3E%3C/svg%3E" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0907'/%3E%3Ctext x='16' y='24' font-size='20' text-anchor='middle' fill='%23ffd21a'%3E🔥%3C/text%3E%3C/svg%3E" />
 
     <title>Moul Chowaya | Grillades & Saveurs</title>
     <style>
-        /* ── Reset & vars ── */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -51,7 +49,7 @@
             margin: auto;
         }
 
-        /* ── Navigation ── */
+        /* Nav */
         nav {
             position: fixed;
             z-index: 999;
@@ -95,6 +93,46 @@
         .links a:hover {
             color: var(--yellow);
         }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+        .cart-btn {
+            position: relative;
+            background: transparent;
+            border: none;
+            color: var(--cream);
+            font-size: 22px;
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 10px;
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .cart-btn:hover {
+            background: rgba(255, 255, 255, .06);
+        }
+        .cart-badge {
+            position: absolute;
+            top: -4px;
+            right: -6px;
+            background: var(--red);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 900;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+            pointer-events: none;
+        }
         .cta {
             background: var(--yellow);
             color: #171006;
@@ -108,8 +146,6 @@
         .cta:hover {
             opacity: .8;
         }
-
-        /* ── Language toggle ── */
         .lang-toggle {
             background: transparent;
             border: 1px solid var(--line);
@@ -128,8 +164,6 @@
             color: #171006;
             border-color: var(--yellow);
         }
-
-        /* ── Hamburger ── */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -160,7 +194,7 @@
             transform: rotate(-45deg) translate(5px, -6px);
         }
 
-        /* ── Mobile menu overlay ── */
+        /* Mobile menu */
         .mobile-menu {
             position: fixed;
             top: 72px;
@@ -238,7 +272,7 @@
             border-color: var(--yellow);
         }
 
-        /* ── Hero etc ── */
+        /* Hero */
         .hero {
             min-height: 100vh;
             display: grid;
@@ -330,6 +364,8 @@
         .label small {
             color: #cbbeb0;
         }
+
+        /* Sections */
         section {
             padding: 100px 0;
         }
@@ -354,6 +390,8 @@
             max-width: 650px;
             margin-top: 15px;
         }
+
+        /* Menu */
         .menu-nav {
             display: flex;
             gap: 8px;
@@ -391,11 +429,15 @@
             font-size: 22px;
             margin-bottom: 15px;
             color: var(--yellow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .item {
             display: flex;
             justify-content: space-between;
-            gap: 15px;
+            align-items: center;
+            gap: 12px;
             padding: 9px 0;
             border-bottom: 1px dashed #ffffff18;
             font-size: 14px;
@@ -411,6 +453,26 @@
             color: #fff;
             white-space: nowrap;
         }
+        .item-add {
+            background: var(--yellow);
+            border: none;
+            color: #171006;
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .item-add:hover {
+            transform: scale(1.1);
+            opacity: .8;
+        }
         .note {
             font-size: 12px;
             color: #9e9084;
@@ -421,6 +483,8 @@
             border-top: 1px solid var(--line);
             border-bottom: 1px solid var(--line);
         }
+
+        /* Features */
         .features {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -443,6 +507,8 @@
             color: var(--muted);
             font-size: 14px;
         }
+
+        /* Gallery */
         .gallery {
             display: grid;
             grid-template-columns: 1.1fr .9fr;
@@ -462,6 +528,8 @@
         .gallery .small {
             height: 620px;
         }
+
+        /* Contact */
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -525,6 +593,277 @@
             border-radius: 15px;
             border: 1px solid var(--line);
         }
+
+        /* ── CART SIDEBAR ── */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .7);
+            z-index: 1100;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s ease;
+        }
+        .cart-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: min(440px, 100%);
+            height: 100%;
+            background: #15110d;
+            border-left: 1px solid var(--line);
+            z-index: 1200;
+            transform: translateX(100%);
+            transition: transform .35s cubic-bezier(.22, .61, .36, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 22px;
+        }
+        .cart-sidebar.open {
+            transform: translateX(0);
+        }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--line);
+            flex-shrink: 0;
+        }
+        .cart-header h2 {
+            font-size: 24px;
+            letter-spacing: -1px;
+            margin: 0;
+        }
+        .cart-close {
+            background: transparent;
+            border: none;
+            color: var(--cream);
+            font-size: 28px;
+            cursor: pointer;
+            padding: 0 6px;
+        }
+        .cart-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 18px 0;
+        }
+        .cart-empty {
+            color: var(--muted);
+            text-align: center;
+            padding: 60px 0;
+            font-size: 16px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .05);
+            gap: 10px;
+        }
+        .cart-item-info {
+            flex: 1;
+        }
+        .cart-item-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .cart-item-price {
+            font-size: 13px;
+            color: var(--muted);
+        }
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cart-item-qty button {
+            background: var(--line);
+            border: none;
+            color: var(--cream);
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-item-qty button:hover {
+            background: var(--yellow);
+            color: #171006;
+        }
+        .cart-item-qty span {
+            min-width: 24px;
+            text-align: center;
+            font-weight: 700;
+        }
+        .cart-item-remove {
+            background: transparent;
+            border: none;
+            color: #8a7a6a;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+        .cart-item-remove:hover {
+            color: var(--red);
+        }
+        .cart-footer {
+            border-top: 1px solid var(--line);
+            padding-top: 20px;
+            flex-shrink: 0;
+        }
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 16px;
+        }
+        .cart-total span:last-child {
+            color: var(--yellow);
+        }
+        .checkout-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--yellow);
+            color: #171006;
+            border: none;
+            border-radius: 14px;
+            font-weight: 900;
+            font-size: 17px;
+            cursor: pointer;
+            transition: .2s;
+        }
+        .checkout-btn:hover {
+            opacity: .85;
+        }
+        .checkout-btn:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+        }
+
+        /* ── CHECKOUT MODAL ── */
+        .checkout-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .8);
+            z-index: 1300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s ease;
+        }
+        .checkout-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .checkout-box {
+            background: #1a1511;
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            padding: 36px 32px;
+            width: min(540px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(.95) translateY(20px);
+            transition: transform .3s ease;
+        }
+        .checkout-modal.open .checkout-box {
+            transform: scale(1) translateY(0);
+        }
+        .checkout-box h2 {
+            font-size: 28px;
+            margin-bottom: 6px;
+            letter-spacing: -1px;
+        }
+        .checkout-box .sub {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: #0f0c09;
+            color: var(--cream);
+            font-size: 15px;
+            font-family: inherit;
+            transition: .2s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--yellow);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .checkout-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 22px;
+        }
+        .checkout-actions .btn {
+            flex: 1;
+            justify-content: center;
+            padding: 14px;
+        }
+        .checkout-actions .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+        }
+        .order-confirm {
+            text-align: center;
+            padding: 30px 0;
+        }
+        .order-confirm .big-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        .order-confirm h3 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .order-confirm p {
+            color: var(--muted);
+        }
+
+        /* Footer */
         footer {
             padding: 35px 0;
             border-top: 1px solid var(--line);
@@ -537,7 +876,7 @@
             gap: 20px;
         }
 
-        /* ── Responsive ── */
+        /* Responsive */
         @media(max-width:850px) {
             .links {
                 display: none;
@@ -566,6 +905,15 @@
             .gallery .small {
                 height: 470px;
             }
+            .cart-sidebar {
+                width: 100%;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .checkout-box {
+                padding: 26px 18px;
+            }
         }
 
         @media(max-width:520px) {
@@ -588,13 +936,14 @@
                 font-size: 18px;
                 padding: 8px 0;
             }
+            .nav-actions .lang-toggle {
+                display: none;
+            }
         }
 
         body.menu-open {
             overflow: hidden;
         }
-
-        /* RTL tweaks */
         html.rtl .row span:first-child {
             width: 130px;
         }
@@ -606,6 +955,16 @@
         }
         html.rtl .menu-nav {
             justify-content: flex-start;
+        }
+        html.rtl .cart-sidebar {
+            right: auto;
+            left: 0;
+            transform: translateX(-100%);
+            border-left: none;
+            border-right: 1px solid var(--line);
+        }
+        html.rtl .cart-sidebar.open {
+            transform: translateX(0);
         }
     </style>
 </head>
@@ -623,17 +982,19 @@
                 <a href="#contact" data-i18n="nav.contact">Contact</a>
             </div>
 
-            <a class="cta" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank" data-i18n="nav.cta">📍 Itinéraire</a>
-
-            <!-- Language toggle (desktop) -->
-            <button class="lang-toggle" id="langToggle" aria-label="Toggle language">🇫🇷 FR</button>
-
-            <!-- Hamburger -->
-            <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <div class="nav-actions">
+                <button class="cart-btn" id="cartOpenBtn" aria-label="Panier">
+                    🛒
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <a class="cta" href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank" data-i18n="nav.cta">📍 Itinéraire</a>
+                <button class="lang-toggle" id="langToggle" aria-label="Toggle language">🇫🇷 FR</button>
+                <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
         </div>
 
         <!-- Mobile menu -->
@@ -679,7 +1040,7 @@
                 <div class="head">
                     <div class="kicker" data-i18n="menu.kicker">La carte</div>
                     <h2 data-i18n="menu.title">Tout droit du grill.</h2>
-                    <p data-i18n="menu.desc">Les prix ci-dessous sont repris des photos de la carte fournies. Les prix et disponibilités peuvent changer.</p>
+                    <p data-i18n="menu.desc">Cliquez sur <strong style="color:var(--yellow)">+</strong> pour ajouter un article à votre panier.</p>
                 </div>
                 <div class="menu-nav">
                     <button class="filter active" data-filter="all" data-i18n="filter.all">Tout</button>
@@ -690,71 +1051,77 @@
                     <button class="filter" data-filter="drink" data-i18n="filter.drink">Boissons</button>
                     <button class="filter" data-filter="salad" data-i18n="filter.salad">Salades</button>
                 </div>
-                <div class="menu-grid">
+                <div class="menu-grid" id="menuGrid">
+                    <!-- Grillades -->
                     <article class="menu-card" data-cat="grill">
                         <h3 data-i18n="menu-card.grill">🥩 Grillades au kilo</h3>
-                        <div class="item"><span class="name" data-fr="Viande hachée">Viande hachée</span><span class="price">140 DH</span></div>
-                        <div class="item"><span class="name" data-fr="V.H du fromage">V.H du fromage</span><span class="price">140 DH</span></div>
-                        <div class="item"><span class="name" data-fr="V.H de bœuf fromage">V.H de bœuf fromage</span><span class="price">150 DH</span></div>
-                        <div class="item"><span class="name" data-fr="V.H royale">V.H royale</span><span class="price">150 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Côtelettes d'agneau">Côtelettes d'agneau</span><span class="price">170 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Côtelettes de bœuf">Côtelettes de bœuf</span><span class="price">170 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Brochettes de poulet">Brochettes de poulet</span><span class="price">120 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Filet de viande">Filet de viande</span><span class="price">190 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Saucisse viande">Saucisse viande</span><span class="price">140 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Viande vapeur">Viande vapeur</span><span class="price">200 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Foie">Foie</span><span class="price">200 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Boulfaf">Boulfaf</span><span class="price">200 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Cœur">Cœur</span><span class="price">140 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Rognons">Rognons</span><span class="price">140 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Poulet grillé">Poulet grillé</span><span class="price">120 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Demi-poulet grillé">Demi-poulet grillé</span><span class="price">60 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Viande hachée">Viande hachée</span><span class="price">140 DH</span><button class="item-add" data-name="Viande hachée" data-price="140">+</button></div>
+                        <div class="item"><span class="name" data-fr="V.H du fromage">V.H du fromage</span><span class="price">140 DH</span><button class="item-add" data-name="V.H du fromage" data-price="140">+</button></div>
+                        <div class="item"><span class="name" data-fr="V.H de bœuf fromage">V.H de bœuf fromage</span><span class="price">150 DH</span><button class="item-add" data-name="V.H de bœuf fromage" data-price="150">+</button></div>
+                        <div class="item"><span class="name" data-fr="V.H royale">V.H royale</span><span class="price">150 DH</span><button class="item-add" data-name="V.H royale" data-price="150">+</button></div>
+                        <div class="item"><span class="name" data-fr="Côtelettes d'agneau">Côtelettes d'agneau</span><span class="price">170 DH</span><button class="item-add" data-name="Côtelettes d'agneau" data-price="170">+</button></div>
+                        <div class="item"><span class="name" data-fr="Côtelettes de bœuf">Côtelettes de bœuf</span><span class="price">170 DH</span><button class="item-add" data-name="Côtelettes de bœuf" data-price="170">+</button></div>
+                        <div class="item"><span class="name" data-fr="Brochettes de poulet">Brochettes de poulet</span><span class="price">120 DH</span><button class="item-add" data-name="Brochettes de poulet" data-price="120">+</button></div>
+                        <div class="item"><span class="name" data-fr="Filet de viande">Filet de viande</span><span class="price">190 DH</span><button class="item-add" data-name="Filet de viande" data-price="190">+</button></div>
+                        <div class="item"><span class="name" data-fr="Saucisse viande">Saucisse viande</span><span class="price">140 DH</span><button class="item-add" data-name="Saucisse viande" data-price="140">+</button></div>
+                        <div class="item"><span class="name" data-fr="Viande vapeur">Viande vapeur</span><span class="price">200 DH</span><button class="item-add" data-name="Viande vapeur" data-price="200">+</button></div>
+                        <div class="item"><span class="name" data-fr="Foie">Foie</span><span class="price">200 DH</span><button class="item-add" data-name="Foie" data-price="200">+</button></div>
+                        <div class="item"><span class="name" data-fr="Boulfaf">Boulfaf</span><span class="price">200 DH</span><button class="item-add" data-name="Boulfaf" data-price="200">+</button></div>
+                        <div class="item"><span class="name" data-fr="Cœur">Cœur</span><span class="price">140 DH</span><button class="item-add" data-name="Cœur" data-price="140">+</button></div>
+                        <div class="item"><span class="name" data-fr="Rognons">Rognons</span><span class="price">140 DH</span><button class="item-add" data-name="Rognons" data-price="140">+</button></div>
+                        <div class="item"><span class="name" data-fr="Poulet grillé">Poulet grillé</span><span class="price">120 DH</span><button class="item-add" data-name="Poulet grillé" data-price="120">+</button></div>
+                        <div class="item"><span class="name" data-fr="Demi-poulet grillé">Demi-poulet grillé</span><span class="price">60 DH</span><button class="item-add" data-name="Demi-poulet grillé" data-price="60">+</button></div>
                     </article>
 
+                    <!-- Tacos -->
                     <article class="menu-card" data-cat="tacos">
                         <h3 data-i18n="menu-card.tacos">🌮 Tacos naturel</h3>
-                        <div class="item"><span class="name" data-fr="Tacos poulet">Tacos poulet</span><span class="price">35 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Tacos saucisse">Tacos saucisse</span><span class="price">35 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Tacos mixte">Tacos mixte</span><span class="price">40 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Tacos V.H">Tacos V.H</span><span class="price">40 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Tacos boulfaf">Tacos boulfaf</span><span class="price">60 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Tacos poulet">Tacos poulet</span><span class="price">35 DH</span><button class="item-add" data-name="Tacos poulet" data-price="35">+</button></div>
+                        <div class="item"><span class="name" data-fr="Tacos saucisse">Tacos saucisse</span><span class="price">35 DH</span><button class="item-add" data-name="Tacos saucisse" data-price="35">+</button></div>
+                        <div class="item"><span class="name" data-fr="Tacos mixte">Tacos mixte</span><span class="price">40 DH</span><button class="item-add" data-name="Tacos mixte" data-price="40">+</button></div>
+                        <div class="item"><span class="name" data-fr="Tacos V.H">Tacos V.H</span><span class="price">40 DH</span><button class="item-add" data-name="Tacos V.H" data-price="40">+</button></div>
+                        <div class="item"><span class="name" data-fr="Tacos boulfaf">Tacos boulfaf</span><span class="price">60 DH</span><button class="item-add" data-name="Tacos boulfaf" data-price="60">+</button></div>
                     </article>
 
+                    <!-- Burgers -->
                     <article class="menu-card" data-cat="burger">
                         <h3 data-i18n="menu-card.burger">🍔 Burgers naturel</h3>
-                        <div class="item"><span class="name" data-fr="Burger poulet">Burger poulet</span><span class="price">35 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Burger dinde">Burger dinde</span><span class="price">35 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Burger V.H">Burger V.H</span><span class="price">40 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Burger mixte">Burger mixte</span><span class="price">50 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Burger spécial Chowaya">Burger spécial Chowaya</span><span class="price">60 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Burger poulet">Burger poulet</span><span class="price">35 DH</span><button class="item-add" data-name="Burger poulet" data-price="35">+</button></div>
+                        <div class="item"><span class="name" data-fr="Burger dinde">Burger dinde</span><span class="price">35 DH</span><button class="item-add" data-name="Burger dinde" data-price="35">+</button></div>
+                        <div class="item"><span class="name" data-fr="Burger V.H">Burger V.H</span><span class="price">40 DH</span><button class="item-add" data-name="Burger V.H" data-price="40">+</button></div>
+                        <div class="item"><span class="name" data-fr="Burger mixte">Burger mixte</span><span class="price">50 DH</span><button class="item-add" data-name="Burger mixte" data-price="50">+</button></div>
+                        <div class="item"><span class="name" data-fr="Burger spécial Chowaya">Burger spécial Chowaya</span><span class="price">60 DH</span><button class="item-add" data-name="Burger spécial Chowaya" data-price="60">+</button></div>
                     </article>
 
+                    <!-- Sandwichs -->
                     <article class="menu-card" data-cat="sandwich">
                         <h3 data-i18n="menu-card.sandwich">🥪 Sandwichs naturel</h3>
-                        <div class="item"><span class="name" data-fr="Sandwich dinde">Sandwich dinde</span><span class="price">25 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Sandwich saucisse">Sandwich saucisse</span><span class="price">30 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Sandwich V.H">Sandwich V.H</span><span class="price">30 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Sandwich mixte">Sandwich mixte</span><span class="price">35 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Sandwich foie">Sandwich foie</span><span class="price">40 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Sandwich haballou">Sandwich haballou</span><span class="price">55 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Sandwich dinde">Sandwich dinde</span><span class="price">25 DH</span><button class="item-add" data-name="Sandwich dinde" data-price="25">+</button></div>
+                        <div class="item"><span class="name" data-fr="Sandwich saucisse">Sandwich saucisse</span><span class="price">30 DH</span><button class="item-add" data-name="Sandwich saucisse" data-price="30">+</button></div>
+                        <div class="item"><span class="name" data-fr="Sandwich V.H">Sandwich V.H</span><span class="price">30 DH</span><button class="item-add" data-name="Sandwich V.H" data-price="30">+</button></div>
+                        <div class="item"><span class="name" data-fr="Sandwich mixte">Sandwich mixte</span><span class="price">35 DH</span><button class="item-add" data-name="Sandwich mixte" data-price="35">+</button></div>
+                        <div class="item"><span class="name" data-fr="Sandwich foie">Sandwich foie</span><span class="price">40 DH</span><button class="item-add" data-name="Sandwich foie" data-price="40">+</button></div>
+                        <div class="item"><span class="name" data-fr="Sandwich haballou">Sandwich haballou</span><span class="price">55 DH</span><button class="item-add" data-name="Sandwich haballou" data-price="55">+</button></div>
                     </article>
 
+                    <!-- Salades -->
                     <article class="menu-card" data-cat="salad">
                         <h3 data-i18n="menu-card.salad">🥗 Salades & frites</h3>
-                        <div class="item"><span class="name" data-fr="Petite salade marocaine">Petite salade marocaine</span><span class="price">10 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Grande salade marocaine">Grande salade marocaine</span><span class="price">15 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Frites">Frites</span><span class="price">10 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Petite salade marocaine">Petite salade marocaine</span><span class="price">10 DH</span><button class="item-add" data-name="Petite salade marocaine" data-price="10">+</button></div>
+                        <div class="item"><span class="name" data-fr="Grande salade marocaine">Grande salade marocaine</span><span class="price">15 DH</span><button class="item-add" data-name="Grande salade marocaine" data-price="15">+</button></div>
+                        <div class="item"><span class="name" data-fr="Frites">Frites</span><span class="price">10 DH</span><button class="item-add" data-name="Frites" data-price="10">+</button></div>
                     </article>
 
+                    <!-- Boissons -->
                     <article class="menu-card" data-cat="drink">
                         <h3 data-i18n="menu-card.drink">🥤 Boissons</h3>
-                        <div class="item"><span class="name" data-fr="Thé petit">Thé petit</span><span class="price">7 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Thé moyen">Thé moyen</span><span class="price">10 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Thé grand">Thé grand</span><span class="price">15 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Soda bouteille grande">Soda bouteille grande</span><span class="price">8 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Soda bouteille petite">Soda bouteille petite</span><span class="price">8 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Soda 1/2 L">Soda 1/2 L</span><span class="price">10 DH</span></div>
-                        <div class="item"><span class="name" data-fr="Soda plastique 1 L">Soda plastique 1 L</span><span class="price">15 DH</span></div>
+                        <div class="item"><span class="name" data-fr="Thé petit">Thé petit</span><span class="price">7 DH</span><button class="item-add" data-name="Thé petit" data-price="7">+</button></div>
+                        <div class="item"><span class="name" data-fr="Thé moyen">Thé moyen</span><span class="price">10 DH</span><button class="item-add" data-name="Thé moyen" data-price="10">+</button></div>
+                        <div class="item"><span class="name" data-fr="Thé grand">Thé grand</span><span class="price">15 DH</span><button class="item-add" data-name="Thé grand" data-price="15">+</button></div>
+                        <div class="item"><span class="name" data-fr="Soda bouteille grande">Soda bouteille grande</span><span class="price">8 DH</span><button class="item-add" data-name="Soda bouteille grande" data-price="8">+</button></div>
+                        <div class="item"><span class="name" data-fr="Soda bouteille petite">Soda bouteille petite</span><span class="price">8 DH</span><button class="item-add" data-name="Soda bouteille petite" data-price="8">+</button></div>
+                        <div class="item"><span class="name" data-fr="Soda 1/2 L">Soda 1/2 L</span><span class="price">10 DH</span><button class="item-add" data-name="Soda 1/2 L" data-price="10">+</button></div>
+                        <div class="item"><span class="name" data-fr="Soda plastique 1 L">Soda plastique 1 L</span><span class="price">15 DH</span><button class="item-add" data-name="Soda plastique 1 L" data-price="15">+</button></div>
                     </article>
                 </div>
             </div>
@@ -844,6 +1211,65 @@
 
     </main>
 
+    <!-- ═══ CART SIDEBAR ═══ -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>🛒 Votre panier</h2>
+            <button class="cart-close" id="cartCloseBtn">✕</button>
+        </div>
+        <div class="cart-body" id="cartBody">
+            <div class="cart-empty">Votre panier est vide.</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cartTotal">0 DH</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn" disabled>Passer la commande</button>
+        </div>
+    </div>
+
+    <!-- ═══ CHECKOUT MODAL ═══ -->
+    <div class="checkout-modal" id="checkoutModal">
+        <div class="checkout-box" id="checkoutBox">
+            <div id="checkoutFormView">
+                <h2>📋 Passer la commande</h2>
+                <p class="sub">Remplissez vos coordonnées pour finaliser votre commande.</p>
+
+                <div class="form-group">
+                    <label for="customerName">Nom complet *</label>
+                    <input type="text" id="customerName" placeholder="Votre nom" required />
+                </div>
+                <div class="form-group">
+                    <label for="customerPhone">Téléphone *</label>
+                    <input type="tel" id="customerPhone" placeholder="+212 6XX XX XX XX" required />
+                </div>
+                <div class="form-group">
+                    <label for="customerAddress">Adresse de livraison</label>
+                    <input type="text" id="customerAddress" placeholder="Adresse (facultatif)" />
+                </div>
+                <div class="form-group">
+                    <label for="orderNotes">Instructions spéciales</label>
+                    <textarea id="orderNotes" placeholder="Sans oignon, extra piquant, etc."></textarea>
+                </div>
+
+                <div class="checkout-actions">
+                    <button class="btn btn-secondary" id="checkoutCancelBtn">Annuler</button>
+                    <button class="btn primary" id="submitOrderBtn">✅ Commander</button>
+                </div>
+            </div>
+            <div id="orderConfirmView" style="display:none;">
+                <div class="order-confirm">
+                    <div class="big-icon">✅</div>
+                    <h3>Commande envoyée !</h3>
+                    <p>Merci pour votre commande. Vous recevrez une confirmation par téléphone.</p>
+                    <button class="btn primary" id="confirmCloseBtn" style="margin-top:20px;">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ═══ FOOTER ═══ -->
     <footer>
         <div class="wrap footer">
@@ -854,7 +1280,14 @@
 
     <!-- ═══ SCRIPTS ═══ -->
     <script>
-        // ── Translations ──
+        // ── CONFIGURATION AIRTABLE ──
+        // Remplace ces valeurs par les tiennes :
+        const AIRTABLE_API_KEY = 'YOUR_AIRTABLE_API_KEY';
+        const AIRTABLE_BASE_ID = 'YOUR_AIRTABLE_BASE_ID';
+        const AIRTABLE_TABLE_NAME = 'Orders';
+        const AIRTABLE_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`;
+
+        // ── TRANSLATIONS ──
         const translations = {
             fr: {
                 'nav.menu': 'La carte',
@@ -871,7 +1304,7 @@
                 'hero.card_sub': 'Viandes au kilo, poulet grillé, boulfaf, tacos, burgers & plus.',
                 'menu.kicker': 'La carte',
                 'menu.title': 'Tout droit du grill.',
-                'menu.desc': 'Les prix ci-dessous sont repris des photos de la carte fournies. Les prix et disponibilités peuvent changer.',
+                'menu.desc': 'Cliquez sur <strong style="color:var(--yellow)">+</strong> pour ajouter un article à votre panier.',
                 'filter.all': 'Tout',
                 'filter.grill': 'Grillades',
                 'filter.tacos': 'Tacos',
@@ -924,7 +1357,7 @@
                 'hero.card_sub': 'لحوم بالكيلو، دجاج مشوي، بولفاف، تاكو، برغر والمزيد.',
                 'menu.kicker': 'القائمة',
                 'menu.title': 'مباشرة من المشواة.',
-                'menu.desc': 'الأسعار أدناه مأخوذة من صور القائمة المرفقة. الأسعار والتوفر قد تتغير.',
+                'menu.desc': 'انقر <strong style="color:var(--yellow)">+</strong> لإضافة صنف إلى سلة التسوق.',
                 'filter.all': 'الكل',
                 'filter.grill': 'مشاوي',
                 'filter.tacos': 'تاكو',
@@ -964,14 +1397,13 @@
             }
         };
 
-        // ── Menu item translations (French → Arabic) ──
         const menuTranslations = {
             'Viande hachée': 'لحم مفروم',
             'V.H du fromage': 'لحم مفروم بالجبن',
             'V.H de bœuf fromage': 'لحم بقر مفروم بالجبن',
             'V.H royale': 'لحم مفروم رويال',
-            'Côtelettes d\'agneau': 'شرائح خروف',
-            'Côtelettes de bœuf': 'شرائح بقر',
+            "Côtelettes d'agneau": 'شرائح خروف',
+            "Côtelettes de bœuf": 'شرائح بقر',
             'Brochettes de poulet': 'أسياخ دجاج',
             'Filet de viande': 'فيليه لحم',
             'Saucisse viande': 'سجق لحم',
@@ -1010,20 +1442,43 @@
             'Soda plastique 1 L': 'صودا بلاستيك 1 لتر'
         };
 
-        // ── State ──
+        // ── STATE ──
         let currentLang = 'fr';
+        let cart = [];
+        let totalItems = 0;
+        let totalPrice = 0;
 
-        // ── DOM refs ──
+        // ── DOM REFS ──
         const langToggle = document.getElementById('langToggle');
         const mobileLangToggle = document.getElementById('mobileLangToggle');
         const htmlEl = document.documentElement;
         const i18nElements = document.querySelectorAll('[data-i18n]');
         const menuNameSpans = document.querySelectorAll('.item .name');
 
+        // Cart
+        const cartBadge = document.getElementById('cartBadge');
+        const cartBody = document.getElementById('cartBody');
+        const cartTotal = document.getElementById('cartTotal');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const cartOverlay = document.getElementById('cartOverlay');
+        const cartOpenBtn = document.getElementById('cartOpenBtn');
+        const cartCloseBtn = document.getElementById('cartCloseBtn');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const checkoutModal = document.getElementById('checkoutModal');
+        const checkoutBox = document.getElementById('checkoutBox');
+        const checkoutFormView = document.getElementById('checkoutFormView');
+        const orderConfirmView = document.getElementById('orderConfirmView');
+        const submitOrderBtn = document.getElementById('submitOrderBtn');
+        const checkoutCancelBtn = document.getElementById('checkoutCancelBtn');
+        const confirmCloseBtn = document.getElementById('confirmCloseBtn');
+        const customerName = document.getElementById('customerName');
+        const customerPhone = document.getElementById('customerPhone');
+        const customerAddress = document.getElementById('customerAddress');
+        const orderNotes = document.getElementById('orderNotes');
+
+        // ── LANGUAGE ──
         function setLanguage(lang) {
             currentLang = lang;
-
-            // Update HTML lang and direction
             htmlEl.lang = lang;
             if (lang === 'ar') {
                 htmlEl.classList.add('rtl');
@@ -1032,13 +1487,10 @@
                 htmlEl.classList.remove('rtl');
                 htmlEl.dir = 'ltr';
             }
-
-            // Update button labels
             const label = lang === 'ar' ? '🇸🇦 ع' : '🇫🇷 FR';
             langToggle.textContent = label;
             mobileLangToggle.textContent = label;
 
-            // Update all i18n elements (UI text)
             i18nElements.forEach(el => {
                 const key = el.dataset.i18n;
                 const translation = translations[lang]?.[key];
@@ -1047,7 +1499,6 @@
                 }
             });
 
-            // ── Update menu item names ──
             if (lang === 'ar') {
                 menuNameSpans.forEach(span => {
                     const frText = span.dataset.fr || span.textContent.trim();
@@ -1057,7 +1508,6 @@
                     }
                 });
             } else {
-                // Restore French from data-fr
                 menuNameSpans.forEach(span => {
                     const fr = span.dataset.fr;
                     if (fr) {
@@ -1066,10 +1516,7 @@
                 });
             }
 
-            // Year
             document.getElementById('year').textContent = new Date().getFullYear();
-
-            // Persist
             localStorage.setItem('moul-lang', lang);
         }
 
@@ -1078,25 +1525,20 @@
             setLanguage(next);
         }
 
-        // ── Event listeners ──
         langToggle.addEventListener('click', toggleLanguage);
         mobileLangToggle.addEventListener('click', toggleLanguage);
 
-        // ── Load saved preference ──
         const saved = localStorage.getItem('moul-lang');
         if (saved === 'ar' || saved === 'fr') {
             setLanguage(saved);
         } else {
             setLanguage('fr');
         }
-
-        // ── Year ──
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // ── Filter ──
+        // ── FILTER ──
         const filterBtns = document.querySelectorAll('.filter');
         const cards = document.querySelectorAll('.menu-card');
-
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 filterBtns.forEach(b => b.classList.remove('active'));
@@ -1108,7 +1550,7 @@
             });
         });
 
-        // ── Mobile menu ──
+        // ── MOBILE MENU ──
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobileMenu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -1127,26 +1569,18 @@
             e.stopPropagation();
             toggleMenu();
         });
-
         mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                toggleMenu(false);
-            });
+            link.addEventListener('click', () => toggleMenu(false));
         });
-
         mobileMenu.addEventListener('click', (e) => {
-            if (e.target === mobileMenu) {
-                toggleMenu(false);
-            }
+            if (e.target === mobileMenu) toggleMenu(false);
         });
-
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
                 toggleMenu(false);
                 hamburger.focus();
             }
         });
-
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
@@ -1157,8 +1591,271 @@
             }, 150);
         });
 
-        console.log('🌐 Full Arabic translation ready – menu items now switch to Arabic.');
-    </script>
+        // ── CART FUNCTIONS ──
+        function updateCartUI() {
+            totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
+            cartBadge.textContent = totalItems;
+            cartBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+
+            if (totalItems === 0) {
+                cartBody.innerHTML = '<div class="cart-empty">Votre panier est vide.</div>';
+                cartTotal.textContent = '0 DH';
+                checkoutBtn.disabled = true;
+                return;
+            }
+
+            let html = '';
+            cart.forEach((item, index) => {
+                html += `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <div class="cart-item-name">${item.name}</div>
+                                <div class="cart-item-price">${item.price} DH</div>
+                            </div>
+                            <div class="cart-item-qty">
+                                <button data-index="${index}" data-action="decr">−</button>
+                                <span>${item.qty}</span>
+                                <button data-index="${index}" data-action="incr">+</button>
+                                <button class="cart-item-remove" data-index="${index}" data-action="remove">✕</button>
+                            </div>
+                        </div>
+                    `;
+            });
+            cartBody.innerHTML = html;
+            cartTotal.textContent = `${totalPrice} DH`;
+            checkoutBtn.disabled = false;
+
+            // Attach events
+            cartBody.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const index = parseInt(btn.dataset.index);
+                    const action = btn.dataset.action;
+                    if (action === 'incr') {
+                        cart[index].qty += 1;
+                    } else if (action === 'decr') {
+                        if (cart[index].qty > 1) {
+                            cart[index].qty -= 1;
+                        } else {
+                            cart.splice(index, 1);
+                        }
+                    } else if (action === 'remove') {
+                        cart.splice(index, 1);
+                    }
+                    // If cart is empty after removal, reset
+                    if (cart.length === 0) {
+                        cart = [];
+                    }
+                    updateCartUI();
+                    saveCart();
+                });
+            });
+        }
+
+        function addToCart(name, price) {
+            const existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ name, price, qty: 1 });
+            }
+            updateCartUI();
+            saveCart();
+            // Brief feedback
+            const btn = document.querySelector(`.item-add[data-name="${CSS.escape(name)}"]`);
+            if (btn) {
+                btn.textContent = '✓';
+                btn.style.background = '#2e7d32';
+                btn.style.color = '#fff';
+                setTimeout(() => {
+                    btn.textContent = '+';
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }, 600);
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('moul-cart', JSON.stringify(cart));
+        }
+
+        function loadCart() {
+            const saved = localStorage.getItem('moul-cart');
+            if (saved) {
+                try {
+                    cart = JSON.parse(saved);
+                    if (!Array.isArray(cart)) cart = [];
+                    // Clean invalid items
+                    cart = cart.filter(item => item && typeof item.name === 'string' && typeof item.price === 'number' &&
+                        typeof item.qty === 'number' && item.qty > 0);
+                } catch {
+                    cart = [];
+                }
+            } else {
+                cart = [];
+            }
+            updateCartUI();
+        }
+
+        // ── CART UI EVENTS ──
+        function openCart() {
+            cartSidebar.classList.add('open');
+            cartOverlay.classList.add('open');
+            body.classList.add('menu-open');
+        }
+
+        function closeCart() {
+            cartSidebar.classList.remove('open');
+            cartOverlay.classList.remove('open');
+            body.classList.remove('menu-open');
+        }
+
+        cartOpenBtn.addEventListener('click', openCart);
+        cartCloseBtn.addEventListener('click', closeCart);
+        cartOverlay.addEventListener('click', closeCart);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && cartSidebar.classList.contains('open')) {
+                closeCart();
+            }
+        });
+
+        // ── ADD TO CART ──
+        document.querySelectorAll('.item-add').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const name = btn.dataset.name;
+                const price = parseInt(btn.dataset.price);
+                if (name && !isNaN(price)) {
+                    addToCart(name, price);
+                }
+            });
+        });
+
+        // ── CHECKOUT ──
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) return;
+            checkoutFormView.style.display = 'block';
+            orderConfirmView.style.display = 'none';
+            checkoutModal.classList.add('open');
+            // Pre-fill phone if available
+            customerPhone.value = '';
+            customerName.value = '';
+            customerAddress.value = '';
+            orderNotes.value = '';
+            setTimeout(() => customerName.focus(), 200);
+        });
+
+        function closeCheckout() {
+            checkoutModal.classList.remove('open');
+        }
+
+        checkoutCancelBtn.addEventListener('click', closeCheckout);
+        checkoutModal.addEventListener('click', (e) => {
+            if (e.target === checkoutModal) closeCheckout();
+        });
+
+        confirmCloseBtn.addEventListener('click', () => {
+            closeCheckout();
+            closeCart();
+            // Clear cart
+            cart = [];
+            updateCartUI();
+            saveCart();
+        });
+
+        // ── SUBMIT ORDER TO AIRTABLE ──
+        submitOrderBtn.addEventListener('click', async () => {
+            const name = customerName.value.trim();
+            const phone = customerPhone.value.trim();
+            const address = customerAddress.value.trim();
+            const notes = orderNotes.value.trim();
+
+            if (!name) {
+                customerName.style.borderColor = 'var(--red)';
+                setTimeout(() => customerName.style.borderColor = '', 1500);
+                customerName.focus();
+                return;
+            }
+            if (!phone) {
+                customerPhone.style.borderColor = 'var(--red)';
+                setTimeout(() => customerPhone.style.borderColor = '', 1500);
+                customerPhone.focus();
+                return;
+            }
+
+            // Build items summary
+            const itemsSummary = cart.map(item => `${item.name} ×${item.qty} (${item.price} DH)`).join(' | ');
+            const total = totalPrice;
+
+            const payload = {
+                records: [{
+                    fields: {
+                        'Customer Name': name,
+                        'Phone': phone,
+                        'Address': address || 'Non renseigné',
+                        'Items': itemsSummary,
+                        'Total': total,
+                        'Status': 'Pending',
+                        'Notes': notes || '',
+                        'Order Date': new Date().toISOString()
+                    }
+                }]
+            };
+
+            // Disable button
+            submitOrderBtn.disabled = true;
+            submitOrderBtn.textContent = '⏳ Envoi...';
+
+            try {
+                const response = await fetch(AIRTABLE_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Airtable error:', errorText);
+                    throw new Error(`Erreur Airtable: ${response.status} ${response.statusText}`);
+                }
+
+                // Success
+                checkoutFormView.style.display = 'none';
+                orderConfirmView.style.display = 'block';
+
+            } catch (err) {
+                console.error('Submit error:', err);
+                alert(`❌ Erreur lors de l'envoi de la commande: ${err.message}\nVeuillez réessayer ou contacter le restaurant directement.`);
+            } finally {
+                submitOrderBtn.disabled = false;
+                submitOrderBtn.textContent = '✅ Commander';
+            }
+        });
+
+        // ── INIT ──
+        loadCart();
+
+        console.log('🔥 Moul Chowaya — Commande en ligne activée avec Airtable.');
+        console.log('📋 Assurez-vous de configurer AIRTABLE_API_KEY et AIRTABLE_BASE_ID.');
+        console.log('📁 Admin panel disponible dans admin.html');
+
+        // ── KEYBOARD SHORTCUT: C for cart ──
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'c' || e.key === 'C') {
+                e.preventDefault();
+                if (cartSidebar.classList.contains('open')) {
+                    closeCart();
+                } else {
+                    openCart();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
