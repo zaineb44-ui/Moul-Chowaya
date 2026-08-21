@@ -32,8 +32,6 @@
             max-width: 1400px;
             margin: 0 auto;
         }
-
-        /* Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -102,8 +100,6 @@
             padding: 6px 14px;
             font-size: 13px;
         }
-
-        /* Tabs */
         .tabs {
             display: flex;
             gap: 4px;
@@ -132,7 +128,6 @@
             background: rgba(255, 210, 26, .08);
             border-bottom: 2px solid var(--yellow);
         }
-
         .tab-content {
             display: none;
             animation: fadeIn .3s ease;
@@ -150,8 +145,6 @@
                 transform: translateY(0);
             }
         }
-
-        /* Stats */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -174,8 +167,6 @@
             color: var(--muted);
             margin-top: 2px;
         }
-
-        /* Controls */
         .controls {
             display: flex;
             flex-wrap: wrap;
@@ -203,8 +194,6 @@
             flex: 1;
             min-width: 180px;
         }
-
-        /* Tables */
         .table-wrap {
             overflow-x: auto;
             border-radius: 16px;
@@ -239,8 +228,6 @@
         tr:hover td {
             background: rgba(255, 255, 255, .03);
         }
-
-        /* Status badges */
         .badge {
             display: inline-block;
             padding: 4px 12px;
@@ -276,8 +263,6 @@
             background: #b8291c22;
             color: #ef5350;
         }
-
-        /* Status select */
         .status-select {
             background: transparent;
             border: 1px solid var(--line);
@@ -296,8 +281,6 @@
         .status-select option {
             background: #1a1511;
         }
-
-        /* Image thumb */
         .thumb {
             width: 50px;
             height: 50px;
@@ -306,8 +289,6 @@
             border: 1px solid var(--line);
             background: #0f0c09;
         }
-
-        /* Modal */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -396,8 +377,6 @@
             flex: 1;
             justify-content: center;
         }
-
-        /* Image upload preview */
         .image-preview {
             margin-top: 10px;
             display: flex;
@@ -416,8 +395,6 @@
             color: var(--muted);
             font-size: 13px;
         }
-
-        /* Toast */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -449,7 +426,6 @@
         .toast.error {
             border-left: 4px solid var(--red);
         }
-
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -459,22 +435,6 @@
             font-size: 48px;
             margin-bottom: 12px;
         }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid var(--line);
-            border-top: 3px solid var(--yellow);
-            border-radius: 50%;
-            animation: spin .8s linear infinite;
-        }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
         @media(max-width:600px) {
             header h1 {
                 font-size: 20px;
@@ -502,7 +462,6 @@
 
     <div class="wrap">
 
-        <!-- HEADER -->
         <header>
             <h1>📋 Admin · <span>Moul Chowaya</span></h1>
             <div class="header-actions">
@@ -511,13 +470,12 @@
             </div>
         </header>
 
-        <!-- TABS -->
         <div class="tabs" id="tabs">
             <button class="tab active" data-tab="orders">📦 Commandes</button>
             <button class="tab" data-tab="menu">🍽️ Menu</button>
         </div>
 
-        <!-- TAB: ORDERS -->
+        <!-- ORDERS -->
         <div class="tab-content active" id="tab-orders">
             <div class="stats" id="orderStats">
                 <div class="stat-card"><div class="num" id="statTotal">0</div><div class="label">Total commandes</div></div>
@@ -525,7 +483,6 @@
                 <div class="stat-card"><div class="num" id="statPreparing">0</div><div class="label">En préparation</div></div>
                 <div class="stat-card"><div class="num" id="statReady">0</div><div class="label">Prêtes</div></div>
             </div>
-
             <div class="controls">
                 <input type="text" id="orderSearch" placeholder="🔍 Rechercher…" />
                 <select id="orderStatusFilter">
@@ -537,29 +494,15 @@
                     <option value="Cancelled">❌ Annulé</option>
                 </select>
             </div>
-
             <div class="table-wrap">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Client</th>
-                            <th>Téléphone</th>
-                            <th>Articles</th>
-                            <th>Total</th>
-                            <th>Statut</th>
-                            <th>Date</th>
-                            <th style="width:60px;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ordersBody">
-                        <tr><td colspan="8"><div class="empty-state"><div class="big">📭</div><p>Aucune commande</p></div></td></tr>
-                    </tbody>
+                    <thead><tr><th>#</th><th>Client</th><th>Téléphone</th><th>Articles</th><th>Total</th><th>Statut</th><th>Date</th><th style="width:60px;">Action</th></tr></thead>
+                    <tbody id="ordersBody"><tr><td colspan="8"><div class="empty-state"><div class="big">📭</div><p>Aucune commande</p></div></td></tr></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- TAB: MENU -->
+        <!-- MENU -->
         <div class="tab-content" id="tab-menu">
             <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px;">
                 <div>
@@ -568,7 +511,6 @@
                 </div>
                 <button class="btn btn-yellow" id="addItemBtn">➕ Ajouter un article</button>
             </div>
-
             <div class="controls">
                 <input type="text" id="menuSearch" placeholder="🔍 Rechercher un article…" />
                 <select id="menuCategoryFilter">
@@ -581,38 +523,23 @@
                     <option value="drink">Boissons</option>
                 </select>
             </div>
-
             <div class="table-wrap">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Nom</th>
-                            <th>Catégorie</th>
-                            <th>Prix</th>
-                            <th>Description</th>
-                            <th>Statut</th>
-                            <th style="width:120px;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="menuBody">
-                        <tr><td colspan="7"><div class="empty-state"><div class="big">🍽️</div><p>Chargez le menu…</p></div></td></tr>
-                    </tbody>
+                    <thead><tr><th>Image</th><th>Nom</th><th>Catégorie</th><th>Prix</th><th>Description</th><th>Statut</th><th style="width:120px;">Actions</th></tr></thead>
+                    <tbody id="menuBody"><tr><td colspan="7"><div class="empty-state"><div class="big">🍽️</div><p>Chargez le menu…</p></div></td></tr></tbody>
                 </table>
             </div>
         </div>
 
     </div>
 
-    <!-- ═══ MODAL: Add / Edit Menu Item ═══ -->
+    <!-- MODAL -->
     <div class="modal-overlay" id="menuModal">
         <div class="modal-box">
             <h2 id="menuModalTitle">➕ Ajouter un article</h2>
             <p class="sub" id="menuModalSub">Remplissez les champs ci-dessous.</p>
-
             <form id="menuForm" enctype="multipart/form-data">
                 <input type="hidden" id="editRecordId" value="" />
-
                 <div class="form-group">
                     <label for="itemName">Nom (français) *</label>
                     <input type="text" id="itemName" placeholder="Ex: Burger poulet" required />
@@ -621,7 +548,6 @@
                     <label for="itemNameAr">Nom (arabe) <span style="color:var(--muted);font-weight:400;">(optionnel)</span></label>
                     <input type="text" id="itemNameAr" placeholder="برغر دجاج" />
                 </div>
-
                 <div class="form-row">
                     <div class="form-group">
                         <label for="itemCategory">Catégorie *</label>
@@ -639,7 +565,6 @@
                         <input type="number" id="itemPrice" placeholder="0" min="0" step="0.5" required />
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="itemDescription">Description (français)</label>
                     <textarea id="itemDescription" placeholder="Petite description de l'article…" rows="2"></textarea>
@@ -648,27 +573,18 @@
                     <label for="itemDescriptionAr">Description (arabe)</label>
                     <textarea id="itemDescriptionAr" placeholder="وصف صغير للصنف…" rows="2"></textarea>
                 </div>
-
                 <div class="form-group">
                     <label for="itemImage">Image</label>
                     <input type="file" id="itemImage" accept="image/*" />
-                    <div class="image-preview" id="imagePreview">
-                        <span class="placeholder">Aucune image sélectionnée</span>
-                    </div>
+                    <div class="image-preview" id="imagePreview"><span class="placeholder">Aucune image sélectionnée</span></div>
                 </div>
-
                 <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="itemActive" checked style="width:auto; margin-right:8px;" />
-                        Actif (visible sur le site)
-                    </label>
+                    <label><input type="checkbox" id="itemActive" checked style="width:auto; margin-right:8px;" /> Actif (visible sur le site)</label>
                 </div>
-
                 <div class="form-group">
                     <label for="itemOrder">Ordre d'affichage</label>
                     <input type="number" id="itemOrder" placeholder="0" min="0" />
                 </div>
-
                 <div class="form-actions">
                     <button type="button" class="btn btn-outline" id="modalCancelBtn">Annuler</button>
                     <button type="submit" class="btn btn-yellow" id="modalSubmitBtn">💾 Enregistrer</button>
@@ -677,23 +593,31 @@
         </div>
     </div>
 
-    <!-- ═══ TOAST ═══ -->
     <div class="toast" id="toast"></div>
 
     <script>
+        // ═══════════════════════════════════════════════════════
+        // ⚠️ REMPLACEZ CETTE VALEUR AVEC L'ID DE VOTRE TABLE MENU ⚠️
+        // Exemple: const TABLE_MENU = 'tblABC123XYZ';
+        // ═══════════════════════════════════════════════════════
+        const TABLE_MENU = 'tblH8nnRjF9Yef2Py'; // <-- À CHANGER
+
         // ═══ CONFIGURATION AIRTABLE ═══
         const AIRTABLE_API_KEY = 'patyj6u0PZd84J6m6.c219829f1b05344107fa54dabea848dce3b6655bf7e655fca6c132292afbb017';
         const AIRTABLE_BASE_ID = 'appoeaIgh98U6lUuS';
         const TABLE_ORDERS = 'tblJw87JqJtftBlVj';
-        // ⚠️ REMPLACEZ AVEC L'ID DE VOTRE TABLE MENU ⚠️
-        const TABLE_MENU = 'tblH8nnRjF9Yef2Py';
         const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
         const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
+
+        // Vérification du placeholder
+        if (TABLE_MENU === 'tblYOUR_MENU_TABLE_ID') {
+            alert('⚠️ ERREUR DE CONFIGURATION :\n\nVous devez modifier la constante TABLE_MENU dans le code JavaScript (ligne ~200) avec l\'ID réel de votre table Menu.\n\nL\'ID se trouve dans l\'URL de votre table Airtable :\nhttps://airtable.com/appoeaIgh98U6lUuS/tblVOTRE_ID/...');
+            console.error('TABLE_MENU non configuré !');
+        }
 
         // ═══ ÉTAT ═══
         let orders = [];
         let menuItems = [];
-        let isLoading = false;
 
         // ═══ DOM REFS ═══
         const tabs = document.querySelectorAll('.tab');
@@ -701,8 +625,6 @@
             orders: document.getElementById('tab-orders'),
             menu: document.getElementById('tab-menu')
         };
-
-        // Orders
         const ordersBody = document.getElementById('ordersBody');
         const orderSearch = document.getElementById('orderSearch');
         const orderStatusFilter = document.getElementById('orderStatusFilter');
@@ -710,13 +632,9 @@
         const statPending = document.getElementById('statPending');
         const statPreparing = document.getElementById('statPreparing');
         const statReady = document.getElementById('statReady');
-
-        // Menu
         const menuBody = document.getElementById('menuBody');
         const menuSearch = document.getElementById('menuSearch');
         const menuCategoryFilter = document.getElementById('menuCategoryFilter');
-
-        // Modal
         const menuModal = document.getElementById('menuModal');
         const menuForm = document.getElementById('menuForm');
         const editRecordId = document.getElementById('editRecordId');
@@ -734,10 +652,8 @@
         const modalSubmitBtn = document.getElementById('modalSubmitBtn');
         const menuModalTitle = document.getElementById('menuModalTitle');
         const menuModalSub = document.getElementById('menuModalSub');
-
         const addItemBtn = document.getElementById('addItemBtn');
         const refreshAllBtn = document.getElementById('refreshAllBtn');
-
         const toast = document.getElementById('toast');
 
         // ═══ TOAST ═══
@@ -809,7 +725,6 @@
         function renderOrders() {
             const search = orderSearch.value.toLowerCase().trim();
             const status = orderStatusFilter.value;
-
             let filtered = orders.filter(o => {
                 const name = (o['Customer Name'] || '').toLowerCase();
                 const phone = (o['Phone'] || '').toLowerCase();
@@ -818,13 +733,11 @@
                 const matchStatus = status === 'all' || o['Status'] === status;
                 return match && matchStatus;
             });
-
             if (filtered.length === 0) {
                 ordersBody.innerHTML =
                     `<tr><td colspan="8"><div class="empty-state"><div class="big">🔍</div><p>Aucune commande trouvée</p></div></td></tr>`;
                 return;
             }
-
             let html = '';
             filtered.forEach((o, i) => {
                 const statusClass = `badge-${(o['Status'] || 'pending').toLowerCase()}`;
@@ -853,7 +766,6 @@
                     `;
             });
             ordersBody.innerHTML = html;
-
             ordersBody.querySelectorAll('.status-select').forEach(sel => {
                 sel.addEventListener('change', async () => {
                     const id = sel.dataset.id;
@@ -861,7 +773,6 @@
                     await updateOrderStatus(id, newStatus);
                 });
             });
-
             ordersBody.querySelectorAll('.delete-order').forEach(btn => {
                 btn.addEventListener('click', async () => {
                     if (confirm('Supprimer cette commande ?')) {
@@ -944,20 +855,17 @@
         function renderMenu() {
             const search = menuSearch.value.toLowerCase().trim();
             const cat = menuCategoryFilter.value;
-
             let filtered = menuItems.filter(item => {
                 const matchName = item.Name.toLowerCase().includes(search) || (item.NameAr || '').toLowerCase().includes(
                 search);
                 const matchCat = cat === 'all' || item.Category === cat;
                 return matchName && matchCat;
             });
-
             if (filtered.length === 0) {
                 menuBody.innerHTML =
                     `<tr><td colspan="7"><div class="empty-state"><div class="big">🍽️</div><p>Aucun article trouvé</p></div></td></tr>`;
                 return;
             }
-
             let html = '';
             filtered.forEach(item => {
                 const statusBadge = item.Active ? 'badge-active' : 'badge-inactive';
@@ -981,11 +889,9 @@
                     `;
             });
             menuBody.innerHTML = html;
-
             menuBody.querySelectorAll('.edit-item').forEach(btn => {
                 btn.addEventListener('click', () => openEditModal(btn.dataset.id));
             });
-
             menuBody.querySelectorAll('.delete-item').forEach(btn => {
                 btn.addEventListener('click', async () => {
                     if (confirm(`Supprimer définitivement cet article ?`)) {
@@ -995,7 +901,6 @@
             });
         }
 
-        // ═══ CRUD MENU ═══
         async function deleteMenuItem(id) {
             try {
                 const resp = await fetch(`${AIRTABLE_URL_MENU}/${id}`, {
@@ -1012,9 +917,8 @@
             }
         }
 
-        // ═══ SAVE MENU ITEM (with image upload) ═══
+        // ═══ SAVE MENU ITEM ═══
         async function saveMenuItem(data, recordId = null) {
-            // 1. Prepare fields (without image)
             const fields = {
                 'Name': data.Name,
                 'NameAr': data.NameAr || '',
@@ -1026,7 +930,6 @@
                 'Order': parseInt(data.Order) || 0
             };
 
-            // 2. Create or update the record
             const url = recordId ? `${AIRTABLE_URL_MENU}/${recordId}` : AIRTABLE_URL_MENU;
             const method = recordId ? 'PATCH' : 'POST';
 
@@ -1048,7 +951,7 @@
                 const record = recordResponse.records ? recordResponse.records[0] : recordResponse;
                 const recordIdFinal = record.id;
 
-                // 3. If there's a new image file, upload it as an attachment
+                // Upload image if present
                 if (data.ImageFile) {
                     const formData = new FormData();
                     formData.append('file', data.ImageFile);
@@ -1073,7 +976,7 @@
             }
         }
 
-        // ═══ MODAL HANDLING ═══
+        // ═══ MODAL ═══
         function openModal(title, sub, data = null) {
             menuModalTitle.textContent = title;
             menuModalSub.textContent = sub;
@@ -1114,9 +1017,7 @@
 
         function openEditModal(id) {
             const item = menuItems.find(i => i.id === id);
-            if (item) {
-                openModal('✏️ Modifier l\'article', 'Modifiez les informations ci-dessous.', item);
-            }
+            if (item) openModal('✏️ Modifier l\'article', 'Modifiez les informations ci-dessous.', item);
         }
 
         addItemBtn.addEventListener('click', () => {
@@ -1145,8 +1046,7 @@
             if (!name) { showToast('❌ Le nom est requis', 'error'); return; }
             if (isNaN(price) || price < 0) { showToast('❌ Prix invalide', 'error'); return; }
 
-            const fileInput = itemImage;
-            const file = fileInput.files[0];
+            const file = itemImage.files[0];
 
             modalSubmitBtn.disabled = true;
             modalSubmitBtn.textContent = '⏳ Envoi…';
@@ -1163,7 +1063,6 @@
                     Order: order,
                     ImageFile: file || null
                 };
-
                 await saveMenuItem(data, recordId);
                 showToast('✅ Article enregistré !', 'success');
                 closeModal();
@@ -1200,7 +1099,7 @@
             return div.innerHTML;
         }
 
-        // ═══ REFRESH ALL ═══
+        // ═══ REFRESH ═══
         refreshAllBtn.addEventListener('click', async () => {
             refreshAllBtn.disabled = true;
             refreshAllBtn.textContent = '⏳…';
@@ -1210,7 +1109,7 @@
             showToast('✅ Données actualisées', 'success');
         });
 
-        // ═══ EVENT LISTENERS FOR FILTERS ═══
+        // ═══ FILTERS ═══
         orderSearch.addEventListener('input', renderOrders);
         orderStatusFilter.addEventListener('change', renderOrders);
         menuSearch.addEventListener('input', renderMenu);
@@ -1220,7 +1119,6 @@
         fetchOrders();
         fetchMenu();
 
-        // Auto-refresh every 30s
         setInterval(() => {
             fetchOrders();
             fetchMenu();
