@@ -7,14 +7,18 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍🍳</text></svg>">
 
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         :root {
             --bg: #0b0907;
             --panel: #15110d;
             --yellow: #ffd21a;
             --cream: #fff5df;
             --muted: #c9bcae;
-            --line: rgba(255,255,255,.1);
+            --line: rgba(255, 255, 255, .1);
             --red: #b8291c;
             --green: #2e7d32;
             --blue: #1a73e8;
@@ -22,8 +26,12 @@
             --radius-sm: 10px;
             --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
-        html { scroll-behavior: smooth; }
-        html.rtl { direction: rtl; }
+        html {
+            scroll-behavior: smooth;
+        }
+        html.rtl {
+            direction: rtl;
+        }
         body {
             font-family: Inter, system-ui, -apple-system, Arial, sans-serif;
             background: var(--bg);
@@ -32,14 +40,18 @@
             min-height: 100vh;
             padding-bottom: 20px;
         }
-        .wrap { max-width: 1200px; margin: 0 auto; padding: 0 14px; }
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 14px;
+        }
 
         /* ── Header ── */
         header {
             position: sticky;
             top: 0;
             z-index: 50;
-            background: rgba(11,9,7,.96);
+            background: rgba(11, 9, 7, .96);
             backdrop-filter: blur(14px);
             border-bottom: 1px solid var(--line);
             padding: 12px 14px;
@@ -55,7 +67,9 @@
             align-items: center;
             gap: 8px;
         }
-        header h1 span { color: var(--yellow); }
+        header h1 span {
+            color: var(--yellow);
+        }
         .header-actions {
             display: flex;
             gap: 6px;
@@ -80,12 +94,16 @@
             border: 1px solid var(--line);
             color: var(--cream);
         }
-        .btn-outline:hover { background: rgba(255,255,255,.06); }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, .06);
+        }
         .btn-yellow {
             background: var(--yellow);
             color: #171006;
         }
-        .btn-yellow:hover { opacity: .8; }
+        .btn-yellow:hover {
+            opacity: .8;
+        }
         .lang-toggle {
             background: transparent;
             border: 1px solid var(--line);
@@ -122,7 +140,8 @@
             transition: .2s;
             font-family: inherit;
         }
-        .filter.active, .filter:hover {
+        .filter.active,
+        .filter:hover {
             background: var(--yellow);
             color: #171006;
             border-color: var(--yellow);
@@ -143,10 +162,19 @@
             flex-wrap: wrap;
             gap: 12px;
             align-items: center;
+            cursor: pointer;
+            transition: background .2s, transform .1s;
+        }
+        .order-card:hover {
+            background: #1f1812;
+        }
+        .order-card:active {
+            transform: scale(.98);
         }
         .order-card .info {
             flex: 1;
             min-width: 200px;
+            pointer-events: none;
         }
         .order-card .info .items {
             font-weight: 600;
@@ -165,6 +193,7 @@
             align-items: center;
             gap: 10px;
             flex-wrap: wrap;
+            pointer-events: auto;
         }
         .order-card .status-area .badge {
             padding: 4px 12px;
@@ -172,11 +201,26 @@
             font-weight: 700;
             font-size: 12px;
         }
-        .badge-pending { background: #f2a90022; color: #f2a900; }
-        .badge-preparing { background: #ff8c0022; color: #ff8c00; }
-        .badge-ready { background: #2e7d3222; color: #4caf50; }
-        .badge-served { background: #2196f322; color: #64b5f6; }
-        .badge-cancelled { background: #b8291c22; color: #ef5350; }
+        .badge-pending {
+            background: #f2a90022;
+            color: #f2a900;
+        }
+        .badge-preparing {
+            background: #ff8c0022;
+            color: #ff8c00;
+        }
+        .badge-ready {
+            background: #2e7d3222;
+            color: #4caf50;
+        }
+        .badge-served {
+            background: #2196f322;
+            color: #64b5f6;
+        }
+        .badge-cancelled {
+            background: #b8291c22;
+            color: #ef5350;
+        }
 
         .status-select {
             background: #0f0c09;
@@ -189,14 +233,108 @@
             cursor: pointer;
             font-family: inherit;
         }
-        .status-select:focus { outline: none; border-color: var(--yellow); }
+        .status-select:focus {
+            outline: none;
+            border-color: var(--yellow);
+        }
 
         .empty-state {
             text-align: center;
             padding: 60px 20px;
             color: var(--muted);
         }
-        .empty-state .big { font-size: 44px; margin-bottom: 10px; }
+        .empty-state .big {
+            font-size: 44px;
+            margin-bottom: 10px;
+        }
+
+        /* ── Modal ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .85);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s ease;
+        }
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-box {
+            background: #1a1511;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 24px 20px;
+            width: min(560px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(.95) translateY(20px);
+            transition: transform .3s ease;
+        }
+        .modal-overlay.open .modal-box {
+            transform: scale(1) translateY(0);
+        }
+        .modal-box h2 {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        .modal-box .sub {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+        .modal-close {
+            float: right;
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 6px;
+            line-height: 1;
+        }
+        .modal-close:hover {
+            color: var(--cream);
+        }
+        .modal-field {
+            margin-bottom: 12px;
+        }
+        .modal-field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 2px;
+        }
+        .modal-field .value {
+            font-size: 15px;
+            word-break: break-word;
+            background: rgba(255, 255, 255, .04);
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+        }
+        .modal-field .value.notes {
+            white-space: pre-wrap;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+        .modal-actions .btn {
+            flex: 1;
+            justify-content: center;
+            min-height: 44px;
+        }
 
         /* ── Toast ── */
         .toast {
@@ -215,32 +353,65 @@
             font-size: 14px;
             transform: translateY(120px);
             opacity: 0;
-            transition: .4s cubic-bezier(.22,.61,.36,1);
+            transition: .4s cubic-bezier(.22, .61, .36, 1);
             z-index: 2000;
-            box-shadow: 0 12px 32px rgba(0,0,0,.6);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .6);
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        .toast.show { transform: translateY(0); opacity: 1; }
-        .toast.success { border-left: 4px solid var(--green); }
-        .toast.error { border-left: 4px solid var(--red); }
-        .toast .toast-icon { font-size: 20px; flex-shrink: 0; }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast.success {
+            border-left: 4px solid var(--green);
+        }
+        .toast.error {
+            border-left: 4px solid var(--red);
+        }
+        .toast .toast-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
 
         /* ── Responsive ── */
         @media(max-width:600px) {
-            .order-card { flex-direction: column; align-items: stretch; }
-            .order-card .status-area { justify-content: flex-start; }
+            .order-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .order-card .status-area {
+                justify-content: flex-start;
+            }
+            .modal-box {
+                padding: 18px 14px;
+            }
         }
         @media(min-width:700px) {
-            .orders-grid { grid-template-columns: repeat(2, 1fr); }
+            .orders-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         @media(min-width:1000px) {
-            .orders-grid { grid-template-columns: repeat(3, 1fr); }
+            .orders-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
-        html.rtl .order-card .info .meta span { margin-right: 0; margin-left: 12px; }
-        html.rtl .toast { border-left: none; border-right: 4px solid var(--green); }
-        html.rtl .toast.error { border-right-color: var(--red); }
+        html.rtl .order-card .info .meta span {
+            margin-right: 0;
+            margin-left: 12px;
+        }
+        html.rtl .toast {
+            border-left: none;
+            border-right: 4px solid var(--green);
+        }
+        html.rtl .toast.error {
+            border-right-color: var(--red);
+        }
+        html.rtl .modal-close {
+            float: left;
+        }
     </style>
 </head>
 <body>
@@ -275,6 +446,17 @@
         </div>
     </div>
 
+    <!-- ═══ ORDER DETAIL MODAL ═══ -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal-box">
+            <button class="modal-close" id="modalCloseBtn">&times;</button>
+            <h2 id="modalTitle">📋 Détails de la commande</h2>
+            <div id="modalContent">
+                <!-- dynamically filled -->
+            </div>
+        </div>
+    </div>
+
     <!-- ═══ TOAST ═══ -->
     <div class="toast" id="toast">
         <span class="toast-icon">✅</span>
@@ -294,6 +476,7 @@
         let orders = [];
         let currentFilter = 'all';
         let autoRefreshInterval = null;
+        let selectedOrderId = null;
 
         // ─── DOM REFS ───
         const langToggle = document.getElementById('langToggle');
@@ -304,9 +487,14 @@
         const toast = document.getElementById('toast');
         const toastIcon = toast.querySelector('.toast-icon');
         const toastMsg = toast.querySelector('.toast-msg');
+        const orderModal = document.getElementById('orderModal');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
 
         // ─── TOAST ───
         let toastTimeout;
+
         function showToast(msg, type = 'success') {
             clearTimeout(toastTimeout);
             toastIcon.textContent = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
@@ -330,8 +518,12 @@
                 'order.waiter': 'Serveur',
                 'order.total': 'Total',
                 'order.date': 'Date',
+                'order.notes': 'Notes',
+                'order.items': 'Articles',
                 'toast.updated': 'Statut mis à jour',
                 'toast.error': 'Erreur',
+                'modal.update': 'Mettre à jour',
+                'modal.close': 'Fermer',
             },
             ar: {
                 'status.pending': 'قيد الانتظار',
@@ -344,11 +536,18 @@
                 'order.waiter': 'النادل',
                 'order.total': 'المجموع',
                 'order.date': 'التاريخ',
+                'order.notes': 'ملاحظات',
+                'order.items': 'الأصناف',
                 'toast.updated': 'تم تحديث الحالة',
                 'toast.error': 'خطأ',
+                'modal.update': 'تحديث',
+                'modal.close': 'إغلاق',
             }
         };
-        function t(key) { return translations[currentLang]?.[key] || key; }
+
+        function t(key) {
+            return translations[currentLang]?.[key] || key;
+        }
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -362,11 +561,11 @@
             }
             const label = lang === 'ar' ? '🇸🇦 ع' : '🇫🇷 FR';
             langToggle.textContent = label;
-            // Re-render filters and orders
             renderFilters();
             renderOrders();
             localStorage.setItem('cook-lang', lang);
         }
+
         function toggleLanguage() {
             const next = currentLang === 'fr' ? 'ar' : 'fr';
             setLanguage(next);
@@ -383,14 +582,20 @@
             div.textContent = text;
             return div.innerHTML;
         }
+
         function formatDate(dateStr) {
             if (!dateStr) return '—';
             try {
                 const d = new Date(dateStr);
                 return d.toLocaleString(currentLang === 'ar' ? 'ar-MA' : 'fr-FR', {
-                    day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+                    day: '2-digit',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit'
                 });
-            } catch { return dateStr; }
+            } catch {
+                return dateStr;
+            }
         }
 
         // ─── FETCH ORDERS ───
@@ -413,12 +618,14 @@
                     'Order Date': r.fields['Order Date'] || r.createdTime || ''
                 }));
                 // Sort newest first
-                orders.sort((a,b) => new Date(b['Order Date'] || b.createdTime || 0) - new Date(a['Order Date'] || a.createdTime || 0));
+                orders.sort((a, b) => new Date(b['Order Date'] || b.createdTime || 0) - new Date(a['Order Date'] || a
+                    .createdTime || 0));
                 renderOrders();
             } catch (err) {
                 console.error('Fetch error:', err);
                 showToast(t('toast.error') + ' : ' + err.message, 'error');
-                ordersContainer.innerHTML = `<div class="empty-state"><div class="big">❌</div><p>Erreur de chargement</p></div>`;
+                ordersContainer.innerHTML =
+                    `<div class="empty-state"><div class="big">❌</div><p>Erreur de chargement</p></div>`;
             }
         }
 
@@ -438,7 +645,8 @@
                 filtered = orders.filter(o => o['Status'] === currentFilter);
             }
             if (filtered.length === 0) {
-                ordersContainer.innerHTML = `<div class="empty-state"><div class="big">📭</div><p>Aucune commande à afficher.</p></div>`;
+                ordersContainer.innerHTML =
+                    `<div class="empty-state"><div class="big">📭</div><p>Aucune commande à afficher.</p></div>`;
                 return;
             }
 
@@ -456,41 +664,136 @@
                 const statusLabel = statusLabels[order['Status']] || order['Status'];
                 const dateStr = formatDate(order['Order Date']);
                 html += `
-                    <div class="order-card" data-id="${order.id}">
-                        <div class="info">
-                            <div class="items">${escapeHtml(order['Items'])}</div>
-                            <div class="meta">
-                                <span>${t('order.table')} ${escapeHtml(order['Table Number'])}</span>
-                                <span>${t('order.waiter')} ${escapeHtml(order['Waiter Name'])}</span>
-                                <span>${t('order.total')} ${order['Total']} DH</span>
-                                <span>${dateStr}</span>
+                        <div class="order-card" data-id="${order.id}">
+                            <div class="info">
+                                <div class="items">${escapeHtml(order['Items'])}</div>
+                                <div class="meta">
+                                    <span>${t('order.table')} ${escapeHtml(order['Table Number'])}</span>
+                                    <span>${t('order.waiter')} ${escapeHtml(order['Waiter Name'])}</span>
+                                    <span>${t('order.total')} ${order['Total']} DH</span>
+                                    <span>${dateStr}</span>
+                                </div>
+                            </div>
+                            <div class="status-area">
+                                <span class="badge ${statusClass}">${statusLabel}</span>
+                                <select class="status-select" data-id="${order.id}" data-quick="true">
+                                    <option value="Pending" ${order['Status']==='Pending'?'selected':''}>${t('status.pending')}</option>
+                                    <option value="Preparing" ${order['Status']==='Preparing'?'selected':''}>${t('status.preparing')}</option>
+                                    <option value="Ready" ${order['Status']==='Ready'?'selected':''}>${t('status.ready')}</option>
+                                    <option value="Served" ${order['Status']==='Served'?'selected':''}>${t('status.served')}</option>
+                                    <option value="Cancelled" ${order['Status']==='Cancelled'?'selected':''}>${t('status.cancelled')}</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="status-area">
-                            <span class="badge ${statusClass}">${statusLabel}</span>
-                            <select class="status-select" data-id="${order.id}">
-                                <option value="Pending" ${order['Status']==='Pending'?'selected':''}>${t('status.pending')}</option>
-                                <option value="Preparing" ${order['Status']==='Preparing'?'selected':''}>${t('status.preparing')}</option>
-                                <option value="Ready" ${order['Status']==='Ready'?'selected':''}>${t('status.ready')}</option>
-                                <option value="Served" ${order['Status']==='Served'?'selected':''}>${t('status.served')}</option>
-                                <option value="Cancelled" ${order['Status']==='Cancelled'?'selected':''}>${t('status.cancelled')}</option>
-                            </select>
-                        </div>
-                    </div>
-                `;
+                    `;
             });
             html += '</div>';
             ordersContainer.innerHTML = html;
 
-            // Attach status change events
-            ordersContainer.querySelectorAll('.status-select').forEach(sel => {
-                sel.addEventListener('change', async () => {
+            // Attach card click to open modal
+            ordersContainer.querySelectorAll('.order-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Ignore if click originated from status select (to avoid double action)
+                    if (e.target.closest('.status-select')) return;
+                    const id = card.dataset.id;
+                    const order = orders.find(o => o.id === id);
+                    if (order) openOrderModal(order);
+                });
+            });
+
+            // Attach quick status change events
+            ordersContainer.querySelectorAll('.status-select[data-quick="true"]').forEach(sel => {
+                sel.addEventListener('change', async (e) => {
+                    e.stopPropagation();
                     const id = sel.dataset.id;
                     const newStatus = sel.value;
                     await updateOrderStatus(id, newStatus);
                 });
             });
         }
+
+        // ─── MODAL FUNCTIONS ───
+        function openOrderModal(order) {
+            selectedOrderId = order.id;
+            const statusLabels = {
+                'Pending': t('status.pending'),
+                'Preparing': t('status.preparing'),
+                'Ready': t('status.ready'),
+                'Served': t('status.served'),
+                'Cancelled': t('status.cancelled')
+            };
+            const statusLabel = statusLabels[order['Status']] || order['Status'];
+            const statusClass = `badge-${(order['Status'] || 'pending').toLowerCase()}`;
+            const dateStr = formatDate(order['Order Date']);
+
+            let notesHtml = order['Notes'] ? escapeHtml(order['Notes']) : '—';
+
+            modalContent.innerHTML = `
+                    <div class="modal-field">
+                        <label>${t('order.items')}</label>
+                        <div class="value">${escapeHtml(order['Items'])}</div>
+                    </div>
+                    <div class="modal-field">
+                        <label>${t('order.waiter')}</label>
+                        <div class="value">${escapeHtml(order['Waiter Name'])}</div>
+                    </div>
+                    <div class="modal-field">
+                        <label>${t('order.table')}</label>
+                        <div class="value">${escapeHtml(order['Table Number'])}</div>
+                    </div>
+                    <div class="modal-field">
+                        <label>${t('order.total')}</label>
+                        <div class="value"><strong>${order['Total']} DH</strong></div>
+                    </div>
+                    <div class="modal-field">
+                        <label>${t('order.date')}</label>
+                        <div class="value">${dateStr}</div>
+                    </div>
+                    <div class="modal-field">
+                        <label>${t('order.notes')}</label>
+                        <div class="value notes">${notesHtml}</div>
+                    </div>
+                    <div class="modal-field">
+                        <label>Statut actuel</label>
+                        <div class="value"><span class="badge ${statusClass}">${statusLabel}</span></div>
+                    </div>
+                    <div class="modal-field">
+                        <label>Changer le statut</label>
+                        <select class="status-select" id="modalStatusSelect" style="width:100%;">
+                            <option value="Pending" ${order['Status']==='Pending'?'selected':''}>${t('status.pending')}</option>
+                            <option value="Preparing" ${order['Status']==='Preparing'?'selected':''}>${t('status.preparing')}</option>
+                            <option value="Ready" ${order['Status']==='Ready'?'selected':''}>${t('status.ready')}</option>
+                            <option value="Served" ${order['Status']==='Served'?'selected':''}>${t('status.served')}</option>
+                            <option value="Cancelled" ${order['Status']==='Cancelled'?'selected':''}>${t('status.cancelled')}</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn btn-outline" id="modalCloseBtn2">${t('modal.close')}</button>
+                        <button class="btn btn-yellow" id="modalUpdateBtn">${t('modal.update')}</button>
+                    </div>
+                `;
+
+            orderModal.classList.add('open');
+
+            // Attach events for modal buttons
+            document.getElementById('modalCloseBtn2').addEventListener('click', closeModal);
+            document.getElementById('modalUpdateBtn').addEventListener('click', async () => {
+                const newStatus = document.getElementById('modalStatusSelect').value;
+                await updateOrderStatus(selectedOrderId, newStatus);
+                closeModal();
+            });
+        }
+
+        function closeModal() {
+            orderModal.classList.remove('open');
+            selectedOrderId = null;
+        }
+
+        // Close modal on overlay click or close button
+        modalCloseBtn.addEventListener('click', closeModal);
+        orderModal.addEventListener('click', (e) => {
+            if (e.target === orderModal) closeModal();
+        });
 
         // ─── UPDATE STATUS ───
         async function updateOrderStatus(id, status) {
@@ -545,6 +848,8 @@
         console.log('👨‍🍳 Cook panel – Moul Chowaya');
         console.log(`ℹ️ Table waiter orders: ${TABLE_WAITER_ORDERS}`);
         console.log('🔄 Auto‑refresh toutes les 15 secondes');
+        console.log('💡 Cliquez sur une commande pour voir les détails complets');
     </script>
+
 </body>
 </html>
