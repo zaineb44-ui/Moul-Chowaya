@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Cook · Moul Chowaya</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍🍳</text></svg>">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0b0907;
+            --panel: #15110d;
+            --yellow: #ffd21a;
+            --cream: #fff5df;
+            --muted: #c9bcae;
+            --line: rgba(255,255,255,.1);
+            --red: #b8291c;
+            --green: #2e7d32;
+            --blue: #1a73e8;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        html { scroll-behavior: smooth; }
+        html.rtl { direction: rtl; }
+        body {
+            font-family: Inter, system-ui, -apple-system, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--cream);
+            padding: 0;
+            min-height: 100vh;
+            padding-bottom: 20px;
+        }
+        .wrap { max-width: 1200px; margin: 0 auto; padding: 0 14px; }
+
+        /* ── Header ── */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(11,9,7,.96);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+            padding: 12px 14px;
+            margin: 0 -14px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        header h1 {
+            font-size: clamp(18px, 4vw, 24px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        header h1 span { color: var(--yellow); }
+        .header-actions {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .btn {
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: .2s;
+            font-family: inherit;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+        }
+        .btn-outline:hover { background: rgba(255,255,255,.06); }
+        .btn-yellow {
+            background: var(--yellow);
+            color: #171006;
+        }
+        .btn-yellow:hover { opacity: .8; }
+        .lang-toggle {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: .2s;
+        }
+        .lang-toggle:hover {
+            background: var(--yellow);
+            color: #171006;
+            border-color: var(--yellow);
+        }
+
+        /* ── Filters ── */
+        .filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .filter {
+            border: 1px solid var(--line);
+            background: transparent;
+            color: var(--muted);
+            padding: 6px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            transition: .2s;
+            font-family: inherit;
+        }
+        .filter.active, .filter:hover {
+            background: var(--yellow);
+            color: #171006;
+            border-color: var(--yellow);
+        }
+
+        /* ── Order cards ── */
+        .orders-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+        .order-card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        .order-card .info {
+            flex: 1;
+            min-width: 200px;
+        }
+        .order-card .info .items {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .order-card .info .meta {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+        .order-card .info .meta span {
+            margin-right: 12px;
+        }
+        .order-card .status-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .order-card .status-area .badge {
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+        .badge-pending { background: #f2a90022; color: #f2a900; }
+        .badge-preparing { background: #ff8c0022; color: #ff8c00; }
+        .badge-ready { background: #2e7d3222; color: #4caf50; }
+        .badge-served { background: #2196f322; color: #64b5f6; }
+        .badge-cancelled { background: #b8291c22; color: #ef5350; }
+
+        .status-select {
+            background: #0f0c09;
+            border: 1px solid var(--line);
+            color: var(--cream);
+            padding: 6px 10px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .status-select:focus { outline: none; border-color: var(--yellow); }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+        .empty-state .big { font-size: 44px; margin-bottom: 10px; }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 14px;
+            right: 14px;
+            max-width: 460px;
+            margin: 0 auto;
+            background: #1f1914;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            color: var(--cream);
+            font-weight: 600;
+            font-size: 14px;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: .4s cubic-bezier(.22,.61,.36,1);
+            z-index: 2000;
+            box-shadow: 0 12px 32px rgba(0,0,0,.6);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.success { border-left: 4px solid var(--green); }
+        .toast.error { border-left: 4px solid var(--red); }
+        .toast .toast-icon { font-size: 20px; flex-shrink: 0; }
+
+        /* ── Responsive ── */
+        @media(max-width:600px) {
+            .order-card { flex-direction: column; align-items: stretch; }
+            .order-card .status-area { justify-content: flex-start; }
+        }
+        @media(min-width:700px) {
+            .orders-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media(min-width:1000px) {
+            .orders-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        html.rtl .order-card .info .meta span { margin-right: 0; margin-left: 12px; }
+        html.rtl .toast { border-left: none; border-right: 4px solid var(--green); }
+        html.rtl .toast.error { border-right-color: var(--red); }
+    </style>
+</head>
+<body>
+
+    <!-- ═══ HEADER ═══ -->
+    <header>
+        <h1>👨‍🍳 <span>Cook</span></h1>
+        <div class="header-actions">
+            <button class="lang-toggle" id="langToggle">🇫🇷 FR</button>
+            <button class="btn btn-yellow" id="refreshBtn">🔄 Rafraîchir</button>
+            <a href="admin.html" target="_blank" class="btn btn-outline">📋 Admin</a>
+        </div>
+    </header>
+
+    <div class="wrap">
+        <!-- ── Filters ── -->
+        <div class="filters" id="filterContainer">
+            <button class="filter active" data-filter="all">Tous</button>
+            <button class="filter" data-filter="Pending">⏳ En attente</button>
+            <button class="filter" data-filter="Preparing">👨‍🍳 En préparation</button>
+            <button class="filter" data-filter="Ready">✅ Prêt</button>
+            <button class="filter" data-filter="Served">📦 Servi</button>
+            <button class="filter" data-filter="Cancelled">❌ Annulé</button>
+        </div>
+
+        <!-- ── Orders ── -->
+        <div id="ordersContainer">
+            <div class="empty-state">
+                <div class="big">📭</div>
+                <p>Chargement des commandes…</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ TOAST ═══ -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✅</span>
+        <span class="toast-msg"></span>
+    </div>
+
+    <script>
+        // ─── CONFIG ───
+        const AIRTABLE_API_KEY = 'patyj6u0PZd84J6m6.c219829f1b05344107fa54dabea848dce3b6655bf7e655fca6c132292afbb017';
+        const AIRTABLE_BASE_ID = 'appoeaIgh98U6lUuS';
+        const TABLE_WAITER_ORDERS = 'tblc9i0FsPGHbdu28'; // ⚠️ À adapter
+
+        const AIRTABLE_URL_WAITER_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_WAITER_ORDERS}`;
+
+        // ─── STATE ───
+        let currentLang = 'fr';
+        let orders = [];
+        let currentFilter = 'all';
+        let autoRefreshInterval = null;
+
+        // ─── DOM REFS ───
+        const langToggle = document.getElementById('langToggle');
+        const htmlEl = document.documentElement;
+        const ordersContainer = document.getElementById('ordersContainer');
+        const filterContainer = document.getElementById('filterContainer');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const toast = document.getElementById('toast');
+        const toastIcon = toast.querySelector('.toast-icon');
+        const toastMsg = toast.querySelector('.toast-msg');
+
+        // ─── TOAST ───
+        let toastTimeout;
+        function showToast(msg, type = 'success') {
+            clearTimeout(toastTimeout);
+            toastIcon.textContent = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+            toastMsg.textContent = msg;
+            toast.className = `toast ${type}`;
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        // ─── LANGUAGE ───
+        const translations = {
+            fr: {
+                'status.pending': 'En attente',
+                'status.preparing': 'En préparation',
+                'status.ready': 'Prêt',
+                'status.served': 'Servi',
+                'status.cancelled': 'Annulé',
+                'filter.all': 'Tous',
+                'order.table': 'Table',
+                'order.waiter': 'Serveur',
+                'order.total': 'Total',
+                'order.date': 'Date',
+                'toast.updated': 'Statut mis à jour',
+                'toast.error': 'Erreur',
+            },
+            ar: {
+                'status.pending': 'قيد الانتظار',
+                'status.preparing': 'قيد التحضير',
+                'status.ready': 'جاهز',
+                'status.served': 'تم التقديم',
+                'status.cancelled': 'ملغي',
+                'filter.all': 'الكل',
+                'order.table': 'الطاولة',
+                'order.waiter': 'النادل',
+                'order.total': 'المجموع',
+                'order.date': 'التاريخ',
+                'toast.updated': 'تم تحديث الحالة',
+                'toast.error': 'خطأ',
+            }
+        };
+        function t(key) { return translations[currentLang]?.[key] || key; }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            htmlEl.lang = lang;
+            if (lang === 'ar') {
+                htmlEl.classList.add('rtl');
+                htmlEl.dir = 'rtl';
+            } else {
+                htmlEl.classList.remove('rtl');
+                htmlEl.dir = 'ltr';
+            }
+            const label = lang === 'ar' ? '🇸🇦 ع' : '🇫🇷 FR';
+            langToggle.textContent = label;
+            // Re-render filters and orders
+            renderFilters();
+            renderOrders();
+            localStorage.setItem('cook-lang', lang);
+        }
+        function toggleLanguage() {
+            const next = currentLang === 'fr' ? 'ar' : 'fr';
+            setLanguage(next);
+        }
+        langToggle.addEventListener('click', toggleLanguage);
+        const savedLang = localStorage.getItem('cook-lang');
+        if (savedLang === 'ar' || savedLang === 'fr') setLanguage(savedLang);
+        else setLanguage('fr');
+
+        // ─── HELPERS ───
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            try {
+                const d = new Date(dateStr);
+                return d.toLocaleString(currentLang === 'ar' ? 'ar-MA' : 'fr-FR', {
+                    day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+                });
+            } catch { return dateStr; }
+        }
+
+        // ─── FETCH ORDERS ───
+        async function fetchOrders() {
+            try {
+                const resp = await fetch(AIRTABLE_URL_WAITER_ORDERS, {
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                const data = await resp.json();
+                orders = data.records.map(r => ({
+                    id: r.id,
+                    ...r.fields,
+                    'Waiter Name': r.fields['Waiter Name'] || '—',
+                    'Table Number': r.fields['Table Number'] || '—',
+                    'Items': r.fields['Items'] || '—',
+                    'Total': r.fields['Total'] || 0,
+                    'Status': r.fields['Status'] || 'Pending',
+                    'Notes': r.fields['Notes'] || '',
+                    'Order Date': r.fields['Order Date'] || r.createdTime || ''
+                }));
+                // Sort newest first
+                orders.sort((a,b) => new Date(b['Order Date'] || b.createdTime || 0) - new Date(a['Order Date'] || a.createdTime || 0));
+                renderOrders();
+            } catch (err) {
+                console.error('Fetch error:', err);
+                showToast(t('toast.error') + ' : ' + err.message, 'error');
+                ordersContainer.innerHTML = `<div class="empty-state"><div class="big">❌</div><p>Erreur de chargement</p></div>`;
+            }
+        }
+
+        // ─── RENDER FILTERS ───
+        function renderFilters() {
+            const buttons = filterContainer.querySelectorAll('.filter');
+            buttons.forEach(btn => {
+                const key = btn.dataset.filter === 'all' ? 'filter.all' : `status.${btn.dataset.filter.toLowerCase()}`;
+                btn.textContent = t(key) || btn.dataset.filter;
+            });
+        }
+
+        // ─── RENDER ORDERS ───
+        function renderOrders() {
+            let filtered = orders;
+            if (currentFilter !== 'all') {
+                filtered = orders.filter(o => o['Status'] === currentFilter);
+            }
+            if (filtered.length === 0) {
+                ordersContainer.innerHTML = `<div class="empty-state"><div class="big">📭</div><p>Aucune commande à afficher.</p></div>`;
+                return;
+            }
+
+            const statusLabels = {
+                'Pending': t('status.pending'),
+                'Preparing': t('status.preparing'),
+                'Ready': t('status.ready'),
+                'Served': t('status.served'),
+                'Cancelled': t('status.cancelled')
+            };
+
+            let html = '<div class="orders-grid">';
+            filtered.forEach(order => {
+                const statusClass = `badge-${(order['Status'] || 'pending').toLowerCase()}`;
+                const statusLabel = statusLabels[order['Status']] || order['Status'];
+                const dateStr = formatDate(order['Order Date']);
+                html += `
+                    <div class="order-card" data-id="${order.id}">
+                        <div class="info">
+                            <div class="items">${escapeHtml(order['Items'])}</div>
+                            <div class="meta">
+                                <span>${t('order.table')} ${escapeHtml(order['Table Number'])}</span>
+                                <span>${t('order.waiter')} ${escapeHtml(order['Waiter Name'])}</span>
+                                <span>${t('order.total')} ${order['Total']} DH</span>
+                                <span>${dateStr}</span>
+                            </div>
+                        </div>
+                        <div class="status-area">
+                            <span class="badge ${statusClass}">${statusLabel}</span>
+                            <select class="status-select" data-id="${order.id}">
+                                <option value="Pending" ${order['Status']==='Pending'?'selected':''}>${t('status.pending')}</option>
+                                <option value="Preparing" ${order['Status']==='Preparing'?'selected':''}>${t('status.preparing')}</option>
+                                <option value="Ready" ${order['Status']==='Ready'?'selected':''}>${t('status.ready')}</option>
+                                <option value="Served" ${order['Status']==='Served'?'selected':''}>${t('status.served')}</option>
+                                <option value="Cancelled" ${order['Status']==='Cancelled'?'selected':''}>${t('status.cancelled')}</option>
+                            </select>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            ordersContainer.innerHTML = html;
+
+            // Attach status change events
+            ordersContainer.querySelectorAll('.status-select').forEach(sel => {
+                sel.addEventListener('change', async () => {
+                    const id = sel.dataset.id;
+                    const newStatus = sel.value;
+                    await updateOrderStatus(id, newStatus);
+                });
+            });
+        }
+
+        // ─── UPDATE STATUS ───
+        async function updateOrderStatus(id, status) {
+            try {
+                const resp = await fetch(`${AIRTABLE_URL_WAITER_ORDERS}/${id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ fields: { 'Status': status } })
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                // Update local data
+                const order = orders.find(o => o.id === id);
+                if (order) order['Status'] = status;
+                renderOrders();
+                showToast(t('toast.updated'), 'success');
+            } catch (err) {
+                showToast(t('toast.error') + ' : ' + err.message, 'error');
+                // Re-fetch to revert any inconsistency
+                await fetchOrders();
+            }
+        }
+
+        // ─── FILTER CLICKS ───
+        filterContainer.addEventListener('click', (e) => {
+            const btn = e.target.closest('.filter');
+            if (!btn) return;
+            filterContainer.querySelectorAll('.filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.filter;
+            renderOrders();
+        });
+
+        // ─── REFRESH ───
+        refreshBtn.addEventListener('click', () => {
+            fetchOrders();
+            showToast('🔄 Rafraîchi', 'info');
+        });
+
+        // ─── AUTO-REFRESH ───
+        function startAutoRefresh() {
+            if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+            autoRefreshInterval = setInterval(fetchOrders, 15000); // every 15 sec
+        }
+
+        // ─── INIT ───
+        fetchOrders();
+        startAutoRefresh();
+
+        console.log('👨‍🍳 Cook panel – Moul Chowaya');
+        console.log(`ℹ️ Table waiter orders: ${TABLE_WAITER_ORDERS}`);
+        console.log('🔄 Auto‑refresh toutes les 15 secondes');
+    </script>
+</body>
+</html>
