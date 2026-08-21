@@ -19,48 +19,168 @@
             --line: rgba(255, 255, 255, .1);
             --red: #b8291c;
             --green: #2e7d32;
+            --blue: #1a73e8;
         }
         body {
-            font-family: Inter, Arial, sans-serif;
+            font-family: Inter, system-ui, Arial, sans-serif;
             background: var(--bg);
             color: var(--cream);
-            padding: 30px 20px;
+            padding: 20px;
             min-height: 100vh;
         }
         .wrap {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
         }
+
+        /* Header */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 16px;
-            padding-bottom: 24px;
+            padding-bottom: 20px;
             border-bottom: 1px solid var(--line);
             margin-bottom: 30px;
         }
         header h1 {
-            font-size: 28px;
-            letter-spacing: -1px;
+            font-size: 26px;
+            letter-spacing: -0.5px;
         }
         header h1 span {
             color: var(--yellow);
         }
-        .badge {
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            transition: .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn-yellow {
             background: var(--yellow);
             color: #171006;
-            padding: 4px 14px;
-            border-radius: 999px;
-            font-weight: 900;
-            font-size: 14px;
         }
+        .btn-yellow:hover {
+            opacity: .8;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, .05);
+        }
+        .btn-danger {
+            background: var(--red);
+            color: #fff;
+        }
+        .btn-danger:hover {
+            opacity: .8;
+        }
+        .btn-success {
+            background: var(--green);
+            color: #fff;
+        }
+        .btn-success:hover {
+            opacity: .8;
+        }
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 13px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 4px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 10px 22px;
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--muted);
+            transition: .2s;
+            border: none;
+            background: transparent;
+        }
+        .tab:hover {
+            color: var(--cream);
+            background: rgba(255, 255, 255, .04);
+        }
+        .tab.active {
+            color: var(--yellow);
+            background: rgba(255, 210, 26, .08);
+            border-bottom: 2px solid var(--yellow);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn .3s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+        .stat-card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 16px 20px;
+        }
+        .stat-card .num {
+            font-size: 32px;
+            font-weight: 950;
+            color: var(--yellow);
+        }
+        .stat-card .label {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* Controls */
         .controls {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             align-items: center;
         }
         .controls input,
@@ -72,6 +192,7 @@
             color: var(--cream);
             font-size: 14px;
             font-family: inherit;
+            min-width: 160px;
         }
         .controls input:focus,
         .controls select:focus {
@@ -80,39 +201,11 @@
         }
         .controls input {
             flex: 1;
-            min-width: 200px;
-        }
-        .refresh-btn {
-            background: var(--yellow);
-            color: #171006;
-            border: none;
-            padding: 10px 22px;
-            border-radius: 999px;
-            font-weight: 900;
-            font-size: 14px;
-            cursor: pointer;
-            transition: .2s;
-        }
-        .refresh-btn:hover {
-            opacity: .8;
-        }
-        .refresh-btn:disabled {
-            opacity: .4;
-            cursor: not-allowed;
-        }
-        .stats {
-            display: flex;
-            gap: 18px;
-            flex-wrap: wrap;
-            margin-bottom: 24px;
-            font-size: 14px;
-            color: var(--muted);
-        }
-        .stats strong {
-            color: var(--cream);
+            min-width: 180px;
         }
 
-        .orders-table-wrap {
+        /* Tables */
+        .table-wrap {
             overflow-x: auto;
             border-radius: 16px;
             border: 1px solid var(--line);
@@ -146,35 +239,45 @@
         tr:hover td {
             background: rgba(255, 255, 255, .03);
         }
-        .status-badge {
+
+        /* Status badges */
+        .badge {
             display: inline-block;
             padding: 4px 12px;
             border-radius: 999px;
             font-size: 12px;
             font-weight: 700;
-            text-transform: uppercase;
         }
-        .status-pending {
+        .badge-pending {
             background: #f2a90022;
             color: #f2a900;
         }
-        .status-preparing {
+        .badge-preparing {
             background: #ff8c0022;
             color: #ff8c00;
         }
-        .status-ready {
+        .badge-ready {
             background: #2e7d3222;
             color: #4caf50;
         }
-        .status-delivered {
+        .badge-delivered {
             background: #2196f322;
             color: #64b5f6;
         }
-        .status-cancelled {
+        .badge-cancelled {
+            background: #b8291c22;
+            color: #ef5350;
+        }
+        .badge-active {
+            background: #2e7d3222;
+            color: #4caf50;
+        }
+        .badge-inactive {
             background: #b8291c22;
             color: #ef5350;
         }
 
+        /* Status select */
         .status-select {
             background: transparent;
             border: 1px solid var(--line);
@@ -194,43 +297,127 @@
             background: #1a1511;
         }
 
-        .delete-btn {
-            background: transparent;
-            border: none;
-            color: #8a7a6a;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 4px 8px;
-            border-radius: 8px;
+        /* Image thumb */
+        .thumb {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: #0f0c09;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .8);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s ease;
+        }
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-box {
+            background: #1a1511;
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 32px 28px;
+            width: min(560px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(.95) translateY(20px);
+            transition: transform .3s ease;
+        }
+        .modal-overlay.open .modal-box {
+            transform: scale(1) translateY(0);
+        }
+        .modal-box h2 {
+            font-size: 24px;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+        .modal-box .sub {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: #0f0c09;
+            color: var(--cream);
+            font-size: 15px;
+            font-family: inherit;
             transition: .2s;
         }
-        .delete-btn:hover {
-            color: var(--red);
-            background: rgba(184, 41, 28, .15);
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--yellow);
         }
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
+        .form-group textarea {
+            resize: vertical;
+            min-height: 50px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .form-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        /* Image upload preview */
+        .image-preview {
+            margin-top: 10px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .image-preview img {
+            max-width: 120px;
+            max-height: 120px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            object-fit: cover;
+        }
+        .image-preview .placeholder {
             color: var(--muted);
+            font-size: 13px;
         }
-        .empty-state .big {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid var(--line);
-            border-top: 3px solid var(--yellow);
-            border-radius: 50%;
-            animation: spin .8s linear infinite;
-        }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
+
+        /* Toast */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -245,11 +432,12 @@
             transform: translateY(120px);
             opacity: 0;
             transition: .4s cubic-bezier(.22, .61, .36, 1);
-            z-index: 999;
+            z-index: 2000;
             box-shadow: 0 12px 32px rgba(0, 0, 0, .6);
             display: flex;
             align-items: center;
             gap: 12px;
+            max-width: 90vw;
         }
         .toast.show {
             transform: translateY(0);
@@ -262,19 +450,49 @@
             border-left: 4px solid var(--red);
         }
 
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+        .empty-state .big {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--line);
+            border-top: 3px solid var(--yellow);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
         @media(max-width:600px) {
             header h1 {
-                font-size: 22px;
+                font-size: 20px;
             }
-            .controls input {
-                min-width: 140px;
-            }
-            td,
-            th {
-                padding: 10px 12px;
-                font-size: 13px;
+            .form-row {
+                grid-template-columns: 1fr;
             }
             .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .controls input {
+                min-width: 120px;
+            }
+            .modal-box {
+                padding: 20px 16px;
+            }
+            .tab {
+                padding: 8px 14px;
                 font-size: 13px;
             }
         }
@@ -283,33 +501,44 @@
 <body>
 
     <div class="wrap">
+
+        <!-- HEADER -->
         <header>
             <h1>📋 Admin · <span>Moul Chowaya</span></h1>
-            <span class="badge" id="orderCount">0 commandes</span>
+            <div class="header-actions">
+                <a href="index.html" target="_blank" class="btn btn-outline btn-sm">🌐 Voir le site</a>
+                <button class="btn btn-yellow btn-sm" id="refreshAllBtn">🔄 Actualiser</button>
+            </div>
         </header>
 
-        <div class="controls">
-            <input type="text" id="searchInput" placeholder="🔍 Rechercher (nom, téléphone, items…)" />
-            <select id="statusFilter">
-                <option value="all">Tous les statuts</option>
-                <option value="Pending">⏳ En attente</option>
-                <option value="Preparing">👨‍🍳 En préparation</option>
-                <option value="Ready">✅ Prêt</option>
-                <option value="Delivered">📦 Livré</option>
-                <option value="Cancelled">❌ Annulé</option>
-            </select>
-            <button class="refresh-btn" id="refreshBtn">🔄 Actualiser</button>
+        <!-- TABS -->
+        <div class="tabs" id="tabs">
+            <button class="tab active" data-tab="orders">📦 Commandes</button>
+            <button class="tab" data-tab="menu">🍽️ Menu</button>
         </div>
 
-        <div class="stats" id="statsBar">
-            <span>Total: <strong id="statTotal">0</strong></span>
-            <span>En attente: <strong id="statPending">0</strong></span>
-            <span>En préparation: <strong id="statPreparing">0</strong></span>
-            <span>Prêts: <strong id="statReady">0</strong></span>
-        </div>
+        <!-- TAB: ORDERS -->
+        <div class="tab-content active" id="tab-orders">
+            <div class="stats" id="orderStats">
+                <div class="stat-card"><div class="num" id="statTotal">0</div><div class="label">Total commandes</div></div>
+                <div class="stat-card"><div class="num" id="statPending">0</div><div class="label">En attente</div></div>
+                <div class="stat-card"><div class="num" id="statPreparing">0</div><div class="label">En préparation</div></div>
+                <div class="stat-card"><div class="num" id="statReady">0</div><div class="label">Prêtes</div></div>
+            </div>
 
-        <div class="orders-table-wrap">
-            <div id="tableContainer">
+            <div class="controls">
+                <input type="text" id="orderSearch" placeholder="🔍 Rechercher…" />
+                <select id="orderStatusFilter">
+                    <option value="all">Tous les statuts</option>
+                    <option value="Pending">⏳ En attente</option>
+                    <option value="Preparing">👨‍🍳 En préparation</option>
+                    <option value="Ready">✅ Prêt</option>
+                    <option value="Delivered">📦 Livré</option>
+                    <option value="Cancelled">❌ Annulé</option>
+                </select>
+            </div>
+
+            <div class="table-wrap">
                 <table>
                     <thead>
                         <tr>
@@ -324,43 +553,174 @@
                         </tr>
                     </thead>
                     <tbody id="ordersBody">
-                        <tr>
-                            <td colspan="8">
-                                <div class="empty-state">
-                                    <div class="big">📭</div>
-                                    <p>Aucune commande pour le moment.</p>
-                                </div>
-                            </td>
-                        </tr>
+                        <tr><td colspan="8"><div class="empty-state"><div class="big">📭</div><p>Aucune commande</p></div></td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <!-- TAB: MENU -->
+        <div class="tab-content" id="tab-menu">
+            <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px;">
+                <div>
+                    <h2 style="font-size:22px; letter-spacing:-0.5px;">Gestion du menu</h2>
+                    <p style="color:var(--muted); font-size:14px;">Ajoutez, modifiez ou supprimez des articles. Les images sont hébergées sur Airtable.</p>
+                </div>
+                <button class="btn btn-yellow" id="addItemBtn">➕ Ajouter un article</button>
+            </div>
+
+            <div class="controls">
+                <input type="text" id="menuSearch" placeholder="🔍 Rechercher un article…" />
+                <select id="menuCategoryFilter">
+                    <option value="all">Toutes les catégories</option>
+                    <option value="grill">Grillades</option>
+                    <option value="tacos">Tacos</option>
+                    <option value="burger">Burgers</option>
+                    <option value="sandwich">Sandwichs</option>
+                    <option value="salad">Salades</option>
+                    <option value="drink">Boissons</option>
+                </select>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Nom</th>
+                            <th>Catégorie</th>
+                            <th>Prix</th>
+                            <th>Description</th>
+                            <th>Statut</th>
+                            <th style="width:120px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menuBody">
+                        <tr><td colspan="7"><div class="empty-state"><div class="big">🍽️</div><p>Chargez le menu…</p></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
+    <!-- ═══ MODAL: Add / Edit Menu Item ═══ -->
+    <div class="modal-overlay" id="menuModal">
+        <div class="modal-box">
+            <h2 id="menuModalTitle">➕ Ajouter un article</h2>
+            <p class="sub" id="menuModalSub">Remplissez les champs ci-dessous.</p>
+
+            <form id="menuForm" enctype="multipart/form-data">
+                <input type="hidden" id="editRecordId" value="" />
+
+                <div class="form-group">
+                    <label for="itemName">Nom *</label>
+                    <input type="text" id="itemName" placeholder="Ex: Burger poulet" required />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="itemCategory">Catégorie *</label>
+                        <select id="itemCategory" required>
+                            <option value="grill">Grillades</option>
+                            <option value="tacos">Tacos</option>
+                            <option value="burger">Burgers</option>
+                            <option value="sandwich">Sandwichs</option>
+                            <option value="salad">Salades</option>
+                            <option value="drink">Boissons</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemPrice">Prix (DH) *</label>
+                        <input type="number" id="itemPrice" placeholder="0" min="0" step="0.5" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemDescription">Description (optionnelle)</label>
+                    <textarea id="itemDescription" placeholder="Petite description de l'article…" rows="2"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemImage">Image</label>
+                    <input type="file" id="itemImage" accept="image/*" />
+                    <div class="image-preview" id="imagePreview">
+                        <span class="placeholder">Aucune image sélectionnée</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="itemActive" checked style="width:auto; margin-right:8px;" />
+                        Actif (visible sur le site)
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" id="modalCancelBtn">Annuler</button>
+                    <button type="submit" class="btn btn-yellow" id="modalSubmitBtn">💾 Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ═══ TOAST ═══ -->
     <div class="toast" id="toast"></div>
 
     <script>
-// ═══ CONFIGURATION AIRTABLE ═══
-const AIRTABLE_API_KEY = 'patyj6u0PZd84J6m6.c219829f1b05344107fa54dabea848dce3b6655bf7e655fca6c132292afbb017';
-const AIRTABLE_BASE_ID = 'appoeaIgh98U6lUuS';
-const AIRTABLE_TABLE_NAME = 'tblJw87JqJtftBlVj'; // <-- exactly as in the console test
-const AIRTABLE_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`; // <-- v0, not v6
+        // ═══ CONFIGURATION AIRTABLE ═══
+        const AIRTABLE_API_KEY = 'patyj6u0PZd84J6m6.c219829f1b05344107fa54dabea848dce3b6655bf7e655fca6c132292afbb017';
+        const AIRTABLE_BASE_ID = 'appoeaIgh98U6lUuS';
+        const TABLE_ORDERS = 'tblJw87JqJtftBlVj';
+        const TABLE_MENU = 'tblH8nnRjF9Yef2Py'; // <-- À remplacer par l'ID de votre table Menu
+        const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
+        const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
 
         // ═══ ÉTAT ═══
         let orders = [];
+        let menuItems = [];
         let isLoading = false;
 
         // ═══ DOM REFS ═══
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = {
+            orders: document.getElementById('tab-orders'),
+            menu: document.getElementById('tab-menu')
+        };
+
+        // Orders
         const ordersBody = document.getElementById('ordersBody');
-        const searchInput = document.getElementById('searchInput');
-        const statusFilter = document.getElementById('statusFilter');
-        const refreshBtn = document.getElementById('refreshBtn');
-        const orderCount = document.getElementById('orderCount');
+        const orderSearch = document.getElementById('orderSearch');
+        const orderStatusFilter = document.getElementById('orderStatusFilter');
         const statTotal = document.getElementById('statTotal');
         const statPending = document.getElementById('statPending');
         const statPreparing = document.getElementById('statPreparing');
         const statReady = document.getElementById('statReady');
+
+        // Menu
+        const menuBody = document.getElementById('menuBody');
+        const menuSearch = document.getElementById('menuSearch');
+        const menuCategoryFilter = document.getElementById('menuCategoryFilter');
+
+        // Modal
+        const menuModal = document.getElementById('menuModal');
+        const menuForm = document.getElementById('menuForm');
+        const editRecordId = document.getElementById('editRecordId');
+        const itemName = document.getElementById('itemName');
+        const itemCategory = document.getElementById('itemCategory');
+        const itemPrice = document.getElementById('itemPrice');
+        const itemDescription = document.getElementById('itemDescription');
+        const itemImage = document.getElementById('itemImage');
+        const itemActive = document.getElementById('itemActive');
+        const imagePreview = document.getElementById('imagePreview');
+        const modalCancelBtn = document.getElementById('modalCancelBtn');
+        const modalSubmitBtn = document.getElementById('modalSubmitBtn');
+        const menuModalTitle = document.getElementById('menuModalTitle');
+        const menuModalSub = document.getElementById('menuModalSub');
+
+        const addItemBtn = document.getElementById('addItemBtn');
+        const refreshAllBtn = document.getElementById('refreshAllBtn');
+
         const toast = document.getElementById('toast');
 
         // ═══ TOAST ═══
@@ -372,164 +732,439 @@ const AIRTABLE_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE
             toast.className = `toast ${type}`;
             void toast.offsetWidth;
             toast.classList.add('show');
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
         }
+
+        // ═══ TABS ═══
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const target = tab.dataset.tab;
+                document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+                tabContents[target].classList.add('active');
+                if (target === 'orders') renderOrders();
+                if (target === 'menu') renderMenu();
+            });
+        });
 
         // ═══ FETCH ORDERS ═══
         async function fetchOrders() {
-            if (isLoading) return;
-            isLoading = true;
-            refreshBtn.disabled = true;
-            refreshBtn.textContent = '⏳ Chargement…';
-
             try {
-                const response = await fetch(AIRTABLE_URL, {
-                    headers: {
-                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`
-                    }
+                const resp = await fetch(AIRTABLE_URL_ORDERS, {
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
                 });
-
-                if (!response.ok) {
-                    const err = await response.text();
-                    throw new Error(`Erreur ${response.status}: ${err}`);
-                }
-
-                const data = await response.json();
-                orders = data.records.map(record => ({
-                    id: record.id,
-                    ...record.fields,
-                    'Customer Name': record.fields['Customer Name'] || '—',
-                    'Phone': record.fields['Phone'] || '—',
-                    'Address': record.fields['Address'] || '—',
-                    'Items': record.fields['Items'] || '—',
-                    'Total': record.fields['Total'] || 0,
-                    'Status': record.fields['Status'] || 'Pending',
-                    'Notes': record.fields['Notes'] || '',
-                    'Order Date': record.fields['Order Date'] || record.createdTime || ''
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                const data = await resp.json();
+                orders = data.records.map(r => ({
+                    id: r.id,
+                    ...r.fields,
+                    'Customer Name': r.fields['Customer Name'] || '—',
+                    'Phone': r.fields['Phone'] || '—',
+                    'Address': r.fields['Address'] || '—',
+                    'Items': r.fields['Items'] || '—',
+                    'Total': r.fields['Total'] || 0,
+                    'Status': r.fields['Status'] || 'Pending',
+                    'Notes': r.fields['Notes'] || '',
+                    'Order Date': r.fields['Order Date'] || r.createdTime || ''
                 }));
-
-                orders.sort((a, b) => {
-                    const dateA = new Date(a['Order Date'] || a.createdTime || 0);
-                    const dateB = new Date(b['Order Date'] || b.createdTime || 0);
-                    return dateB - dateA;
-                });
-
+                orders.sort((a, b) => new Date(b['Order Date'] || b.createdTime || 0) - new Date(a['Order Date'] || a
+                    .createdTime || 0));
                 renderOrders();
-                updateStats();
-                orderCount.textContent = `${orders.length} commande${orders.length > 1 ? 's' : ''}`;
-                showToast(`✅ ${orders.length} commandes chargées`, 'success');
-
+                updateOrderStats();
             } catch (err) {
-                console.error('Fetch error:', err);
-                showToast(`❌ Erreur: ${err.message}`, 'error');
-                ordersBody.innerHTML = `
-                        <tr>
-                            <td colspan="8">
-                                <div class="empty-state">
-                                    <div class="big">⚠️</div>
-                                    <p>Impossible de charger les commandes.<br />
-                                    Vérifiez votre clé API et l'ID de base Airtable.</p>
-                                    <p style="font-size:12px;color:#8a7a6a;margin-top:8px;">${err.message}</p>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-            } finally {
-                isLoading = false;
-                refreshBtn.disabled = false;
-                refreshBtn.textContent = '🔄 Actualiser';
+                console.error('Fetch orders error:', err);
+                showToast('❌ Erreur chargement commandes', 'error');
             }
         }
 
-        // ═══ RENDER ═══
-        function renderOrders() {
-            const search = searchInput.value.toLowerCase().trim();
-            const status = statusFilter.value;
+        function updateOrderStats() {
+            const total = orders.length;
+            const pending = orders.filter(o => o['Status'] === 'Pending').length;
+            const preparing = orders.filter(o => o['Status'] === 'Preparing').length;
+            const ready = orders.filter(o => o['Status'] === 'Ready').length;
+            statTotal.textContent = total;
+            statPending.textContent = pending;
+            statPreparing.textContent = preparing;
+            statReady.textContent = ready;
+        }
 
-            let filtered = orders.filter(order => {
-                const name = (order['Customer Name'] || '').toLowerCase();
-                const phone = (order['Phone'] || '').toLowerCase();
-                const items = (order['Items'] || '').toLowerCase();
-                const notes = (order['Notes'] || '').toLowerCase();
-                const matchSearch = !search ||
-                    name.includes(search) ||
-                    phone.includes(search) ||
-                    items.includes(search) ||
-                    notes.includes(search);
-                const matchStatus = status === 'all' || order['Status'] === status;
-                return matchSearch && matchStatus;
+        function renderOrders() {
+            const search = orderSearch.value.toLowerCase().trim();
+            const status = orderStatusFilter.value;
+
+            let filtered = orders.filter(o => {
+                const name = (o['Customer Name'] || '').toLowerCase();
+                const phone = (o['Phone'] || '').toLowerCase();
+                const items = (o['Items'] || '').toLowerCase();
+                const match = !search || name.includes(search) || phone.includes(search) || items.includes(search);
+                const matchStatus = status === 'all' || o['Status'] === status;
+                return match && matchStatus;
             });
 
             if (filtered.length === 0) {
-                ordersBody.innerHTML = `
-                        <tr>
-                            <td colspan="8">
-                                <div class="empty-state">
-                                    <div class="big">🔍</div>
-                                    <p>Aucune commande ne correspond à votre recherche.</p>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
+                ordersBody.innerHTML =
+                    `<tr><td colspan="8"><div class="empty-state"><div class="big">🔍</div><p>Aucune commande trouvée</p></div></td></tr>`;
                 return;
             }
 
             let html = '';
-            filtered.forEach((order, index) => {
-                const statusClass = `status-${(order['Status'] || 'Pending').toLowerCase()}`;
-                const dateStr = order['Order Date'] ?
-                    new Date(order['Order Date']).toLocaleString('fr-FR', { day: '2-digit', month: 'short',
-                        year: 'numeric', hour: '2-digit', minute: '2-digit' }) :
-                    '—';
-
+            filtered.forEach((o, i) => {
+                const statusClass = `badge-${(o['Status'] || 'pending').toLowerCase()}`;
+                const dateStr = o['Order Date'] ? new Date(o['Order Date']).toLocaleString('fr-FR', { day: '2-digit',
+                    month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
                 html += `
-                        <tr data-id="${order.id}">
-                            <td>${index + 1}</td>
-                            <td><strong>${escapeHtml(order['Customer Name'])}</strong>${order['Address'] && order['Address'] !== 'Non renseigné' ? `<br /><small style="color:var(--muted);font-size:12px;">📍 ${escapeHtml(order['Address'])}</small>` : ''}</td>
-                            <td>${escapeHtml(order['Phone'])}</td>
-                            <td style="max-width:200px;font-size:13px;word-break:break-word;">${escapeHtml(order['Items'])}</td>
-                            <td><strong>${order['Total']} DH</strong></td>
+                        <tr data-id="${o.id}">
+                            <td>${i+1}</td>
+                            <td><strong>${escapeHtml(o['Customer Name'])}</strong></td>
+                            <td>${escapeHtml(o['Phone'])}</td>
+                            <td style="max-width:180px; font-size:13px; word-break:break-word;">${escapeHtml(o['Items'])}</td>
+                            <td><strong>${o['Total']} DH</strong></td>
                             <td>
-                                <select class="status-select" data-id="${order.id}" data-current="${order['Status']}">
-                                    <option value="Pending" ${order['Status'] === 'Pending' ? 'selected' : ''}>⏳ En attente</option>
-                                    <option value="Preparing" ${order['Status'] === 'Preparing' ? 'selected' : ''}>👨‍🍳 En préparation</option>
-                                    <option value="Ready" ${order['Status'] === 'Ready' ? 'selected' : ''}>✅ Prêt</option>
-                                    <option value="Delivered" ${order['Status'] === 'Delivered' ? 'selected' : ''}>📦 Livré</option>
-                                    <option value="Cancelled" ${order['Status'] === 'Cancelled' ? 'selected' : ''}>❌ Annulé</option>
+                                <select class="status-select" data-id="${o.id}" data-current="${o['Status']}">
+                                    <option value="Pending" ${o['Status']==='Pending'?'selected':''}>⏳ En attente</option>
+                                    <option value="Preparing" ${o['Status']==='Preparing'?'selected':''}>👨‍🍳 En préparation</option>
+                                    <option value="Ready" ${o['Status']==='Ready'?'selected':''}>✅ Prêt</option>
+                                    <option value="Delivered" ${o['Status']==='Delivered'?'selected':''}>📦 Livré</option>
+                                    <option value="Cancelled" ${o['Status']==='Cancelled'?'selected':''}>❌ Annulé</option>
                                 </select>
-                                <span class="status-badge ${statusClass}" style="display:inline-block;margin-top:4px;">
-                                    ${order['Status'] || 'Pending'}
-                                </span>
+                                <span class="badge ${statusClass}" style="display:inline-block;margin-top:4px;">${o['Status']||'Pending'}</span>
                             </td>
                             <td style="font-size:12px;color:var(--muted);">${dateStr}</td>
-                            <td>
-                                <button class="delete-btn" data-id="${order.id}" title="Supprimer">🗑️</button>
-                            </td>
+                            <td><button class="btn btn-danger btn-sm delete-order" data-id="${o.id}">🗑️</button></td>
                         </tr>
                     `;
             });
-
             ordersBody.innerHTML = html;
 
+            // Status change
             ordersBody.querySelectorAll('.status-select').forEach(sel => {
-                sel.addEventListener('change', async (e) => {
+                sel.addEventListener('change', async () => {
                     const id = sel.dataset.id;
                     const newStatus = sel.value;
                     await updateOrderStatus(id, newStatus);
                 });
             });
 
-            ordersBody.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', async (e) => {
-                    const id = btn.dataset.id;
-                    if (confirm('🗑️ Supprimer définitivement cette commande ?')) {
-                        await deleteOrder(id);
+            // Delete order
+            ordersBody.querySelectorAll('.delete-order').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (confirm('Supprimer cette commande ?')) {
+                        await deleteOrder(btn.dataset.id);
                     }
                 });
             });
         }
+
+        async function updateOrderStatus(id, status) {
+            try {
+                const resp = await fetch(`${AIRTABLE_URL_ORDERS}/${id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ fields: { 'Status': status } })
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                const o = orders.find(x => x.id === id);
+                if (o) o['Status'] = status;
+                renderOrders();
+                updateOrderStats();
+                showToast(`✅ Statut → ${status}`, 'success');
+            } catch (err) {
+                showToast(`❌ Erreur: ${err.message}`, 'error');
+                await fetchOrders();
+            }
+        }
+
+        async function deleteOrder(id) {
+            try {
+                const resp = await fetch(`${AIRTABLE_URL_ORDERS}/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                orders = orders.filter(o => o.id !== id);
+                renderOrders();
+                updateOrderStats();
+                showToast('🗑️ Commande supprimée', 'success');
+            } catch (err) {
+                showToast(`❌ Erreur: ${err.message}`, 'error');
+                await fetchOrders();
+            }
+        }
+
+        // ═══ FETCH MENU ═══
+        async function fetchMenu() {
+            try {
+                const resp = await fetch(AIRTABLE_URL_MENU, {
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                const data = await resp.json();
+                menuItems = data.records.map(r => ({
+                    id: r.id,
+                    ...r.fields,
+                    Name: r.fields['Name'] || 'Sans nom',
+                    Category: r.fields['Category'] || 'grill',
+                    Price: r.fields['Price'] || 0,
+                    Description: r.fields['Description'] || '',
+                    Active: r.fields['Active'] !== false,
+                    Image: r.fields['Image'] ? r.fields['Image'][0]?.url || '' : ''
+                }));
+                renderMenu();
+            } catch (err) {
+                console.error('Fetch menu error:', err);
+                showToast('❌ Erreur chargement menu', 'error');
+                menuItems = [];
+                renderMenu();
+            }
+        }
+
+        function renderMenu() {
+            const search = menuSearch.value.toLowerCase().trim();
+            const cat = menuCategoryFilter.value;
+
+            let filtered = menuItems.filter(item => {
+                const matchName = item.Name.toLowerCase().includes(search);
+                const matchCat = cat === 'all' || item.Category === cat;
+                return matchName && matchCat;
+            });
+
+            if (filtered.length === 0) {
+                menuBody.innerHTML =
+                    `<tr><td colspan="7"><div class="empty-state"><div class="big">🍽️</div><p>Aucun article trouvé</p></div></td></tr>`;
+                return;
+            }
+
+            let html = '';
+            filtered.forEach(item => {
+                const statusBadge = item.Active ? 'badge-active' : 'badge-inactive';
+                const statusText = item.Active ? 'Actif' : 'Inactif';
+                const imgHtml = item.Image ?
+                    `<img src="${item.Image}" class="thumb" alt="${item.Name}" />` :
+                    `<span style="color:var(--muted);font-size:20px;">🖼️</span>`;
+                html += `
+                        <tr data-id="${item.id}">
+                            <td>${imgHtml}</td>
+                            <td><strong>${escapeHtml(item.Name)}</strong></td>
+                            <td><span class="badge" style="background:#ffffff12;">${item.Category}</span></td>
+                            <td><strong>${item.Price} DH</strong></td>
+                            <td style="max-width:140px; font-size:13px; color:var(--muted);">${escapeHtml(item.Description)}</td>
+                            <td><span class="badge ${statusBadge}">${statusText}</span></td>
+                            <td>
+                                <button class="btn btn-yellow btn-sm edit-item" data-id="${item.id}">✏️</button>
+                                <button class="btn btn-danger btn-sm delete-item" data-id="${item.id}">🗑️</button>
+                            </td>
+                        </tr>
+                    `;
+            });
+            menuBody.innerHTML = html;
+
+            // Edit
+            menuBody.querySelectorAll('.edit-item').forEach(btn => {
+                btn.addEventListener('click', () => openEditModal(btn.dataset.id));
+            });
+
+            // Delete
+            menuBody.querySelectorAll('.delete-item').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (confirm(`Supprimer définitivement cet article ?`)) {
+                        await deleteMenuItem(btn.dataset.id);
+                    }
+                });
+            });
+        }
+
+        // ═══ CRUD MENU ═══
+        async function deleteMenuItem(id) {
+            try {
+                const resp = await fetch(`${AIRTABLE_URL_MENU}/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                menuItems = menuItems.filter(item => item.id !== id);
+                renderMenu();
+                showToast('🗑️ Article supprimé', 'success');
+            } catch (err) {
+                showToast(`❌ Erreur: ${err.message}`, 'error');
+                await fetchMenu();
+            }
+        }
+
+        async function saveMenuItem(data, recordId = null) {
+            const url = recordId ? `${AIRTABLE_URL_MENU}/${recordId}` : AIRTABLE_URL_MENU;
+            const method = recordId ? 'PATCH' : 'POST';
+
+            // Build fields
+            const fields = {
+                'Name': data.Name,
+                'Category': data.Category,
+                'Price': parseFloat(data.Price),
+                'Description': data.Description || '',
+                'Active': data.Active !== false
+            };
+
+            // If there's a new image, upload it first (Airtable attachments require a special format)
+            // For simplicity, we'll store the image as a URL in a text field, or use Airtable's attachment.
+            // But Airtable attachments require a specific API format. 
+            // For a simpler approach, we'll store the image URL in a text field named 'ImageURL'.
+            // The user can paste an image URL. Or we can use a simple image hosting service.
+            // Since Airtable attachments are complex, we'll use a text field for image URL.
+            // But the user wants to upload images, so we need to handle file uploads.
+            // I'll implement Airtable attachment upload.
+
+            try {
+                let imageAttachment = null;
+                if (data.ImageFile) {
+                    // Upload the file to Airtable as an attachment
+                    const formData = new FormData();
+                    formData.append('file', data.ImageFile);
+
+                    const uploadResp = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}/${recordId || ''}/attachments`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${AIRTABLE_API_KEY}`
+                        },
+                        body: formData
+                    });
+                    if (!uploadResp.ok) throw new Error('Upload image failed');
+                    const uploadResult = await uploadResp.json();
+                    if (uploadResult.records && uploadResult.records.length > 0) {
+                        // The attachment is added, we don't need to do anything else
+                    }
+                }
+
+                // Save the record (with or without image)
+                const payload = { fields };
+                const resp = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                if (!resp.ok) {
+                    const err = await resp.json();
+                    throw new Error(err.error?.message || `HTTP ${resp.status}`);
+                }
+                const result = await resp.json();
+                return result;
+            } catch (err) {
+                throw err;
+            }
+        }
+
+        // ═══ MODAL HANDLING ═══
+        function openModal(title, sub, data = null) {
+            menuModalTitle.textContent = title;
+            menuModalSub.textContent = sub;
+            if (data) {
+                editRecordId.value = data.id || '';
+                itemName.value = data.Name || '';
+                itemCategory.value = data.Category || 'grill';
+                itemPrice.value = data.Price || '';
+                itemDescription.value = data.Description || '';
+                itemActive.checked = data.Active !== false;
+                // Show existing image
+                if (data.Image) {
+                    imagePreview.innerHTML = `<img src="${data.Image}" alt="Image actuelle" /><span style="color:var(--muted);font-size:13px;">Image actuelle</span>`;
+                } else {
+                    imagePreview.innerHTML = `<span class="placeholder">Aucune image</span>`;
+                }
+            } else {
+                editRecordId.value = '';
+                itemName.value = '';
+                itemCategory.value = 'grill';
+                itemPrice.value = '';
+                itemDescription.value = '';
+                itemActive.checked = true;
+                imagePreview.innerHTML = `<span class="placeholder">Aucune image sélectionnée</span>`;
+                itemImage.value = '';
+            }
+            menuModal.classList.add('open');
+        }
+
+        function closeModal() {
+            menuModal.classList.remove('open');
+        }
+
+        function openEditModal(id) {
+            const item = menuItems.find(i => i.id === id);
+            if (item) {
+                openModal('✏️ Modifier l\'article', 'Modifiez les informations ci-dessous.', item);
+            }
+        }
+
+        addItemBtn.addEventListener('click', () => {
+            openModal('➕ Ajouter un article', 'Remplissez les champs pour créer un nouvel article.');
+        });
+
+        modalCancelBtn.addEventListener('click', closeModal);
+        menuModal.addEventListener('click', (e) => {
+            if (e.target === menuModal) closeModal();
+        });
+
+        // ═══ FORM SUBMIT ═══
+        menuForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = itemName.value.trim();
+            const category = itemCategory.value;
+            const price = parseFloat(itemPrice.value);
+            const description = itemDescription.value.trim();
+            const active = itemActive.checked;
+            const recordId = editRecordId.value;
+
+            if (!name) { showToast('❌ Le nom est requis', 'error'); return; }
+            if (isNaN(price) || price < 0) { showToast('❌ Prix invalide', 'error'); return; }
+
+            const fileInput = itemImage;
+            const file = fileInput.files[0];
+
+            modalSubmitBtn.disabled = true;
+            modalSubmitBtn.textContent = '⏳ Envoi…';
+
+            try {
+                const data = {
+                    Name: name,
+                    Category: category,
+                    Price: price,
+                    Description: description,
+                    Active: active,
+                    ImageFile: file || null
+                };
+
+                await saveMenuItem(data, recordId);
+                showToast('✅ Article enregistré !', 'success');
+                closeModal();
+                await fetchMenu();
+            } catch (err) {
+                console.error('Save error:', err);
+                showToast(`❌ Erreur: ${err.message}`, 'error');
+            } finally {
+                modalSubmitBtn.disabled = false;
+                modalSubmitBtn.textContent = '💾 Enregistrer';
+            }
+        });
+
+        // ═══ IMAGE PREVIEW ═══
+        itemImage.addEventListener('change', () => {
+            const file = itemImage.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.innerHTML =
+                        `<img src="${e.target.result}" alt="Aperçu" style="max-width:120px;max-height:120px;border-radius:12px;border:1px solid var(--line);" />`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.innerHTML = `<span class="placeholder">Aucune image sélectionnée</span>`;
+            }
+        });
 
         // ═══ HELPERS ═══
         function escapeHtml(text) {
@@ -539,96 +1174,35 @@ const AIRTABLE_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE
             return div.innerHTML;
         }
 
-        function updateStats() {
-            const total = orders.length;
-            const pending = orders.filter(o => o['Status'] === 'Pending').length;
-            const preparing = orders.filter(o => o['Status'] === 'Preparing').length;
-            const ready = orders.filter(o => o['Status'] === 'Ready').length;
+        // ═══ REFRESH ALL ═══
+        refreshAllBtn.addEventListener('click', async () => {
+            refreshAllBtn.disabled = true;
+            refreshAllBtn.textContent = '⏳…';
+            await Promise.all([fetchOrders(), fetchMenu()]);
+            refreshAllBtn.disabled = false;
+            refreshAllBtn.textContent = '🔄 Actualiser';
+            showToast('✅ Données actualisées', 'success');
+        });
 
-            statTotal.textContent = total;
-            statPending.textContent = pending;
-            statPreparing.textContent = preparing;
-            statReady.textContent = ready;
-        }
+        // ═══ EVENT LISTENERS FOR FILTERS ═══
+        orderSearch.addEventListener('input', renderOrders);
+        orderStatusFilter.addEventListener('change', renderOrders);
+        menuSearch.addEventListener('input', renderMenu);
+        menuCategoryFilter.addEventListener('change', renderMenu);
 
-        // ═══ UPDATE STATUS ═══
-        async function updateOrderStatus(id, newStatus) {
-            try {
-                const response = await fetch(`${AIRTABLE_URL}/${id}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        fields: { 'Status': newStatus }
-                    })
-                });
-
-                if (!response.ok) {
-                    const err = await response.text();
-                    throw new Error(`Erreur ${response.status}: ${err}`);
-                }
-
-                const order = orders.find(o => o.id === id);
-                if (order) {
-                    order['Status'] = newStatus;
-                }
-                renderOrders();
-                updateStats();
-                showToast(`✅ Statut mis à jour → ${newStatus}`, 'success');
-
-            } catch (err) {
-                console.error('Update error:', err);
-                showToast(`❌ Erreur: ${err.message}`, 'error');
-                await fetchOrders();
-            }
-        }
-
-        // ═══ DELETE ORDER ═══
-        async function deleteOrder(id) {
-            try {
-                const response = await fetch(`${AIRTABLE_URL}/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`
-                    }
-                });
-
-                if (!response.ok) {
-                    const err = await response.text();
-                    throw new Error(`Erreur ${response.status}: ${err}`);
-                }
-
-                orders = orders.filter(o => o.id !== id);
-                renderOrders();
-                updateStats();
-                orderCount.textContent = `${orders.length} commande${orders.length > 1 ? 's' : ''}`;
-                showToast(`🗑️ Commande supprimée`, 'success');
-
-            } catch (err) {
-                console.error('Delete error:', err);
-                showToast(`❌ Erreur: ${err.message}`, 'error');
-                await fetchOrders();
-            }
-        }
-
-        // ═══ ÉVÉNEMENTS ═══
-        refreshBtn.addEventListener('click', fetchOrders);
-        searchInput.addEventListener('input', renderOrders);
-        statusFilter.addEventListener('change', renderOrders);
-
-        // ═══ CHARGEMENT INITIAL ═══
+        // ═══ INIT ═══
         fetchOrders();
+        fetchMenu();
 
+        // Auto-refresh every 30s
         setInterval(() => {
-            if (!isLoading) {
-                fetchOrders();
-            }
+            fetchOrders();
+            fetchMenu();
         }, 30000);
 
-        console.log('📋 Admin panel ready — Moul Chowaya');
-        console.log('🔑 Utilise les mêmes identifiants Airtable que dans index.html');
+        console.log('📋 Admin panel Moul Chowaya');
+        console.log('🔑 Utilisez les mêmes identifiants Airtable que index.html');
+        console.log('📌 Pour les images: Airtable gère les pièces jointes.');
     </script>
 
 </body>

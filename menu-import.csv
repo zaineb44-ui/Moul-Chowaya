@@ -1,0 +1,43 @@
+"Name","NameAr","Category","Price","Description","DescriptionAr","Active","Order"
+"Viande hachée","لحم مفروم","grill",140,"Viande hachée pure bœuf, grillée à la perfection.","لحم بقر مفروم مشوي بشكل مثالي.","TRUE",1
+"V.H du fromage","لحم مفروم بالجبن","grill",140,"Viande hachée avec fromage fondant.","لحم مفروم مع جبن ذائب.","TRUE",2
+"V.H de bœuf fromage","لحم بقر مفروم بالجبن","grill",150,"Viande de bœuf hachée avec fromage.","لحم بقر مفروم مع جبن.","TRUE",3
+"V.H royale","لحم مفروم رويال","grill",150,"Viande hachée royale – le meilleur du grill.","لحم مفروم رويال – الأفضل على المشواة.","TRUE",4
+"Côtelettes d'agneau","شرائح خروف","grill",170,"Côtelettes d'agneau tendres et savoureuses.","شرائح خروف طرية ولذيذة.","TRUE",5
+"Côtelettes de bœuf","شرائح بقر","grill",170,"Côtelettes de bœuf grillées à point.","شرائح بقر مشوية تماماً.","TRUE",6
+"Brochettes de poulet","أسياخ دجاج","grill",120,"Brochettes de poulet marinées et grillées.","أسياخ دجاج متبلة ومشوية.","TRUE",7
+"Filet de viande","فيليه لحم","grill",190,"Filet de viande tendre, grillé au feu de bois.","فيليه لحم طري، مشوي على نار الحطب.","TRUE",8
+"Saucisse viande","سجق لحم","grill",140,"Saucisse de viande grillée, pleine de saveurs.","سجق لحم مشوي، غني بالنكهات.","TRUE",9
+"Viande vapeur","لحم على البخار","grill",200,"Viande cuite à la vapeur, tendre et juteuse.","لحم مطهو على البخار، طري وعصاري.","TRUE",10
+"Foie","كبد","grill",200,"Foie de veau grillé, un classique du barbecue.","كبد عجل مشوي، من كلاسيكيات الشواء.","TRUE",11
+"Boulfaf","بولفاف","grill",200,"Boulfaf marocain, grillé et épicé.","بولفاف مغربي، مشوي ومتبل.","TRUE",12
+"Cœur","قلب","grill",140,"Cœur de bœuf grillé, tendre et savoureux.","قلب بقر مشوي، طري ولذيذ.","TRUE",13
+"Rognons","كلى","grill",140,"Rognons grillés, une spécialité pour les amateurs.","كلى مشوية، تخصص لمحبي الأكلة.","TRUE",14
+"Poulet grillé","دجاج مشوي","grill",120,"Poulet entier grillé, mariné aux épices marocaines.","دجاجة كاملة مشوية، متبلة بالبهارات المغربية.","TRUE",15
+"Demi-poulet grillé","نصف دجاجة مشوية","grill",60,"Demi-poulet grillé, parfait pour une portion individuelle.","نصف دجاجة مشوية، مثالية لحصة فردية.","TRUE",16
+"Tacos poulet","تاكو دجاج","tacos",35,"Tacos au poulet, garni de frites, fromage et sauce.","تاكو دجاج، محشي بمقليات، جبن وصوص.","TRUE",17
+"Tacos saucisse","تاكو سجق","tacos",35,"Tacos à la saucisse, avec frites et fromage.","تاكو سجق، مع مقليات وجبن.","TRUE",18
+"Tacos mixte","تاكو ميكس","tacos",40,"Tacos mixte poulet et saucisse, le meilleur des deux mondes.","تاكو ميكس دجاج وسجق، الأفضل من العالمين.","TRUE",19
+"Tacos V.H","تاكو لحم مفروم","tacos",40,"Tacos à la viande hachée, généreux et savoureux.","تاكو لحم مفروم، وفير ولذيذ.","TRUE",20
+"Tacos boulfaf","تاكو بولفاف","tacos",60,"Tacos au boulfaf, une spécialité unique.","تاكو بولفاف، تخصص فريد.","TRUE",21
+"Burger poulet","برغر دجاج","burger",35,"Burger au poulet, avec salade, tomate et sauce.","برغر دجاج، مع سلطة، طماطم وصوص.","TRUE",22
+"Burger dinde","برغر ديك رومي","burger",35,"Burger à la dinde, léger et savoureux.","برغر ديك رومي، خفيف ولذيذ.","TRUE",23
+"Burger V.H","برغر لحم مفروم","burger",40,"Burger à la viande hachée de bœuf, un classique.","برغر لحم بقر مفروم، كلاسيكي.","TRUE",24
+"Burger mixte","برغر ميكس","burger",50,"Burger mixte poulet et viande hachée.","برغر ميكس دجاج ولحم مفروم.","TRUE",25
+"Burger spécial Chowaya","برغر شوية الخاص","burger",60,"Burger signature de Moul Chowaya, avec ingrédients secrets.","برغر توقيع مول شوية، بمكونات سرية.","TRUE",26
+"Sandwich dinde","ساندويتش ديك رومي","sandwich",25,"Sandwich à la dinde, avec légumes frais.","ساندويتش ديك رومي، مع خضار طازجة.","TRUE",27
+"Sandwich saucisse","ساندويتش سجق","sandwich",30,"Sandwich à la saucisse, grillée et croustillante.","ساندويتش سجق، مشوي ومقرمش.","TRUE",28
+"Sandwich V.H","ساندويتش لحم مفروم","sandwich",30,"Sandwich à la viande hachée, garni de légumes.","ساندويتش لحم مفروم، محشي بالخضار.","TRUE",29
+"Sandwich mixte","ساندويتش ميكس","sandwich",35,"Sandwich mixte viande et poulet.","ساندويتش ميكس لحم ودجاج.","TRUE",30
+"Sandwich foie","ساندويتش كبد","sandwich",40,"Sandwich au foie, une spécialité pour les connaisseurs.","ساندويتش كبد، تخصص للخبراء.","TRUE",31
+"Sandwich haballou","ساندويتش حبالو","sandwich",55,"Sandwich haballou, une recette marocaine authentique.","ساندويتش حبالو، وصفة مغربية أصيلة.","TRUE",32
+"Petite salade marocaine","سلطة مغربية صغيرة","salad",10,"Petite salade marocaine, fraîche et colorée.","سلطة مغربية صغيرة، طازجة وملونة.","TRUE",33
+"Grande salade marocaine","سلطة مغربية كبيرة","salad",15,"Grande salade marocaine, parfaite pour partager.","سلطة مغربية كبيرة، مثالية للمشاركة.","TRUE",34
+"Frites","مقليات","salad",10,"Frites croustillantes, dorées et salées.","مقليات مقرمشة، ذهبية ومالحة.","TRUE",35
+"Thé petit","شاي صغير","drink",7,"Petit thé à la menthe, rafraîchissant.","شاي بالنعناع صغير، منعش.","TRUE",36
+"Thé moyen","شاي متوسط","drink",10,"Thé à la menthe moyen, idéal pour accompagner le repas.","شاي بالنعناع متوسط، مثالي لمرافقة الوجبة.","TRUE",37
+"Thé grand","شاي كبير","drink",15,"Grand thé à la menthe, à partager.","شاي بالنعناع كبير، للمشاركة.","TRUE",38
+"Soda bouteille grande","صودا زجاجة كبيرة","drink",8,"Grande bouteille de soda, 1.5L.","زجاجة صودا كبيرة، 1.5 لتر.","TRUE",39
+"Soda bouteille petite","صودا زجاجة صغيرة","drink",8,"Petite bouteille de soda, 33cl.","زجاجة صودا صغيرة، 33 كل.","TRUE",40
+"Soda 1/2 L","صودا نصف لتر","drink",10,"Soda en bouteille 0.5L.","صودا زجاجة 0.5 لتر.","TRUE",41
+"Soda plastique 1 L","صودا بلاستيك 1 لتر","drink",15,"Soda en bouteille plastique 1L.","صودا زجاجة بلاستيك 1 لتر.","TRUE",42
