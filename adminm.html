@@ -832,6 +832,14 @@
                     <p data-i18n="admin.waiter_sub">Gérez les commandes passées par les serveurs.</p>
                 </div>
             </div>
+            <!-- Waiter Stats -->
+            <div class="stats" id="waiterStats">
+                <div class="stat-card"><div class="num" id="waiterStatTotal">0</div><div class="label" data-i18n="admin.waiter_stat_total">Total</div></div>
+                <div class="stat-card"><div class="num" id="waiterStatPending">0</div><div class="label" data-i18n="admin.waiter_stat_pending">En attente</div></div>
+                <div class="stat-card"><div class="num" id="waiterStatPreparing">0</div><div class="label" data-i18n="admin.waiter_stat_preparing">Préparation</div></div>
+                <div class="stat-card"><div class="num" id="waiterStatReady">0</div><div class="label" data-i18n="admin.waiter_stat_ready">Prêts</div></div>
+                <div class="stat-card"><div class="num" id="waiterStatServed">0</div><div class="label" data-i18n="admin.waiter_stat_served">Servis</div></div>
+            </div>
 
             <div class="controls">
                 <div class="row">
@@ -996,6 +1004,11 @@
                 'admin.stat_pending': 'En attente',
                 'admin.stat_preparing': 'Préparation',
                 'admin.stat_ready': 'Prêtes',
+                'admin.waiter_stat_total': 'Total',
+                'admin.waiter_stat_pending': 'En attente',
+                'admin.waiter_stat_preparing': 'Préparation',
+                'admin.waiter_stat_ready': 'Prêts',
+                'admin.waiter_stat_served': 'Servis',
                 'admin.search_orders': '🔍 Rechercher…',
                 'admin.status_all': 'Tous les statuts',
                 'admin.status_pending': '⏳ En attente',
@@ -1083,6 +1096,11 @@
                 'admin.stat_pending': 'قيد الانتظار',
                 'admin.stat_preparing': 'تحضير',
                 'admin.stat_ready': 'جاهزة',
+                'admin.waiter_stat_total': 'المجموع',
+                'admin.waiter_stat_pending': 'قيد الانتظار',
+                'admin.waiter_stat_preparing': 'تحضير',
+                'admin.waiter_stat_ready': 'جاهزة',
+                'admin.waiter_stat_served': 'تم التقديم',
                 'admin.search_orders': '🔍 بحث…',
                 'admin.status_all': 'جميع الحالات',
                 'admin.status_pending': '⏳ قيد الانتظار',
@@ -1188,6 +1206,11 @@
         const statPending = document.getElementById('statPending');
         const statPreparing = document.getElementById('statPreparing');
         const statReady = document.getElementById('statReady');
+        const waiterStatTotal = document.getElementById('waiterStatTotal');
+        const waiterStatPending = document.getElementById('waiterStatPending');
+        const waiterStatPreparing = document.getElementById('waiterStatPreparing');
+        const waiterStatReady = document.getElementById('waiterStatReady');
+        const waiterStatServed = document.getElementById('waiterStatServed');
         const menuBody = document.getElementById('menuBody');
         const menuSearch = document.getElementById('menuSearch');
         const menuCategoryFilter = document.getElementById('menuCategoryFilter');
@@ -1619,10 +1642,24 @@
                     new Date(a['Order Date'] || a.createdTime || 0)
                 );
                 renderWaiterOrders();
+                updateWaiterStats();
             } catch (err) {
                 console.error('Fetch waiter orders error:', err);
                 showToast(t('admin.toast_loading_error'), 'error');
             }
+        }
+
+        function updateWaiterStats() {
+            const total = waiterOrders.length;
+            const pending = waiterOrders.filter(o => o['Status'] === 'Pending').length;
+            const preparing = waiterOrders.filter(o => o['Status'] === 'Preparing').length;
+            const ready = waiterOrders.filter(o => o['Status'] === 'Ready').length;
+            const served = waiterOrders.filter(o => o['Status'] === 'Served').length;
+            waiterStatTotal.textContent = total;
+            waiterStatPending.textContent = pending;
+            waiterStatPreparing.textContent = preparing;
+            waiterStatReady.textContent = ready;
+            waiterStatServed.textContent = served;
         }
 
         function renderWaiterOrders() {
@@ -1716,6 +1753,7 @@
                 const o = waiterOrders.find(x => x.id === id);
                 if (o) o['Status'] = status;
                 renderWaiterOrders();
+                updateWaiterStats();
                 showToast(t('admin.toast_status_updated'), 'success');
             } catch (err) {
                 showToast(`${t('admin.toast_error')}: ${err.message}`, 'error');
@@ -1732,6 +1770,7 @@
                 if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
                 waiterOrders = waiterOrders.filter(o => o.id !== id);
                 renderWaiterOrders();
+                updateWaiterStats();
                 showToast(t('admin.toast_order_deleted'), 'success');
             } catch (err) {
                 showToast(`${t('admin.toast_error')}: ${err.message}`, 'error');
