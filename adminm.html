@@ -28,8 +28,12 @@
             --radius-sm: 10px;
             --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
-        html { scroll-behavior: smooth; }
-        html.rtl { direction: rtl; }
+        html {
+            scroll-behavior: smooth;
+        }
+        html.rtl {
+            direction: rtl;
+        }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, system-ui, Arial, sans-serif;
@@ -73,8 +77,12 @@
             gap: 6px;
             letter-spacing: -0.3px;
         }
-        header h1 span { color: var(--yellow); }
-        header h1 .emoji { font-size: 20px; }
+        header h1 span {
+            color: var(--yellow);
+        }
+        header h1 .emoji {
+            font-size: 20px;
+        }
 
         .header-actions {
             display: flex;
@@ -107,8 +115,12 @@
             color: #171006;
             border-color: var(--yellow);
         }
-        .header-actions .btn-yellow:hover { opacity: .8; }
-        .header-actions .btn-outline:hover { background: rgba(255,255,255,.06); }
+        .header-actions .btn-yellow:hover {
+            opacity: .8;
+        }
+        .header-actions .btn-outline:hover {
+            background: rgba(255, 255, 255, .06);
+        }
         .header-actions .lang-toggle:hover {
             background: var(--yellow);
             color: #171006;
@@ -129,7 +141,9 @@
             align-items: center;
             justify-content: center;
         }
-        .header-actions .btn-icon:hover { background: rgba(255,255,255,.06); }
+        .header-actions .btn-icon:hover {
+            background: rgba(255, 255, 255, .06);
+        }
 
         /* ── Tabs (bottom navigation style) ── */
         .tabs {
@@ -146,7 +160,9 @@
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
-        .tabs::-webkit-scrollbar { display: none; }
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
         .tab {
             flex: 1;
             min-width: 0;
@@ -169,22 +185,38 @@
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
         }
-        .tab .tab-icon { font-size: 18px; }
-        .tab .tab-label { font-size: 10px; text-transform: uppercase; letter-spacing: .3px; }
+        .tab .tab-icon {
+            font-size: 18px;
+        }
+        .tab .tab-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .3px;
+        }
         .tab.active {
             background: rgba(255, 210, 26, .12);
             color: var(--yellow);
         }
-        .tab:active { transform: scale(.94); }
+        .tab:active {
+            transform: scale(.94);
+        }
 
         .tab-content {
             display: none;
             animation: fadeUp .3s ease;
         }
-        .tab-content.active { display: block; }
+        .tab-content.active {
+            display: block;
+        }
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ── Stats cards ── */
@@ -195,7 +227,9 @@
             margin-bottom: 16px;
         }
         @media(max-width:480px) {
-            .stats { grid-template-columns: repeat(2, 1fr); }
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         .stat-card {
             background: var(--panel);
@@ -251,9 +285,18 @@
             outline: none;
             border-color: var(--yellow);
         }
-        .controls input::placeholder { color: #6a5f55; }
-        .controls select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9bcae' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; }
-        .controls select option { background: #1a1511; }
+        .controls input::placeholder {
+            color: #6a5f55;
+        }
+        .controls select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9bcae' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 38px;
+        }
+        .controls select option {
+            background: #1a1511;
+        }
 
         /* ── Table (card view on mobile) ── */
         .table-wrap {
@@ -276,9 +319,25 @@
             border-bottom: 1px solid var(--line);
             background: transparent;
             transition: background .15s;
+            cursor: default;
         }
-        tbody tr:last-child { border-bottom: 0; }
-        tbody tr:active { background: rgba(255,255,255,.03); }
+        tbody tr:last-child {
+            border-bottom: 0;
+        }
+        tbody tr:active {
+            background: rgba(255, 255, 255, .03);
+        }
+
+        /* ── Order rows are clickable ── */
+        #ordersBody tr.clickable {
+            cursor: pointer;
+        }
+        #ordersBody tr.clickable:hover {
+            background: rgba(255, 210, 26, .05);
+        }
+        #ordersBody tr.clickable:active {
+            background: rgba(255, 210, 26, .12);
+        }
 
         tbody td {
             display: block;
@@ -288,13 +347,22 @@
             min-height: 24px;
             word-break: break-word;
         }
-        tbody td:first-child { display: none; } /* hide row number */
+        tbody td:first-child {
+            display: none;
+        }
+        /* hide row number */
 
         /* Order cards */
-        #ordersBody td:nth-child(2) { font-weight: 700; font-size: 15px; }
-        #ordersBody td:nth-child(3) { color: var(--muted); font-size: 12px; }
+        #ordersBody td:nth-child(2) {
+            font-weight: 700;
+            font-size: 15px;
+        }
+        #ordersBody td:nth-child(3) {
+            color: var(--muted);
+            font-size: 12px;
+        }
         #ordersBody td:nth-child(4) {
-            background: rgba(255,255,255,.04);
+            background: rgba(255, 255, 255, .04);
             padding: 8px 10px;
             border-radius: 8px;
             margin: 4px 0 6px;
@@ -325,8 +393,13 @@
             width: auto;
             padding: 0;
         }
-        html.rtl #ordersBody td:nth-child(8) { right: auto; left: 10px; }
-        tbody tr { position: relative; }
+        html.rtl #ordersBody td:nth-child(8) {
+            right: auto;
+            left: 10px;
+        }
+        tbody tr {
+            position: relative;
+        }
 
         /* Menu cards */
         #menuBody tr {
@@ -340,14 +413,49 @@
             align-items: start;
             padding: 14px;
         }
-        #menuBody td { padding: 2px 0; }
-        #menuBody td:nth-child(1) { grid-area: img; display: block; }
-        #menuBody td:nth-child(2) { grid-area: name; font-size: 15px; font-weight: 700; }
-        #menuBody td:nth-child(3) { grid-area: category; font-size: 11px; color: var(--muted); }
-        #menuBody td:nth-child(4) { grid-area: price; font-size: 16px; color: var(--yellow); font-weight: 900; text-align: right; }
-        #menuBody td:nth-child(5) { grid-area: desc; font-size: 11px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        #menuBody td:nth-child(6) { grid-area: status; text-align: right; }
-        #menuBody td:nth-child(7) { grid-area: actions; display: flex; justify-content: flex-end; gap: 5px; width: auto; }
+        #menuBody td {
+            padding: 2px 0;
+        }
+        #menuBody td:nth-child(1) {
+            grid-area: img;
+            display: block;
+        }
+        #menuBody td:nth-child(2) {
+            grid-area: name;
+            font-size: 15px;
+            font-weight: 700;
+        }
+        #menuBody td:nth-child(3) {
+            grid-area: category;
+            font-size: 11px;
+            color: var(--muted);
+        }
+        #menuBody td:nth-child(4) {
+            grid-area: price;
+            font-size: 16px;
+            color: var(--yellow);
+            font-weight: 900;
+            text-align: right;
+        }
+        #menuBody td:nth-child(5) {
+            grid-area: desc;
+            font-size: 11px;
+            color: var(--muted);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        #menuBody td:nth-child(6) {
+            grid-area: status;
+            text-align: right;
+        }
+        #menuBody td:nth-child(7) {
+            grid-area: actions;
+            display: flex;
+            justify-content: flex-end;
+            gap: 5px;
+            width: auto;
+        }
 
         /* Waiter orders cards */
         #waiterOrdersBody tr {
@@ -361,15 +469,53 @@
             gap: 2px 10px;
             padding: 14px;
         }
-        #waiterOrdersBody td { padding: 2px 0; }
-        #waiterOrdersBody td:nth-child(1) { display: none; }
-        #waiterOrdersBody td:nth-child(2) { grid-area: waiter; font-weight: 700; font-size: 15px; }
-        #waiterOrdersBody td:nth-child(3) { grid-area: table; font-size: 12px; color: var(--muted); }
-        #waiterOrdersBody td:nth-child(4) { grid-area: items; font-size: 13px; background: rgba(255,255,255,.04); padding: 6px 10px; border-radius: 8px; margin: 4px 0; }
-        #waiterOrdersBody td:nth-child(5) { grid-area: total; font-size: 16px; color: var(--yellow); font-weight: 900; }
-        #waiterOrdersBody td:nth-child(6) { grid-area: status; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-        #waiterOrdersBody td:nth-child(7) { grid-area: date; font-size: 11px; color: var(--muted); }
-        #waiterOrdersBody td:nth-child(8) { grid-area: status; justify-self: end; }
+        #waiterOrdersBody td {
+            padding: 2px 0;
+        }
+        #waiterOrdersBody td:nth-child(1) {
+            display: none;
+        }
+        #waiterOrdersBody td:nth-child(2) {
+            grid-area: waiter;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        #waiterOrdersBody td:nth-child(3) {
+            grid-area: table;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        #waiterOrdersBody td:nth-child(4) {
+            grid-area: items;
+            font-size: 13px;
+            background: rgba(255, 255, 255, .04);
+            padding: 6px 10px;
+            border-radius: 8px;
+            margin: 4px 0;
+        }
+        #waiterOrdersBody td:nth-child(5) {
+            grid-area: total;
+            font-size: 16px;
+            color: var(--yellow);
+            font-weight: 900;
+        }
+        #waiterOrdersBody td:nth-child(6) {
+            grid-area: status;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        #waiterOrdersBody td:nth-child(7) {
+            grid-area: date;
+            font-size: 11px;
+            color: var(--muted);
+        }
+        #waiterOrdersBody td:nth-child(8) {
+            grid-area: status;
+            justify-self: end;
+        }
 
         /* ── Badges ── */
         .badge {
@@ -381,14 +527,38 @@
             text-transform: uppercase;
             letter-spacing: .3px;
         }
-        .badge-pending { background: #f2a90022; color: #f2a900; }
-        .badge-preparing { background: #ff8c0022; color: #ff8c00; }
-        .badge-ready { background: #2e7d3222; color: #4caf50; }
-        .badge-delivered { background: #2196f322; color: #64b5f6; }
-        .badge-served { background: #2196f322; color: #64b5f6; }
-        .badge-cancelled { background: #b8291c22; color: #ef5350; }
-        .badge-active { background: #2e7d3222; color: #4caf50; }
-        .badge-inactive { background: #b8291c22; color: #ef5350; }
+        .badge-pending {
+            background: #f2a90022;
+            color: #f2a900;
+        }
+        .badge-preparing {
+            background: #ff8c0022;
+            color: #ff8c00;
+        }
+        .badge-ready {
+            background: #2e7d3222;
+            color: #4caf50;
+        }
+        .badge-delivered {
+            background: #2196f322;
+            color: #64b5f6;
+        }
+        .badge-served {
+            background: #2196f322;
+            color: #64b5f6;
+        }
+        .badge-cancelled {
+            background: #b8291c22;
+            color: #ef5350;
+        }
+        .badge-active {
+            background: #2e7d3222;
+            color: #4caf50;
+        }
+        .badge-inactive {
+            background: #b8291c22;
+            color: #ef5350;
+        }
 
         /* ── Status select ── */
         .status-select {
@@ -410,8 +580,13 @@
             background-position: right 10px center;
             padding-right: 30px;
         }
-        .status-select:focus { outline: none; border-color: var(--yellow); }
-        .status-select option { background: #1a1511; }
+        .status-select:focus {
+            outline: none;
+            border-color: var(--yellow);
+        }
+        .status-select option {
+            background: #1a1511;
+        }
 
         /* ── Thumbnail ── */
         .thumb {
@@ -442,8 +617,13 @@
             padding: 40px 20px;
             color: var(--muted);
         }
-        .empty-state .big { font-size: 40px; margin-bottom: 8px; }
-        .empty-state p { font-size: 14px; }
+        .empty-state .big {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+        .empty-state p {
+            font-size: 14px;
+        }
 
         /* ── Buttons ── */
         .btn {
@@ -465,16 +645,44 @@
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
         }
-        .btn:active { transform: scale(.95); }
-        .btn-yellow { background: var(--yellow); color: #171006; }
-        .btn-yellow:hover { opacity: .8; }
-        .btn-outline { background: transparent; border: 1px solid var(--line); color: var(--cream); }
-        .btn-outline:hover { background: rgba(255,255,255,.06); }
-        .btn-danger { background: var(--red); color: #fff; }
-        .btn-danger:hover { opacity: .8; }
-        .btn-sm { padding: 4px 10px; font-size: 11px; min-height: 30px; }
-        .btn-block { width: 100%; justify-content: center; }
-        .btn:disabled { opacity: .4; cursor: not-allowed; }
+        .btn:active {
+            transform: scale(.95);
+        }
+        .btn-yellow {
+            background: var(--yellow);
+            color: #171006;
+        }
+        .btn-yellow:hover {
+            opacity: .8;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--cream);
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, .06);
+        }
+        .btn-danger {
+            background: var(--red);
+            color: #fff;
+        }
+        .btn-danger:hover {
+            opacity: .8;
+        }
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 11px;
+            min-height: 30px;
+        }
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+        .btn:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+        }
 
         /* ── Menu header ── */
         .menu-header {
@@ -483,9 +691,17 @@
             gap: 10px;
             margin-bottom: 16px;
         }
-        .menu-header h2 { font-size: 20px; letter-spacing: -0.3px; }
-        .menu-header p { color: var(--muted); font-size: 13px; }
-        .menu-header .btn { width: 100%; }
+        .menu-header h2 {
+            font-size: 20px;
+            letter-spacing: -0.3px;
+        }
+        .menu-header p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+        .menu-header .btn {
+            width: 100%;
+        }
 
         /* ── Modal ── */
         .modal-overlay {
@@ -501,7 +717,10 @@
             visibility: hidden;
             transition: .3s ease;
         }
-        .modal-overlay.open { opacity: 1; visibility: visible; }
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
         .modal-box {
             background: #1a1511;
             border: 1px solid var(--line);
@@ -511,16 +730,92 @@
             max-height: 94vh;
             overflow-y: auto;
             transform: translateY(40px);
-            transition: transform .35s cubic-bezier(.22,.61,.36,1);
+            transition: transform .35s cubic-bezier(.22, .61, .36, 1);
         }
-        .modal-overlay.open .modal-box { transform: translateY(0); }
-        .modal-box h2 { font-size: 21px; margin-bottom: 4px; }
-        .modal-box .sub { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+        .modal-overlay.open .modal-box {
+            transform: translateY(0);
+        }
+        .modal-box h2 {
+            font-size: 21px;
+            margin-bottom: 4px;
+        }
+        .modal-box .sub {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        /* ── Order Detail Modal ── */
+        .order-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 16px;
+            margin: 12px 0 16px;
+        }
+        .order-detail-grid .full {
+            grid-column: 1 / -1;
+        }
+        .order-detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .order-detail-item .od-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            color: var(--muted);
+            font-weight: 700;
+        }
+        .order-detail-item .od-value {
+            font-size: 15px;
+            font-weight: 600;
+            word-break: break-word;
+            color: var(--cream);
+        }
+        .order-detail-item .od-value.od-highlight {
+            color: var(--yellow);
+            font-size: 20px;
+        }
+        .order-detail-item .od-value.od-muted {
+            color: var(--muted);
+            font-weight: 400;
+        }
+        .order-detail-item .od-value.od-items {
+            background: rgba(255, 255, 255, .04);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 400;
+            white-space: pre-wrap;
+            font-size: 14px;
+        }
+        .order-detail-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid var(--line);
+            flex-wrap: wrap;
+        }
+        .order-detail-actions .btn {
+            flex: 1;
+            min-width: 100px;
+        }
 
         /* ── Form ── */
-        .form-group { margin-bottom: 14px; }
-        .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
-        .form-group label .req { color: var(--red); }
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+        .form-group label .req {
+            color: var(--red);
+        }
         .form-group input,
         .form-group textarea,
         .form-group select {
@@ -539,11 +834,31 @@
         }
         .form-group input:focus,
         .form-group textarea:focus,
-        .form-group select:focus { outline: none; border-color: var(--yellow); }
-        .form-group textarea { resize: vertical; min-height: 60px; }
-        .form-group input[type="checkbox"] { width: auto; margin-right: 8px; accent-color: var(--yellow); transform: scale(1.2); min-height: auto; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        @media(max-width:480px) { .form-row { grid-template-columns: 1fr; } }
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--yellow);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .form-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+            accent-color: var(--yellow);
+            transform: scale(1.2);
+            min-height: auto;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        @media(max-width:480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
         .form-actions {
             display: flex;
             gap: 10px;
@@ -553,15 +868,40 @@
             background: #1a1511;
             padding: 12px 0 0;
         }
-        .form-actions .btn { flex: 1; }
+        .form-actions .btn {
+            flex: 1;
+        }
 
-        .image-preview { margin-top: 8px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-        .image-preview img { max-width: 80px; max-height: 80px; border-radius: var(--radius-sm); border: 1px solid var(--line); object-fit: cover; }
-        .image-preview .placeholder { color: var(--muted); font-size: 13px; }
+        .image-preview {
+            margin-top: 8px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .image-preview img {
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line);
+            object-fit: cover;
+        }
+        .image-preview .placeholder {
+            color: var(--muted);
+            font-size: 13px;
+        }
 
-        .image-input-row { display: flex; gap: 8px; }
-        .image-input-row input { flex: 1; }
-        .image-input-row .btn { flex-shrink: 0; min-height: 48px; }
+        .image-input-row {
+            display: flex;
+            gap: 8px;
+        }
+        .image-input-row input {
+            flex: 1;
+        }
+        .image-input-row .btn {
+            flex-shrink: 0;
+            min-height: 48px;
+        }
 
         .image-picker-panel {
             display: none;
@@ -571,7 +911,9 @@
             background: #0f0c09;
             padding: 12px;
         }
-        .image-picker-panel.open { display: block; }
+        .image-picker-panel.open {
+            display: block;
+        }
         .image-picker-panel .picker-search {
             width: 100%;
             padding: 10px 12px;
@@ -584,7 +926,11 @@
             margin-bottom: 10px;
             min-height: 42px;
         }
-        .image-picker-status { color: var(--muted); font-size: 13px; padding: 8px 0; }
+        .image-picker-status {
+            color: var(--muted);
+            font-size: 13px;
+            padding: 8px 0;
+        }
         .image-picker-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -601,11 +947,34 @@
             transition: .15s;
             background: var(--panel);
         }
-        .image-picker-item:hover { border-color: var(--yellow); }
-        .image-picker-item.selected { border-color: var(--yellow); background: rgba(255,210,26,.08); }
-        .image-picker-item img { width: 100%; height: 60px; object-fit: cover; border-radius: 6px; display: block; }
-        .image-picker-item span { display: block; font-size: 9px; color: var(--muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .field-hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
+        .image-picker-item:hover {
+            border-color: var(--yellow);
+        }
+        .image-picker-item.selected {
+            border-color: var(--yellow);
+            background: rgba(255, 210, 26, .08);
+        }
+        .image-picker-item img {
+            width: 100%;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+            display: block;
+        }
+        .image-picker-item span {
+            display: block;
+            font-size: 9px;
+            color: var(--muted);
+            margin-top: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .field-hint {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 6px;
+        }
 
         /* ── Toast ── */
         .toast {
@@ -624,80 +993,311 @@
             font-size: 14px;
             transform: translateY(120px);
             opacity: 0;
-            transition: .4s cubic-bezier(.22,.61,.36,1);
+            transition: .4s cubic-bezier(.22, .61, .36, 1);
             z-index: 2000;
-            box-shadow: 0 12px 32px rgba(0,0,0,.6);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .6);
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        .toast.show { transform: translateY(0); opacity: 1; }
-        .toast.success { border-left: 4px solid var(--green); }
-        .toast.error { border-left: 4px solid var(--red); }
-        .toast .toast-icon { font-size: 20px; flex-shrink: 0; }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast.success {
+            border-left: 4px solid var(--green);
+        }
+        .toast.error {
+            border-left: 4px solid var(--red);
+        }
+        .toast .toast-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
 
         /* ── Scrollbar ── */
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--line);
+            border-radius: 4px;
+        }
 
         /* ── RTL ── */
-        html.rtl .controls select { background-position: left 14px center; padding-right: 14px; padding-left: 38px; }
-        html.rtl .status-select { background-position: left 10px center; padding-right: 10px; padding-left: 30px; }
-        html.rtl .toast { border-left: none; border-right: 4px solid var(--green); }
-        html.rtl .toast.error { border-right-color: var(--red); }
-        html.rtl #ordersBody td:nth-child(8) { right: auto; left: 10px; }
-        html.rtl #waiterOrdersBody td:nth-child(6) { justify-content: flex-start; }
-        html.rtl #waiterOrdersBody td:nth-child(8) { justify-self: start; }
+        html.rtl .controls select {
+            background-position: left 14px center;
+            padding-right: 14px;
+            padding-left: 38px;
+        }
+        html.rtl .status-select {
+            background-position: left 10px center;
+            padding-right: 10px;
+            padding-left: 30px;
+        }
+        html.rtl .toast {
+            border-left: none;
+            border-right: 4px solid var(--green);
+        }
+        html.rtl .toast.error {
+            border-right-color: var(--red);
+        }
+        html.rtl #ordersBody td:nth-child(8) {
+            right: auto;
+            left: 10px;
+        }
+        html.rtl #waiterOrdersBody td:nth-child(6) {
+            justify-content: flex-start;
+        }
+        html.rtl #waiterOrdersBody td:nth-child(8) {
+            justify-self: start;
+        }
 
         /* ── Tablet adjustments ── */
         @media(min-width:600px) and (max-width:1024px) {
-            body { padding-bottom: 80px; }
-            .wrap { padding: 0 20px; }
-            header { padding: 14px 20px; margin: 0 -20px 16px; }
-            .stats { grid-template-columns: repeat(4, 1fr); gap: 10px; }
-            .controls { flex-direction: row; flex-wrap: wrap; }
-            .controls .row { flex: 1; min-width: 200px; }
-            #menuBody tr { grid-template-columns: 64px 1fr auto; }
-            #waiterOrdersBody tr { grid-template-columns: 1fr 1fr auto; grid-template-areas: "waiter status" "table status" "items total" "date date"; }
-            .tabs { gap: 4px; }
-            .tab { padding: 12px 8px; font-size: 13px; flex-direction: row; gap: 6px; }
-            .tab .tab-label { font-size: 12px; }
-            .tab .tab-icon { font-size: 16px; }
-            .menu-header { flex-direction: row; align-items: center; }
-            .menu-header .btn { width: auto; }
-            .modal-box { border-radius: 24px; max-width: 540px; margin: 0 auto; }
-            .modal-overlay { align-items: center; padding: 20px; }
-            .image-picker-grid { grid-template-columns: repeat(4, 1fr); }
+            body {
+                padding-bottom: 80px;
+            }
+            .wrap {
+                padding: 0 20px;
+            }
+            header {
+                padding: 14px 20px;
+                margin: 0 -20px 16px;
+            }
+            .stats {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+            .controls {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .controls .row {
+                flex: 1;
+                min-width: 200px;
+            }
+            #menuBody tr {
+                grid-template-columns: 64px 1fr auto;
+            }
+            #waiterOrdersBody tr {
+                grid-template-columns: 1fr 1fr auto;
+                grid-template-areas: "waiter status" "table status" "items total" "date date";
+            }
+            .tabs {
+                gap: 4px;
+            }
+            .tab {
+                padding: 12px 8px;
+                font-size: 13px;
+                flex-direction: row;
+                gap: 6px;
+            }
+            .tab .tab-label {
+                font-size: 12px;
+            }
+            .tab .tab-icon {
+                font-size: 16px;
+            }
+            .menu-header {
+                flex-direction: row;
+                align-items: center;
+            }
+            .menu-header .btn {
+                width: auto;
+            }
+            .modal-box {
+                border-radius: 24px;
+                max-width: 540px;
+                margin: 0 auto;
+            }
+            .modal-overlay {
+                align-items: center;
+                padding: 20px;
+            }
+            .image-picker-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .order-detail-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         @media(min-width:1025px) {
-            body { padding: 20px; padding-bottom: 80px; }
-            .wrap { max-width: 1200px; padding: 0; }
-            header { padding: 16px 24px; margin: 0 0 20px; border-radius: var(--radius); }
-            .stats { grid-template-columns: repeat(4, 1fr); gap: 12px; }
-            .controls { flex-direction: row; flex-wrap: wrap; }
-            .controls .row { flex: 1; min-width: 220px; }
-            .tabs { gap: 6px; padding: 6px; }
-            .tab { padding: 14px 20px; flex-direction: row; gap: 8px; font-size: 14px; }
-            .tab .tab-label { font-size: 13px; }
-            .tab .tab-icon { font-size: 18px; }
-            table { font-size: 14px; }
-            thead { display: table-header-group; }
-            tbody tr { display: table-row; padding: 0; border-bottom: 1px solid var(--line); }
-            tbody td { display: table-cell; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,.04); }
-            tbody td:first-child { display: table-cell; }
-            #ordersBody td:nth-child(8) { position: static; width: auto; padding: 10px 14px; }
-            #menuBody tr { display: table-row; padding: 0; grid-template-areas: none; }
-            #menuBody td { display: table-cell; padding: 10px 14px; }
-            #waiterOrdersBody tr { display: table-row; padding: 0; grid-template-areas: none; }
-            #waiterOrdersBody td { display: table-cell; padding: 10px 14px; }
-            .menu-header { flex-direction: row; align-items: center; }
-            .menu-header .btn { width: auto; }
-            .modal-box { border-radius: 24px; max-width: 560px; margin: 0 auto; padding: 32px 28px; }
-            .modal-overlay { align-items: center; padding: 20px; }
-            .image-picker-grid { grid-template-columns: repeat(4, 1fr); }
-            .thumb { width: 48px; height: 48px; }
+            body {
+                padding: 20px;
+                padding-bottom: 80px;
+            }
+            .wrap {
+                max-width: 1200px;
+                padding: 0;
+            }
+            header {
+                padding: 16px 24px;
+                margin: 0 0 20px;
+                border-radius: var(--radius);
+            }
+            .stats {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+            }
+            .controls {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .controls .row {
+                flex: 1;
+                min-width: 220px;
+            }
+            .tabs {
+                gap: 6px;
+                padding: 6px;
+            }
+            .tab {
+                padding: 14px 20px;
+                flex-direction: row;
+                gap: 8px;
+                font-size: 14px;
+            }
+            .tab .tab-label {
+                font-size: 13px;
+            }
+            .tab .tab-icon {
+                font-size: 18px;
+            }
+            table {
+                font-size: 14px;
+            }
+            thead {
+                display: table-header-group;
+            }
+            tbody tr {
+                display: table-row;
+                padding: 0;
+                border-bottom: 1px solid var(--line);
+            }
+            tbody td {
+                display: table-cell;
+                padding: 10px 14px;
+                border-bottom: 1px solid rgba(255, 255, 255, .04);
+            }
+            tbody td:first-child {
+                display: table-cell;
+            }
+            #ordersBody td:nth-child(8) {
+                position: static;
+                width: auto;
+                padding: 10px 14px;
+            }
+            #menuBody tr {
+                display: table-row;
+                padding: 0;
+                grid-template-areas: none;
+            }
+            #menuBody td {
+                display: table-cell;
+                padding: 10px 14px;
+            }
+            #waiterOrdersBody tr {
+                display: table-row;
+                padding: 0;
+                grid-template-areas: none;
+            }
+            #waiterOrdersBody td {
+                display: table-cell;
+                padding: 10px 14px;
+            }
+            .menu-header {
+                flex-direction: row;
+                align-items: center;
+            }
+            .menu-header .btn {
+                width: auto;
+            }
+            .modal-box {
+                border-radius: 24px;
+                max-width: 560px;
+                margin: 0 auto;
+                padding: 32px 28px;
+            }
+            .modal-overlay {
+                align-items: center;
+                padding: 20px;
+            }
+            .image-picker-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .thumb {
+                width: 48px;
+                height: 48px;
+            }
+            .order-detail-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            #ordersBody tr.clickable:hover {
+                background: rgba(255, 210, 26, .06);
+            }
+        }
+
+        /* ── Order detail modal specific ── */
+        .order-detail-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 6px 0 4px;
+        }
+        .order-detail-status .badge {
+            font-size: 12px;
+            padding: 4px 14px;
+        }
+        .order-detail-status .status-select {
+            min-width: 130px;
+            font-size: 13px;
+        }
+        .order-detail-notes {
+            background: rgba(255, 255, 255, .03);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+            color: var(--muted);
+            border-left: 3px solid var(--yellow);
+            margin-top: 4px;
+        }
+        html.rtl .order-detail-notes {
+            border-left: none;
+            border-right: 3px solid var(--yellow);
+        }
+        .order-detail-notes .od-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            color: var(--muted);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .order-detail-notes .od-value {
+            font-size: 14px;
+            color: var(--cream);
+        }
+
+        .order-detail-customer {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .order-detail-customer .od-value {
+            font-size: 17px;
+            font-weight: 700;
+        }
+        .order-detail-customer .od-sub {
+            font-size: 13px;
+            color: var(--muted);
         }
     </style>
 </head>
@@ -880,7 +1480,69 @@
 
     </div>
 
-    <!-- ═══ MODAL ═══ -->
+    <!-- ═══ ORDER DETAIL MODAL ═══ -->
+    <div class="modal-overlay" id="orderDetailModal">
+        <div class="modal-box">
+            <h2 id="orderDetailTitle">📦 Détails de la commande</h2>
+            <p class="sub" id="orderDetailSub">#<span id="orderDetailId">—</span></p>
+
+            <div class="order-detail-grid" id="orderDetailContent">
+                <!-- Customer -->
+                <div class="order-detail-item full order-detail-customer">
+                    <span class="od-label" data-i18n="admin.th_customer">Client</span>
+                    <span class="od-value" id="odCustomer">—</span>
+                    <span class="od-sub" id="odPhone">—</span>
+                </div>
+                <!-- Address -->
+                <div class="order-detail-item full">
+                    <span class="od-label" data-i18n="admin.th_address">Adresse</span>
+                    <span class="od-value od-muted" id="odAddress">—</span>
+                </div>
+                <!-- Items -->
+                <div class="order-detail-item full">
+                    <span class="od-label" data-i18n="admin.th_items">Articles</span>
+                    <span class="od-value od-items" id="odItems">—</span>
+                </div>
+                <!-- Total & Status -->
+                <div class="order-detail-item">
+                    <span class="od-label" data-i18n="admin.th_total">Total</span>
+                    <span class="od-value od-highlight" id="odTotal">0 DH</span>
+                </div>
+                <div class="order-detail-item">
+                    <span class="od-label" data-i18n="admin.th_status">Statut</span>
+                    <div class="order-detail-status" id="odStatusContainer">
+                        <span class="badge" id="odStatusBadge">—</span>
+                        <select class="status-select" id="odStatusSelect">
+                            <option value="Pending">⏳ En attente</option>
+                            <option value="Preparing">👨‍🍳 En préparation</option>
+                            <option value="Ready">✅ Prêt</option>
+                            <option value="Delivered">📦 Livré</option>
+                            <option value="Cancelled">❌ Annulé</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Date -->
+                <div class="order-detail-item">
+                    <span class="od-label" data-i18n="admin.th_date">Date</span>
+                    <span class="od-value od-muted" id="odDate">—</span>
+                </div>
+                <!-- Notes -->
+                <div class="order-detail-item full">
+                    <div class="order-detail-notes" id="odNotesContainer">
+                        <span class="od-label" data-i18n="admin.th_notes">Notes</span>
+                        <span class="od-value" id="odNotes">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-detail-actions">
+                <button class="btn btn-outline" id="odCloseBtn" data-i18n="admin.close">Fermer</button>
+                <button class="btn btn-danger" id="odDeleteBtn" data-i18n="admin.delete_order">🗑️ Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ MENU MODAL ═══ -->
     <div class="modal-overlay" id="menuModal">
         <div class="modal-box">
             <h2 id="menuModalTitle" data-i18n="admin.modal_add_title">➕ Ajouter un article</h2>
@@ -975,7 +1637,7 @@
         const AIRTABLE_BASE_ID = 'appoeaIgh98U6lUuS';
         const TABLE_ORDERS = 'tblJw87JqJtftBlVj';
         const TABLE_MENU = 'tblH8nnRjF9Yef2Py';
-        const TABLE_WAITER_ORDERS = 'tblc9i0FsPGHbdu28'; // ⚠️ Remplacez par l'ID réel
+        const TABLE_WAITER_ORDERS = 'tblc9i0FsPGHbdu28';
 
         const IMAGE_URL_FIELD = 'ImageURL';
 
@@ -1019,10 +1681,12 @@
                 'admin.status_cancelled': '❌ Annulé',
                 'admin.th_customer': 'Client',
                 'admin.th_phone': 'Téléphone',
+                'admin.th_address': 'Adresse',
                 'admin.th_items': 'Articles',
                 'admin.th_total': 'Total',
                 'admin.th_status': 'Statut',
                 'admin.th_date': 'Date',
+                'admin.th_notes': 'Notes',
                 'admin.th_action': 'Action',
                 'admin.no_orders': 'Aucune commande',
                 'admin.menu_title': 'Gestion du menu',
@@ -1065,6 +1729,8 @@
                 'admin.field_active': 'Actif (visible sur le site)',
                 'admin.field_order': "Ordre d'affichage",
                 'admin.cancel': 'Annuler',
+                'admin.close': 'Fermer',
+                'admin.delete_order': '🗑️ Supprimer',
                 'admin.save': '💾 Enregistrer',
                 'admin.toast_saved': '✅ Article enregistré !',
                 'admin.toast_deleted': '🗑️ Article supprimé',
@@ -1111,10 +1777,12 @@
                 'admin.status_cancelled': '❌ ملغي',
                 'admin.th_customer': 'العميل',
                 'admin.th_phone': 'الهاتف',
+                'admin.th_address': 'العنوان',
                 'admin.th_items': 'الأصناف',
                 'admin.th_total': 'المجموع',
                 'admin.th_status': 'الحالة',
                 'admin.th_date': 'التاريخ',
+                'admin.th_notes': 'ملاحظات',
                 'admin.th_action': 'إجراء',
                 'admin.no_orders': 'لا توجد طلبات',
                 'admin.menu_title': 'إدارة القائمة',
@@ -1157,6 +1825,8 @@
                 'admin.field_active': 'نشط (ظاهر على الموقع)',
                 'admin.field_order': 'ترتيب العرض',
                 'admin.cancel': 'إلغاء',
+                'admin.close': 'إغلاق',
+                'admin.delete_order': '🗑️ حذف',
                 'admin.save': '💾 حفظ',
                 'admin.toast_saved': '✅ تم حفظ الصنف!',
                 'admin.toast_deleted': '🗑️ تم حذف الصنف',
@@ -1245,6 +1915,25 @@
         const toast = document.getElementById('toast');
         const toastIcon = toast.querySelector('.toast-icon');
         const toastMsg = toast.querySelector('.toast-msg');
+
+        // ── Order Detail Modal ──
+        const orderDetailModal = document.getElementById('orderDetailModal');
+        const orderDetailTitle = document.getElementById('orderDetailTitle');
+        const orderDetailSub = document.getElementById('orderDetailSub');
+        const orderDetailId = document.getElementById('orderDetailId');
+        const odCustomer = document.getElementById('odCustomer');
+        const odPhone = document.getElementById('odPhone');
+        const odAddress = document.getElementById('odAddress');
+        const odItems = document.getElementById('odItems');
+        const odTotal = document.getElementById('odTotal');
+        const odStatusBadge = document.getElementById('odStatusBadge');
+        const odStatusSelect = document.getElementById('odStatusSelect');
+        const odDate = document.getElementById('odDate');
+        const odNotes = document.getElementById('odNotes');
+        const odNotesContainer = document.getElementById('odNotesContainer');
+        const odCloseBtn = document.getElementById('odCloseBtn');
+        const odDeleteBtn = document.getElementById('odDeleteBtn');
+        let currentOrderId = null;
 
         // ═══════════════════════════════════════════════════════════
         // TOAST
@@ -1427,7 +2116,7 @@
                     'Cancelled': t('admin.status_cancelled')
                 };
                 html += `
-                        <tr data-id="${o.id}">
+                        <tr data-id="${o.id}" class="clickable">
                             <td>${i+1}</td>
                             <td><strong>${escapeHtml(o['Customer Name'])}</strong></td>
                             <td>${escapeHtml(o['Phone'])}</td>
@@ -1450,18 +2139,33 @@
             });
             ordersBody.innerHTML = html;
 
+            // ── Status change ──
             ordersBody.querySelectorAll('.status-select').forEach(sel => {
-                sel.addEventListener('change', async () => {
+                sel.addEventListener('change', async (e) => {
+                    e.stopPropagation();
                     const id = sel.dataset.id;
                     const newStatus = sel.value;
                     await updateOrderStatus(id, newStatus);
                 });
             });
+
+            // ── Delete button ──
             ordersBody.querySelectorAll('.delete-order').forEach(btn => {
-                btn.addEventListener('click', async () => {
+                btn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
                     if (confirm(t('admin.confirm_delete_order'))) {
                         await deleteOrder(btn.dataset.id);
                     }
+                });
+            });
+
+            // ── Click row → open detail ──
+            ordersBody.querySelectorAll('tr.clickable').forEach(row => {
+                row.addEventListener('click', function(e) {
+                    // Ignore clicks on selects and buttons inside the row
+                    if (e.target.closest('.status-select') || e.target.closest('.delete-order')) return;
+                    const id = this.dataset.id;
+                    if (id) openOrderDetail(id);
                 });
             });
         }
@@ -1481,6 +2185,10 @@
                 if (o) o['Status'] = status;
                 renderOrders();
                 updateOrderStats();
+                // If detail modal is open for this order, refresh it
+                if (currentOrderId === id) {
+                    openOrderDetail(id);
+                }
                 showToast(t('admin.status_updated').replace('{status}', status), 'success');
             } catch (err) {
                 showToast(`${t('admin.toast_error')}: ${err.message}`, 'error');
@@ -1498,12 +2206,97 @@
                 orders = orders.filter(o => o.id !== id);
                 renderOrders();
                 updateOrderStats();
+                if (currentOrderId === id) {
+                    closeOrderDetail();
+                }
                 showToast(t('admin.toast_order_deleted'), 'success');
             } catch (err) {
                 showToast(`${t('admin.toast_error')}: ${err.message}`, 'error');
                 await fetchOrders();
             }
         }
+
+        // ═══════════════════════════════════════════════════════════
+        // ORDER DETAIL MODAL
+        // ═══════════════════════════════════════════════════════════
+
+        function openOrderDetail(id) {
+            const order = orders.find(o => o.id === id);
+            if (!order) {
+                showToast('❌ Commande introuvable', 'error');
+                return;
+            }
+            currentOrderId = id;
+
+            const statusLabels = {
+                'Pending': t('admin.status_pending'),
+                'Preparing': t('admin.status_preparing'),
+                'Ready': t('admin.status_ready'),
+                'Delivered': t('admin.status_delivered'),
+                'Cancelled': t('admin.status_cancelled')
+            };
+            const statusClass = `badge-${(order['Status'] || 'pending').toLowerCase()}`;
+
+            orderDetailId.textContent = id.slice(0, 8);
+            odCustomer.textContent = order['Customer Name'] || '—';
+            odPhone.textContent = order['Phone'] || '—';
+            odAddress.textContent = order['Address'] || '—';
+            odItems.textContent = order['Items'] || '—';
+            odTotal.textContent = `${order['Total'] || 0} DH`;
+
+            // Status badge
+            odStatusBadge.textContent = statusLabels[order['Status']] || order['Status'];
+            odStatusBadge.className = `badge ${statusClass}`;
+
+            // Status select
+            odStatusSelect.value = order['Status'] || 'Pending';
+            // Update badge when select changes
+            odStatusSelect.onchange = async function() {
+                const newStatus = this.value;
+                await updateOrderStatus(order.id, newStatus);
+                // The updateOrderStatus will re-render and re-open the modal if needed
+            };
+
+            const dateStr = order['Order Date'] ?
+                new Date(order['Order Date']).toLocaleString(currentLang === 'ar' ? 'ar-MA' : 'fr-FR', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }) :
+                '—';
+            odDate.textContent = dateStr;
+
+            const notes = order['Notes'] || '';
+            if (notes.trim()) {
+                odNotes.textContent = notes;
+                odNotesContainer.style.display = 'block';
+            } else {
+                odNotes.textContent = '—';
+                odNotesContainer.style.display = 'block';
+            }
+
+            // Delete button
+            odDeleteBtn.onclick = async function() {
+                if (confirm(t('admin.confirm_delete_order'))) {
+                    await deleteOrder(order.id);
+                    closeOrderDetail();
+                }
+            };
+
+            orderDetailModal.classList.add('open');
+        }
+
+        function closeOrderDetail() {
+            orderDetailModal.classList.remove('open');
+            currentOrderId = null;
+        }
+
+        odCloseBtn.addEventListener('click', closeOrderDetail);
+        orderDetailModal.addEventListener('click', (e) => {
+            if (e.target === orderDetailModal) closeOrderDetail();
+        });
 
         // ═══════════════════════════════════════════════════════════
         // MENU
@@ -1818,9 +2611,9 @@
 
         function renderImagePickerGrid(filter = '') {
             const q = filter.toLowerCase();
-            const list = q
-                ? availableImages.filter(img => img.name.toLowerCase().includes(q))
-                : availableImages;
+            const list = q ?
+                availableImages.filter(img => img.name.toLowerCase().includes(q)) :
+                availableImages;
             if (!imagesLoaded) return;
             if (list.length === 0) {
                 imagePickerStatus.style.display = 'block';
@@ -1831,11 +2624,11 @@
             imagePickerStatus.style.display = 'none';
             const currentVal = itemImageId.value.trim().toLowerCase();
             imagePickerGrid.innerHTML = list.map(img => `
-                <div class="image-picker-item${img.name.toLowerCase() === currentVal ? ' selected' : ''}" data-name="${escapeHtml(img.name)}">
-                    <img src="${img.url}" alt="${escapeHtml(img.name)}" loading="lazy" />
-                    <span>${escapeHtml(img.name)}</span>
-                </div>
-            `).join('');
+                        <div class="image-picker-item${img.name.toLowerCase() === currentVal ? ' selected' : ''}" data-name="${escapeHtml(img.name)}">
+                            <img src="${img.url}" alt="${escapeHtml(img.name)}" loading="lazy" />
+                            <span>${escapeHtml(img.name)}</span>
+                        </div>
+                    `).join('');
         }
 
         imagePickerGrid.addEventListener('click', (e) => {
@@ -2158,6 +2951,7 @@
         console.log('📱 Admin mobile Moul Chowaya — design optimisé pour mobiles et tablettes');
         console.log('ℹ️ Langue actuelle:', currentLang);
         console.log('ℹ️ Champ image URL utilisé:', IMAGE_URL_FIELD);
+        console.log('✅ Ordre cliquable → détails');
     </script>
 
 </body>
