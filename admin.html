@@ -32,8 +32,6 @@
             max-width: 1400px;
             margin: 0 auto;
         }
-
-        /* Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -91,19 +89,10 @@
         .btn-danger:hover {
             opacity: .8;
         }
-        .btn-success {
-            background: var(--green);
-            color: #fff;
-        }
-        .btn-success:hover {
-            opacity: .8;
-        }
         .btn-sm {
             padding: 6px 14px;
             font-size: 13px;
         }
-
-        /* Tabs */
         .tabs {
             display: flex;
             gap: 4px;
@@ -132,7 +121,6 @@
             background: rgba(255, 210, 26, .08);
             border-bottom: 2px solid var(--yellow);
         }
-
         .tab-content {
             display: none;
             animation: fadeIn .3s ease;
@@ -150,8 +138,6 @@
                 transform: translateY(0);
             }
         }
-
-        /* Stats */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -174,8 +160,6 @@
             color: var(--muted);
             margin-top: 2px;
         }
-
-        /* Controls */
         .controls {
             display: flex;
             flex-wrap: wrap;
@@ -203,8 +187,6 @@
             flex: 1;
             min-width: 180px;
         }
-
-        /* Tables */
         .table-wrap {
             overflow-x: auto;
             border-radius: 16px;
@@ -239,8 +221,6 @@
         tr:hover td {
             background: rgba(255, 255, 255, .03);
         }
-
-        /* Status badges */
         .badge {
             display: inline-block;
             padding: 4px 12px;
@@ -276,8 +256,6 @@
             background: #b8291c22;
             color: #ef5350;
         }
-
-        /* Status select */
         .status-select {
             background: transparent;
             border: 1px solid var(--line);
@@ -296,8 +274,6 @@
         .status-select option {
             background: #1a1511;
         }
-
-        /* Image thumb */
         .thumb {
             width: 50px;
             height: 50px;
@@ -306,8 +282,6 @@
             border: 1px solid var(--line);
             background: #0f0c09;
         }
-
-        /* Modal */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -396,8 +370,6 @@
             flex: 1;
             justify-content: center;
         }
-
-        /* Image upload preview */
         .image-preview {
             margin-top: 10px;
             display: flex;
@@ -416,8 +388,6 @@
             color: var(--muted);
             font-size: 13px;
         }
-
-        /* Toast */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -449,7 +419,6 @@
         .toast.error {
             border-left: 4px solid var(--red);
         }
-
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -459,7 +428,6 @@
             font-size: 48px;
             margin-bottom: 12px;
         }
-
         @media(max-width:600px) {
             header h1 {
                 font-size: 20px;
@@ -481,13 +449,38 @@
                 font-size: 13px;
             }
         }
+        /* Upload progress */
+        .upload-progress {
+            display: none;
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+        .upload-progress.active {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .upload-progress .bar {
+            flex: 1;
+            height: 4px;
+            border-radius: 4px;
+            background: var(--line);
+            overflow: hidden;
+        }
+        .upload-progress .bar .fill {
+            height: 100%;
+            width: 0%;
+            background: var(--yellow);
+            transition: width .3s ease;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
 
     <div class="wrap">
 
-        <!-- HEADER -->
         <header>
             <h1>📋 Admin · <span>Moul Chowaya</span></h1>
             <div class="header-actions">
@@ -496,13 +489,12 @@
             </div>
         </header>
 
-        <!-- TABS -->
         <div class="tabs" id="tabs">
             <button class="tab active" data-tab="orders">📦 Commandes</button>
             <button class="tab" data-tab="menu">🍽️ Menu</button>
         </div>
 
-        <!-- TAB: ORDERS -->
+        <!-- ORDERS -->
         <div class="tab-content active" id="tab-orders">
             <div class="stats" id="orderStats">
                 <div class="stat-card"><div class="num" id="statTotal">0</div><div class="label">Total commandes</div></div>
@@ -510,7 +502,6 @@
                 <div class="stat-card"><div class="num" id="statPreparing">0</div><div class="label">En préparation</div></div>
                 <div class="stat-card"><div class="num" id="statReady">0</div><div class="label">Prêtes</div></div>
             </div>
-
             <div class="controls">
                 <input type="text" id="orderSearch" placeholder="🔍 Rechercher…" />
                 <select id="orderStatusFilter">
@@ -522,29 +513,15 @@
                     <option value="Cancelled">❌ Annulé</option>
                 </select>
             </div>
-
             <div class="table-wrap">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Client</th>
-                            <th>Téléphone</th>
-                            <th>Articles</th>
-                            <th>Total</th>
-                            <th>Statut</th>
-                            <th>Date</th>
-                            <th style="width:60px;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ordersBody">
-                        <tr><td colspan="8"><div class="empty-state"><div class="big">📭</div><p>Aucune commande</p></div></td></tr>
-                    </tbody>
+                    <thead><tr><th>#</th><th>Client</th><th>Téléphone</th><th>Articles</th><th>Total</th><th>Statut</th><th>Date</th><th style="width:60px;">Action</th></tr></thead>
+                    <tbody id="ordersBody"><tr><td colspan="8"><div class="empty-state"><div class="big">📭</div><p>Aucune commande</p></div></td></tr></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- TAB: MENU -->
+        <!-- MENU -->
         <div class="tab-content" id="tab-menu">
             <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px;">
                 <div>
@@ -553,7 +530,6 @@
                 </div>
                 <button class="btn btn-yellow" id="addItemBtn">➕ Ajouter un article</button>
             </div>
-
             <div class="controls">
                 <input type="text" id="menuSearch" placeholder="🔍 Rechercher un article…" />
                 <select id="menuCategoryFilter">
@@ -566,38 +542,23 @@
                     <option value="drink">Boissons</option>
                 </select>
             </div>
-
             <div class="table-wrap">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Nom</th>
-                            <th>Catégorie</th>
-                            <th>Prix</th>
-                            <th>Description</th>
-                            <th>Statut</th>
-                            <th style="width:120px;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="menuBody">
-                        <tr><td colspan="7"><div class="empty-state"><div class="big">🍽️</div><p>Chargez le menu…</p></div></td></tr>
-                    </tbody>
+                    <thead><tr><th>Image</th><th>Nom</th><th>Catégorie</th><th>Prix</th><th>Description</th><th>Statut</th><th style="width:120px;">Actions</th></tr></thead>
+                    <tbody id="menuBody"><tr><td colspan="7"><div class="empty-state"><div class="big">🍽️</div><p>Chargez le menu…</p></div></td></tr></tbody>
                 </table>
             </div>
         </div>
 
     </div>
 
-    <!-- ═══ MODAL: Add / Edit Menu Item ═══ -->
+    <!-- MODAL -->
     <div class="modal-overlay" id="menuModal">
         <div class="modal-box">
             <h2 id="menuModalTitle">➕ Ajouter un article</h2>
             <p class="sub" id="menuModalSub">Remplissez les champs ci-dessous.</p>
-
             <form id="menuForm" enctype="multipart/form-data">
                 <input type="hidden" id="editRecordId" value="" />
-
                 <div class="form-group">
                     <label for="itemName">Nom (français) *</label>
                     <input type="text" id="itemName" placeholder="Ex: Burger poulet" required />
@@ -606,7 +567,6 @@
                     <label for="itemNameAr">Nom (arabe) <span style="color:var(--muted);font-weight:400;">(optionnel)</span></label>
                     <input type="text" id="itemNameAr" placeholder="برغر دجاج" />
                 </div>
-
                 <div class="form-row">
                     <div class="form-group">
                         <label for="itemCategory">Catégorie *</label>
@@ -624,7 +584,6 @@
                         <input type="number" id="itemPrice" placeholder="0" min="0" step="0.5" required />
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="itemDescription">Description (français)</label>
                     <textarea id="itemDescription" placeholder="Petite description de l'article…" rows="2"></textarea>
@@ -633,27 +592,22 @@
                     <label for="itemDescriptionAr">Description (arabe)</label>
                     <textarea id="itemDescriptionAr" placeholder="وصف صغير للصنف…" rows="2"></textarea>
                 </div>
-
                 <div class="form-group">
                     <label for="itemImage">Image</label>
                     <input type="file" id="itemImage" accept="image/*" />
-                    <div class="image-preview" id="imagePreview">
-                        <span class="placeholder">Aucune image sélectionnée</span>
+                    <div class="image-preview" id="imagePreview"><span class="placeholder">Aucune image sélectionnée</span></div>
+                    <div class="upload-progress" id="uploadProgress">
+                        <span id="uploadProgressText">Téléchargement…</span>
+                        <div class="bar"><div class="fill" id="uploadProgressFill"></div></div>
                     </div>
                 </div>
-
                 <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="itemActive" checked style="width:auto; margin-right:8px;" />
-                        Actif (visible sur le site)
-                    </label>
+                    <label><input type="checkbox" id="itemActive" checked style="width:auto; margin-right:8px;" /> Actif (visible sur le site)</label>
                 </div>
-
                 <div class="form-group">
                     <label for="itemOrder">Ordre d'affichage</label>
                     <input type="number" id="itemOrder" placeholder="0" min="0" />
                 </div>
-
                 <div class="form-actions">
                     <button type="button" class="btn btn-outline" id="modalCancelBtn">Annuler</button>
                     <button type="submit" class="btn btn-yellow" id="modalSubmitBtn">💾 Enregistrer</button>
@@ -662,7 +616,6 @@
         </div>
     </div>
 
-    <!-- ═══ TOAST ═══ -->
     <div class="toast" id="toast"></div>
 
     <script>
@@ -679,10 +632,9 @@
         const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
         const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
 
-        // Vérification du placeholder
+        // ═══ VÉRIFICATION ═══
         if (TABLE_MENU === 'tblYOUR_MENU_TABLE_ID') {
-            alert('⚠️ ERREUR DE CONFIGURATION :\n\nVous devez modifier la constante TABLE_MENU dans le code JavaScript (ligne ~200) avec l\'ID réel de votre table Menu.\n\nL\'ID se trouve dans l\'URL de votre table Airtable :\nhttps://airtable.com/appoeaIgh98U6lUuS/tblVOTRE_ID/...');
-            console.error('TABLE_MENU non configuré !');
+            console.warn('⚠️ TABLE_MENU non configuré !');
         }
 
         // ═══ ÉTAT ═══
@@ -725,6 +677,9 @@
         const addItemBtn = document.getElementById('addItemBtn');
         const refreshAllBtn = document.getElementById('refreshAllBtn');
         const toast = document.getElementById('toast');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const uploadProgressFill = document.getElementById('uploadProgressFill');
+        const uploadProgressText = document.getElementById('uploadProgressText');
 
         // ═══ TOAST ═══
         let toastTimeout;
@@ -987,9 +942,9 @@
             }
         }
 
-        // ═══ SAVE MENU ITEM (with image upload) ═══
+        // ═══ SAVE MENU ITEM ── FIXED IMAGE UPLOAD ═══
         async function saveMenuItem(data, recordId = null) {
-            // 1. Prepare fields (without image)
+            // 1. Prepare fields
             const fields = {
                 'Name': data.Name,
                 'NameAr': data.NameAr || '',
@@ -1001,11 +956,13 @@
                 'Order': parseInt(data.Order) || 0
             };
 
-            // 2. Create or update the record
+            // 2. Create or update the record (without image first)
             const url = recordId ? `${AIRTABLE_URL_MENU}/${recordId}` : AIRTABLE_URL_MENU;
             const method = recordId ? 'PATCH' : 'POST';
 
             let recordResponse;
+            let recordIdFinal;
+
             try {
                 const resp = await fetch(url, {
                     method: method,
@@ -1021,14 +978,20 @@
                 }
                 recordResponse = await resp.json();
                 const record = recordResponse.records ? recordResponse.records[0] : recordResponse;
-                const recordIdFinal = record.id;
+                recordIdFinal = record.id;
 
                 // 3. If there's a new image file, upload it as an attachment
                 if (data.ImageFile) {
+                    // Show progress
+                    uploadProgress.classList.add('active');
+                    uploadProgressFill.style.width = '30%';
+                    uploadProgressText.textContent = 'Téléchargement de l\'image…';
+
                     const formData = new FormData();
                     formData.append('file', data.ImageFile);
 
                     const uploadUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}/${recordIdFinal}/attachments`;
+
                     const uploadResp = await fetch(uploadUrl, {
                         method: 'POST',
                         headers: {
@@ -1036,19 +999,30 @@
                         },
                         body: formData
                     });
+
+                    uploadProgressFill.style.width = '100%';
+                    uploadProgressText.textContent = 'Image téléchargée !';
+
                     if (!uploadResp.ok) {
                         const errText = await uploadResp.text();
                         throw new Error(`Upload image failed: ${errText}`);
                     }
+
+                    // Small delay so the user can see the progress
+                    await new Promise(r => setTimeout(r, 300));
                 }
 
                 return recordResponse;
+
             } catch (err) {
                 throw err;
+            } finally {
+                uploadProgress.classList.remove('active');
+                uploadProgressFill.style.width = '0%';
             }
         }
 
-        // ═══ MODAL HANDLING ═══
+        // ═══ MODAL ═══
         function openModal(title, sub, data = null) {
             menuModalTitle.textContent = title;
             menuModalSub.textContent = sub;
@@ -1085,13 +1059,13 @@
 
         function closeModal() {
             menuModal.classList.remove('open');
+            uploadProgress.classList.remove('active');
+            uploadProgressFill.style.width = '0%';
         }
 
         function openEditModal(id) {
             const item = menuItems.find(i => i.id === id);
-            if (item) {
-                openModal('✏️ Modifier l\'article', 'Modifiez les informations ci-dessous.', item);
-            }
+            if (item) openModal('✏️ Modifier l\'article', 'Modifiez les informations ci-dessous.', item);
         }
 
         addItemBtn.addEventListener('click', () => {
@@ -1174,7 +1148,7 @@
             return div.innerHTML;
         }
 
-        // ═══ REFRESH ALL ═══
+        // ═══ REFRESH ═══
         refreshAllBtn.addEventListener('click', async () => {
             refreshAllBtn.disabled = true;
             refreshAllBtn.textContent = '⏳…';
@@ -1184,7 +1158,7 @@
             showToast('✅ Données actualisées', 'success');
         });
 
-        // ═══ EVENT LISTENERS FOR FILTERS ═══
+        // ═══ FILTERS ═══
         orderSearch.addEventListener('input', renderOrders);
         orderStatusFilter.addEventListener('change', renderOrders);
         menuSearch.addEventListener('input', renderMenu);
@@ -1203,6 +1177,7 @@
         console.log('📋 Admin panel Moul Chowaya');
         console.log('🔑 Utilisez les mêmes identifiants Airtable que index.html');
         console.log('📌 Pour les images: upload direct vers Airtable.');
+        console.log('ℹ️ Vérifiez que le champ Image est de type "Pièce jointe" (Attachment) dans Airtable.');
     </script>
 
 </body>
