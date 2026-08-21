@@ -1019,6 +1019,9 @@
         // ⚠️ REMPLACEZ AVEC L'ID RÉEL DE VOTRE TABLE MENU ⚠️
         const TABLE_MENU = 'tblH8nnRjF9Yef2Py';
 
+        // ⚠️ NOM DU CHAMP IMAGE — utilisez le nom exact (case‑sensitive) ou l'ID du champ (fld...)
+        const IMAGE_FIELD_NAME = 'Image';
+
         const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
         const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
 
@@ -1493,7 +1496,7 @@
                 const data = await resp.json();
                 menuItems = data.records.map(r => {
                     const fields = r.fields || {};
-                    const imageArr = fields['Image'];
+                    const imageArr = fields[IMAGE_FIELD_NAME];
                     let imageUrl = null;
                     if (Array.isArray(imageArr) && imageArr.length > 0 && imageArr[0]?.url) {
                         imageUrl = imageArr[0].url;
@@ -1597,7 +1600,7 @@
         }
 
         // ═══════════════════════════════════════════════════════════
-        // SAVE MENU ITEM — avec upload d'image simplifié
+        // SAVE MENU ITEM — avec upload d'image fiable (endpoint /uploadAttachment)
         // ═══════════════════════════════════════════════════════════
 
         async function saveMenuItem(data, recordId = null) {
@@ -1646,26 +1649,31 @@
 
                 console.log('✅ Record créé/mis à jour, ID:', recordIdFinal);
 
-                // Étape 2 : Upload de l'image si présente
+                // Étape 2 : Upload de l'image si présente (via /uploadAttachment)
                 if (data.ImageFile) {
                     uploadProgress.classList.add('active');
                     uploadProgressFill.style.width = '20%';
                     uploadProgressText.textContent = t('admin.uploading');
 
-                    const formData = new FormData();
-                    formData.append('file', data.ImageFile);
+                    // Lire le fichier en base64
+                    const fileData = await readFileAsBase64(data.ImageFile);
 
-                    // Spécifier le champ de destination
+                    // Utiliser l'endpoint dédié /uploadAttachment
                     const uploadUrl =
-                        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}/${recordIdFinal}/attachments?field=Image`;
+                        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}/${recordIdFinal}/${IMAGE_FIELD_NAME}/uploadAttachment`;
                     console.log('⬆️ Upload vers:', uploadUrl);
 
                     const uploadResp = await fetch(uploadUrl, {
                         method: 'POST',
                         headers: {
-                            'Authorization': `Bearer ${AIRTABLE_API_KEY}`
+                            'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                            'Content-Type': 'application/json'
                         },
-                        body: formData
+                        body: JSON.stringify({
+                            contentType: data.ImageFile.type,
+                            file: fileData,
+                            filename: data.ImageFile.name
+                        })
                     });
 
                     const uploadResult = await uploadResp.json();
@@ -1703,8 +1711,8 @@
                     DescriptionAr: finalData.fields['DescriptionAr'] || '',
                     Active: finalData.fields['Active'] !== false,
                     Order: finalData.fields['Order'] || 0,
-                    Image: finalData.fields['Image'] && finalData.fields['Image'].length > 0 ?
-                        finalData.fields['Image'][0].url :
+                    Image: finalData.fields[IMAGE_FIELD_NAME] && finalData.fields[IMAGE_FIELD_NAME].length > 0 ?
+                        finalData.fields[IMAGE_FIELD_NAME][0].url :
                         null
                 };
 
@@ -1729,6 +1737,20 @@
                 uploadProgress.classList.remove('active');
                 uploadProgressFill.style.width = '0%';
             }
+        }
+
+        // Helper : convertir un fichier en base64 (sans préfixe data:)
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    // Le résultat est une chaîne data:image/...;base64,...
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
         }
 
         // ═══════════════════════════════════════════════════════════
@@ -1913,6 +1935,7 @@
 
         console.log('📋 Admin panel Moul Chowaya — prêt');
         console.log('ℹ️ Langue actuelle:', currentLang);
+        console.log('ℹ️ Champ image utilisé:', IMAGE_FIELD_NAME);
     </script>
 
 </body>
