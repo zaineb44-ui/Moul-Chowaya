@@ -825,6 +825,11 @@
         .w-full {
             width: 100%;
         }
+        .field-hint {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body>
@@ -976,6 +981,7 @@
                         <span id="uploadProgressText" data-i18n="admin.uploading">Téléchargement…</span>
                         <div class="bar"><div class="fill" id="uploadProgressFill"></div></div>
                     </div>
+                    <div class="field-hint" data-i18n="admin.image_hint">💡 Assurez-vous que le champ "Image" dans Airtable est de type "Pièce jointe" (Attachment).</div>
                 </div>
                 <div class="form-group">
                     <label>
@@ -1094,6 +1100,7 @@
                 'admin.confirm_delete_order': 'Supprimer cette commande ?',
                 'admin.status_updated': 'Statut → {status}',
                 'admin.please_fix_image_field': 'Le champ "Image" doit être de type "Pièce jointe" (Attachment) dans Airtable. Veuillez le configurer.',
+                'admin.image_hint': '💡 Assurez-vous que le champ "Image" dans Airtable est de type "Pièce jointe" (Attachment).',
             },
             ar: {
                 'admin.view_site': '🌐 عرض الموقع',
@@ -1165,6 +1172,7 @@
                 'admin.confirm_delete_order': 'حذف هذا الطلب؟',
                 'admin.status_updated': 'الحالة → {status}',
                 'admin.please_fix_image_field': 'يجب أن يكون حقل "الصورة" من نوع "مرفق" (Attachment) في Airtable. يرجى تعديله.',
+                'admin.image_hint': '💡 تأكد من أن حقل "الصورة" في Airtable من نوع "مرفق" (Attachment).',
             }
         };
 
@@ -1651,7 +1659,6 @@
 
                 // Le champ doit exister et être un tableau (attachments)
                 if (imageField === undefined || !Array.isArray(imageField)) {
-                    // Si le champ n'existe pas ou n'est pas un tableau, on lance une erreur claire
                     throw new Error(t('admin.please_fix_image_field'));
                 }
 
@@ -1664,7 +1671,7 @@
                     const formData = new FormData();
                     formData.append('file', data.ImageFile);
 
-                    // Spécifier le champ de destination
+                    // Spécifier le champ de destination avec le paramètre field
                     const uploadUrl =
                         `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}/${recordIdFinal}/attachments?field=Image`;
                     console.log('⬆️ Upload vers:', uploadUrl);
