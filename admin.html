@@ -463,24 +463,6 @@
             resize: vertical;
             min-height: 50px;
         }
-        .form-group input[type="file"] {
-            padding: 8px 10px;
-            cursor: pointer;
-        }
-        .form-group input[type="file"]::file-selector-button {
-            background: var(--yellow);
-            color: #171006;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
-            margin-right: 10px;
-        }
-        .form-group input[type="file"]::file-selector-button:hover {
-            opacity: .8;
-        }
         .form-group input[type="checkbox"] {
             width: auto;
             margin-right: 8px;
@@ -518,33 +500,6 @@
         .image-preview .placeholder {
             color: var(--muted);
             font-size: 13px;
-        }
-
-        /* ── Upload progress ── */
-        .upload-progress {
-            display: none;
-            margin-top: 8px;
-            font-size: 13px;
-            color: var(--muted);
-            align-items: center;
-            gap: 10px;
-        }
-        .upload-progress.active {
-            display: flex;
-        }
-        .upload-progress .bar {
-            flex: 1;
-            height: 4px;
-            border-radius: 4px;
-            background: var(--line);
-            overflow: hidden;
-        }
-        .upload-progress .bar .fill {
-            height: 100%;
-            width: 0%;
-            background: var(--yellow);
-            transition: width .3s ease;
-            border-radius: 4px;
         }
 
         /* ── Toast ── */
@@ -896,7 +851,7 @@
             <div class="menu-header">
                 <div>
                     <h2 data-i18n="admin.menu_title">Gestion du menu</h2>
-                    <p data-i18n="admin.menu_sub">Ajoutez, modifiez ou supprimez des articles. Les images sont hébergées sur Airtable.</p>
+                    <p data-i18n="admin.menu_sub">Ajoutez, modifiez ou supprimez des articles. Les images sont fournies par URL (Google Drive, hébergement externe).</p>
                 </div>
                 <button class="btn btn-yellow" id="addItemBtn" data-i18n="admin.add_item">➕ Ajouter un article</button>
             </div>
@@ -938,7 +893,7 @@
         <div class="modal-box">
             <h2 id="menuModalTitle" data-i18n="admin.modal_add_title">➕ Ajouter un article</h2>
             <p class="sub" id="menuModalSub" data-i18n="admin.modal_add_sub">Remplissez les champs ci-dessous.</p>
-            <form id="menuForm" enctype="multipart/form-data">
+            <form id="menuForm">
                 <input type="hidden" id="editRecordId" value="" />
                 <div class="form-group">
                     <label for="itemName" data-i18n="admin.field_name">Nom (français) <span class="req">*</span></label>
@@ -974,14 +929,10 @@
                     <textarea id="itemDescriptionAr" placeholder="وصف صغير للصنف…" rows="2"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="itemImage" data-i18n="admin.field_image">Image</label>
-                    <input type="file" id="itemImage" accept="image/*" />
-                    <div class="image-preview" id="imagePreview"><span class="placeholder" data-i18n="admin.no_image">Aucune image sélectionnée</span></div>
-                    <div class="upload-progress" id="uploadProgress">
-                        <span id="uploadProgressText" data-i18n="admin.uploading">Téléchargement…</span>
-                        <div class="bar"><div class="fill" id="uploadProgressFill"></div></div>
-                    </div>
-                    <div class="field-hint" data-i18n="admin.image_hint">💡 Assurez-vous que le champ "Image" dans Airtable est de type "Pièce jointe" (Attachment).</div>
+                    <label for="itemImageUrl" data-i18n="admin.field_image_url">URL de l'image (Google Drive, etc.)</label>
+                    <input type="url" id="itemImageUrl" placeholder="https://drive.google.com/uc?export=view&id=..." />
+                    <div class="image-preview" id="imagePreview"><span class="placeholder" data-i18n="admin.no_image">Aucune image</span></div>
+                    <div class="field-hint" data-i18n="admin.image_url_hint">💡 Collez le lien de partage (ou le lien direct) de votre image. Elle s'affichera automatiquement sur le site.</div>
                 </div>
                 <div class="form-group">
                     <label>
@@ -1010,7 +961,7 @@
     <!-- ═══ SCRIPTS ═══ -->
     <script>
         // ═══════════════════════════════════════════════════════════
-        // ⚠️ CONFIGURATION — À MODIFIER SI NÉCESSAIRE ⚠️
+        // ⚠️ CONFIGURATION
         // ═══════════════════════════════════════════════════════════
 
         const AIRTABLE_API_KEY = 'patyj6u0PZd84J6m6.c219829f1b05344107fa54dabea848dce3b6655bf7e655fca6c132292afbb017';
@@ -1019,8 +970,8 @@
         // ⚠️ REMPLACEZ AVEC L'ID RÉEL DE VOTRE TABLE MENU ⚠️
         const TABLE_MENU = 'tblH8nnRjF9Yef2Py';
 
-        // ⚠️ NOM DU CHAMP IMAGE — utilisez le nom exact (case‑sensitive) ou l'ID du champ (fld...)
-        const IMAGE_FIELD_NAME = 'Image';
+        // Nom du champ pour l'URL de l'image (à créer dans Airtable en tant que texte)
+        const IMAGE_URL_FIELD = 'ImageURL';
 
         const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
         const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
@@ -1058,7 +1009,7 @@
                 'admin.th_action': 'Action',
                 'admin.no_orders': 'Aucune commande',
                 'admin.menu_title': 'Gestion du menu',
-                'admin.menu_sub': 'Ajoutez, modifiez ou supprimez des articles. Les images sont hébergées sur Airtable.',
+                'admin.menu_sub': 'Ajoutez, modifiez ou supprimez des articles. Les images sont fournies par URL (Google Drive, hébergement externe).',
                 'admin.add_item': '➕ Ajouter un article',
                 'admin.search_menu': '🔍 Rechercher un article…',
                 'admin.cat_all': 'Toutes les catégories',
@@ -1086,9 +1037,9 @@
                 'admin.field_price': 'Prix (DH) *',
                 'admin.field_desc': 'Description (français)',
                 'admin.field_desc_ar': 'Description (arabe)',
-                'admin.field_image': 'Image',
-                'admin.no_image': 'Aucune image sélectionnée',
-                'admin.uploading': 'Téléchargement…',
+                'admin.field_image_url': 'URL de l\'image (Google Drive, etc.)',
+                'admin.no_image': 'Aucune image',
+                'admin.image_url_hint': '💡 Collez le lien de partage (ou le lien direct) de votre image. Elle s\'affichera automatiquement sur le site.',
                 'admin.field_active': 'Actif (visible sur le site)',
                 'admin.field_order': "Ordre d'affichage",
                 'admin.cancel': 'Annuler',
@@ -1102,8 +1053,6 @@
                 'admin.confirm_delete': 'Supprimer définitivement cet article ?',
                 'admin.confirm_delete_order': 'Supprimer cette commande ?',
                 'admin.status_updated': 'Statut → {status}',
-                'admin.image_hint': '💡 Assurez-vous que le champ "Image" dans Airtable est de type "Pièce jointe" (Attachment).',
-                'admin.upload_failed_field': 'L\'upload a échoué. Vérifiez que le champ "Image" existe et est de type "Pièce jointe".',
             },
             ar: {
                 'admin.view_site': '🌐 عرض الموقع',
@@ -1130,7 +1079,7 @@
                 'admin.th_action': 'إجراء',
                 'admin.no_orders': 'لا توجد طلبات',
                 'admin.menu_title': 'إدارة القائمة',
-                'admin.menu_sub': 'أضف أو عدل أو احذف الأصناف. الصور مستضافة على Airtable.',
+                'admin.menu_sub': 'أضف أو عدل أو احذف الأصناف. الصور مقدمة عبر رابط (Google Drive، استضافة خارجية).',
                 'admin.add_item': '➕ إضافة صنف',
                 'admin.search_menu': '🔍 بحث عن صنف…',
                 'admin.cat_all': 'جميع الفئات',
@@ -1158,9 +1107,9 @@
                 'admin.field_price': 'السعر (درهم) *',
                 'admin.field_desc': 'الوصف (فرنسي)',
                 'admin.field_desc_ar': 'الوصف (عربي)',
-                'admin.field_image': 'الصورة',
+                'admin.field_image_url': 'رابط الصورة (Google Drive، إلخ)',
                 'admin.no_image': 'لا توجد صورة',
-                'admin.uploading': 'جاري التحميل…',
+                'admin.image_url_hint': '💡 الصق رابط المشاركة (أو الرابط المباشر) للصورة. ستظهر تلقائياً على الموقع.',
                 'admin.field_active': 'نشط (ظاهر على الموقع)',
                 'admin.field_order': 'ترتيب العرض',
                 'admin.cancel': 'إلغاء',
@@ -1174,8 +1123,6 @@
                 'admin.confirm_delete': 'حذف هذا الصنف نهائياً؟',
                 'admin.confirm_delete_order': 'حذف هذا الطلب؟',
                 'admin.status_updated': 'الحالة → {status}',
-                'admin.image_hint': '💡 تأكد من أن حقل "الصورة" في Airtable من نوع "مرفق" (Attachment).',
-                'admin.upload_failed_field': 'فشل التحميل. تأكد من أن حقل "الصورة" موجود ومن نوع "مرفق".',
             }
         };
 
@@ -1215,7 +1162,7 @@
         const itemPrice = document.getElementById('itemPrice');
         const itemDescription = document.getElementById('itemDescription');
         const itemDescriptionAr = document.getElementById('itemDescriptionAr');
-        const itemImage = document.getElementById('itemImage');
+        const itemImageUrl = document.getElementById('itemImageUrl');
         const itemActive = document.getElementById('itemActive');
         const itemOrder = document.getElementById('itemOrder');
         const imagePreview = document.getElementById('imagePreview');
@@ -1228,9 +1175,6 @@
         const toast = document.getElementById('toast');
         const toastIcon = toast.querySelector('.toast-icon');
         const toastMsg = toast.querySelector('.toast-msg');
-        const uploadProgress = document.getElementById('uploadProgress');
-        const uploadProgressFill = document.getElementById('uploadProgressFill');
-        const uploadProgressText = document.getElementById('uploadProgressText');
 
         // ═══════════════════════════════════════════════════════════
         // TOAST
@@ -1496,13 +1440,8 @@
                 const data = await resp.json();
                 menuItems = data.records.map(r => {
                     const fields = r.fields || {};
-                    const imageArr = fields[IMAGE_FIELD_NAME];
-                    let imageUrl = null;
-                    if (Array.isArray(imageArr) && imageArr.length > 0 && imageArr[0]?.url) {
-                        imageUrl = imageArr[0].url;
-                    } else if (typeof imageArr === 'string' && imageArr.startsWith('http')) {
-                        imageUrl = imageArr;
-                    }
+                    // On lit l'URL de l'image depuis le champ ImageURL
+                    const imageUrl = fields[IMAGE_URL_FIELD] || null;
                     return {
                         id: r.id,
                         Name: fields['Name'] || 'Sans nom',
@@ -1513,7 +1452,7 @@
                         DescriptionAr: fields['DescriptionAr'] || '',
                         Active: fields['Active'] !== false,
                         Order: fields['Order'] || 0,
-                        Image: imageUrl
+                        Image: imageUrl // on stocke l'URL
                     };
                 });
                 menuItems.sort((a, b) => (a.Order || 0) - (b.Order || 0));
@@ -1600,11 +1539,11 @@
         }
 
         // ═══════════════════════════════════════════════════════════
-        // SAVE MENU ITEM — avec upload d'image fiable (endpoint /uploadAttachment)
+        // SAVE MENU ITEM — avec URL d'image
         // ═══════════════════════════════════════════════════════════
 
         async function saveMenuItem(data, recordId = null) {
-            // 1. Préparer les champs
+            // Préparer les champs
             const fields = {
                 'Name': data.Name.trim(),
                 'NameAr': (data.NameAr || '').trim(),
@@ -1613,16 +1552,15 @@
                 'Description': (data.Description || '').trim(),
                 'DescriptionAr': (data.DescriptionAr || '').trim(),
                 'Active': data.Active !== false,
-                'Order': parseInt(data.Order) || 0
+                'Order': parseInt(data.Order) || 0,
+                // Enregistrer l'URL dans le champ ImageURL
+                [IMAGE_URL_FIELD]: data.ImageUrl ? data.ImageUrl.trim() : ''
             };
 
             const url = recordId ? `${AIRTABLE_URL_MENU}/${recordId}` : AIRTABLE_URL_MENU;
             const method = recordId ? 'PATCH' : 'POST';
 
-            let recordIdFinal;
-
             try {
-                // Étape 1 : Créer ou mettre à jour le record (sans image)
                 console.log(`➡️ ${method} ${url}`);
                 const resp = await fetch(url, {
                     method: method,
@@ -1641,7 +1579,7 @@
 
                 const recordResp = await resp.json();
                 const record = recordResp.records ? recordResp.records[0] : recordResp;
-                recordIdFinal = record.id;
+                const recordIdFinal = record.id;
 
                 if (!recordIdFinal) {
                     throw new Error('Aucun ID retourné après création/mise à jour.');
@@ -1649,49 +1587,7 @@
 
                 console.log('✅ Record créé/mis à jour, ID:', recordIdFinal);
 
-                // Étape 2 : Upload de l'image si présente (via /uploadAttachment)
-                if (data.ImageFile) {
-                    uploadProgress.classList.add('active');
-                    uploadProgressFill.style.width = '20%';
-                    uploadProgressText.textContent = t('admin.uploading');
-
-                    // Lire le fichier en base64
-                    const fileData = await readFileAsBase64(data.ImageFile);
-
-                    // Utiliser l'endpoint dédié /uploadAttachment
-                    const uploadUrl =
-                        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}/${recordIdFinal}/${IMAGE_FIELD_NAME}/uploadAttachment`;
-                    console.log('⬆️ Upload vers:', uploadUrl);
-
-                    const uploadResp = await fetch(uploadUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            contentType: data.ImageFile.type,
-                            file: fileData,
-                            filename: data.ImageFile.name
-                        })
-                    });
-
-                    const uploadResult = await uploadResp.json();
-                    console.log('Upload response:', uploadResult);
-
-                    uploadProgressFill.style.width = '100%';
-                    uploadProgressText.textContent = '✅ Image téléchargée !';
-
-                    if (!uploadResp.ok) {
-                        const errMsg = uploadResult.error?.message || JSON.stringify(uploadResult);
-                        throw new Error(`Upload failed: ${uploadResp.status} - ${errMsg}`);
-                    }
-
-                    // Attendre un instant pour que Airtable traite l'image
-                    await new Promise(r => setTimeout(r, 400));
-                }
-
-                // Étape 3 : Récupérer le record final pour mettre à jour la liste locale
+                // Récupérer le record final pour mettre à jour la liste locale
                 const finalResp = await fetch(`${AIRTABLE_URL_MENU}/${recordIdFinal}`, {
                     headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
                 });
@@ -1711,9 +1607,7 @@
                     DescriptionAr: finalData.fields['DescriptionAr'] || '',
                     Active: finalData.fields['Active'] !== false,
                     Order: finalData.fields['Order'] || 0,
-                    Image: finalData.fields[IMAGE_FIELD_NAME] && finalData.fields[IMAGE_FIELD_NAME].length > 0 ?
-                        finalData.fields[IMAGE_FIELD_NAME][0].url :
-                        null
+                    Image: finalData.fields[IMAGE_URL_FIELD] || null
                 };
 
                 const idx = menuItems.findIndex(i => i.id === recordIdFinal);
@@ -1728,29 +1622,8 @@
 
             } catch (err) {
                 console.error('❌ saveMenuItem error:', err);
-                // Si l'erreur contient "404" ou "NOT_FOUND", cela peut indiquer que le champ n'existe pas
-                if (err.message.includes('404') || err.message.includes('NOT_FOUND')) {
-                    throw new Error(t('admin.upload_failed_field'));
-                }
                 throw err;
-            } finally {
-                uploadProgress.classList.remove('active');
-                uploadProgressFill.style.width = '0%';
             }
-        }
-
-        // Helper : convertir un fichier en base64 (sans préfixe data:)
-        function readFileAsBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => {
-                    // Le résultat est une chaîne data:image/...;base64,...
-                    const base64 = reader.result.split(',')[1];
-                    resolve(base64);
-                };
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
         }
 
         // ═══════════════════════════════════════════════════════════
@@ -1771,10 +1644,13 @@
                 itemDescriptionAr.value = data.DescriptionAr || '';
                 itemActive.checked = data.Active !== false;
                 itemOrder.value = data.Order || '';
+                // Image URL
                 if (data.Image) {
+                    itemImageUrl.value = data.Image;
                     imagePreview.innerHTML =
-                        `<img src="${data.Image}" alt="Image actuelle" /><span style="color:var(--muted);font-size:13px;">Image actuelle</span>`;
+                        `<img src="${data.Image}" alt="Image" /><span style="color:var(--muted);font-size:13px;">Aperçu</span>`;
                 } else {
+                    itemImageUrl.value = '';
                     imagePreview.innerHTML = `<span class="placeholder">${t('admin.no_image')}</span>`;
                 }
             } else {
@@ -1787,16 +1663,14 @@
                 itemDescriptionAr.value = '';
                 itemActive.checked = true;
                 itemOrder.value = '';
+                itemImageUrl.value = '';
                 imagePreview.innerHTML = `<span class="placeholder">${t('admin.no_image')}</span>`;
-                itemImage.value = '';
             }
             menuModal.classList.add('open');
         }
 
         function closeModal() {
             menuModal.classList.remove('open');
-            uploadProgress.classList.remove('active');
-            uploadProgressFill.style.width = '0%';
         }
 
         function openEditModal(id) {
@@ -1816,6 +1690,20 @@
         });
 
         // ═══════════════════════════════════════════════════════════
+        // APERÇU DE L'IMAGE EN TEMPS RÉEL
+        // ═══════════════════════════════════════════════════════════
+
+        itemImageUrl.addEventListener('input', () => {
+            const url = itemImageUrl.value.trim();
+            if (url) {
+                imagePreview.innerHTML =
+                    `<img src="${url}" alt="Aperçu" /><span style="color:var(--muted);font-size:13px;">Aperçu</span>`;
+            } else {
+                imagePreview.innerHTML = `<span class="placeholder">${t('admin.no_image')}</span>`;
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════
         // FORM SUBMIT
         // ═══════════════════════════════════════════════════════════
 
@@ -1831,7 +1719,7 @@
             const active = itemActive.checked;
             const order = parseInt(itemOrder.value) || 0;
             const recordId = editRecordId.value;
-            const file = itemImage.files[0];
+            const imageUrl = itemImageUrl.value.trim();
 
             if (!name) { showToast('❌ Le nom est requis', 'error'); return; }
             if (isNaN(price) || price < 0) { showToast('❌ Prix invalide', 'error'); return; }
@@ -1849,7 +1737,7 @@
                     DescriptionAr: descriptionAr,
                     Active: active,
                     Order: order,
-                    ImageFile: file || null
+                    ImageUrl: imageUrl || ''
                 };
 
                 await saveMenuItem(data, recordId);
@@ -1862,24 +1750,6 @@
             } finally {
                 modalSubmitBtn.disabled = false;
                 modalSubmitBtn.textContent = '💾 ' + t('admin.save');
-            }
-        });
-
-        // ═══════════════════════════════════════════════════════════
-        // IMAGE PREVIEW
-        // ═══════════════════════════════════════════════════════════
-
-        itemImage.addEventListener('change', () => {
-            const file = itemImage.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    imagePreview.innerHTML =
-                        `<img src="${e.target.result}" alt="Aperçu" style="max-width:120px;max-height:120px;border-radius:12px;border:1px solid var(--line);" />`;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                imagePreview.innerHTML = `<span class="placeholder">${t('admin.no_image')}</span>`;
             }
         });
 
@@ -1933,9 +1803,9 @@
             fetchMenu();
         }, 30000);
 
-        console.log('📋 Admin panel Moul Chowaya — prêt');
+        console.log('📋 Admin panel Moul Chowaya — prêt (avec URL d\'image)');
         console.log('ℹ️ Langue actuelle:', currentLang);
-        console.log('ℹ️ Champ image utilisé:', IMAGE_FIELD_NAME);
+        console.log('ℹ️ Champ image URL utilisé:', IMAGE_URL_FIELD);
     </script>
 
 </body>
