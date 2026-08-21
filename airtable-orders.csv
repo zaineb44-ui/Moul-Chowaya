@@ -1,0 +1,3 @@
+"Customer Name","Phone","Address","Items","Total","Status","Notes","Order Date"
+"Test Client","+212 6XX XX XX XX","123 Rue de Nouaceur","Burger poulet ×1, Tacos mixte ×2","110","Pending","Sans oignon","2026-08-21T14:30:00.000Z"
+"Client 2","+212 6XX XX XX XX","","Viande hachée ×1, Frites ×1","150","Preparing","","2026-08-21T13:15:00.000Z"
