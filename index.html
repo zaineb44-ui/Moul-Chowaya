@@ -12,6 +12,14 @@
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0907'/%3E%3Ctext x='16' y='24' font-size='20' text-anchor='middle' fill='%23ffd21a'%3E🔥%3C/text%3E%3C/svg%3E" />
 
     <title>Moul Chowaya | Grillades, Chwa & Saveurs à Nouaceur</title>
+
+    <!-- ═══ FACEBOOK SDK ═══ -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v21.0">
+    </script>
+
+    <!-- ═══ INSTAGRAM EMBED ═══ -->
+    <script async src="//www.instagram.com/embed.js"></script>
+
     <style>
         /* ── Reset & vars ── */
         * {
@@ -541,7 +549,59 @@
             font-size: 14px;
         }
 
-        /* ── Gallery ── */
+        /* ── REELS GALLERY ── */
+        .reel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 10px;
+        }
+        .reel-item {
+            background: #0f0c09;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            overflow: hidden;
+            padding: 4px;
+            transition: transform .2s, border-color .2s;
+        }
+        .reel-item:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 210, 26, .3);
+        }
+        .reel-item .embed-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%; /* 1:1 aspect ratio for reels */
+            height: 0;
+            overflow: hidden;
+            border-radius: 14px;
+            background: #000;
+        }
+        .reel-item .embed-wrapper iframe,
+        .reel-item .embed-wrapper .fb-video,
+        .reel-item .embed-wrapper blockquote {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+            border: none;
+        }
+        .reel-item .embed-wrapper blockquote {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+        }
+        .reel-item .embed-wrapper .fb-video {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        .reel-item .embed-wrapper .fb-video iframe {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* ── Gallery (menu photos) ── */
         .gallery {
             display: grid;
             grid-template-columns: 1.1fr .9fr;
@@ -909,8 +969,7 @@
             gap: 20px;
         }
 
-
-        /* ── Moul Chowaya brand upgrade ── */
+        /* ── Brand specifics ── */
         .logo {
             letter-spacing: -.4px;
         }
@@ -959,8 +1018,8 @@
             position: absolute;
             inset: 0;
             background:
-                linear-gradient(90deg, rgba(7,5,3,.88) 0%, rgba(7,5,3,.66) 42%, rgba(7,5,3,.30) 100%),
-                radial-gradient(circle at 82% 48%, rgba(255,210,26,.12), transparent 30%);
+                linear-gradient(90deg, rgba(7, 5, 3, .88) 0%, rgba(7, 5, 3, .66) 42%, rgba(7, 5, 3, .30) 100%),
+                radial-gradient(circle at 82% 48%, rgba(255, 210, 26, .12), transparent 30%);
             pointer-events: none;
         }
         .hero-grid {
@@ -970,9 +1029,9 @@
         .hero-card {
             min-height: 560px;
             background:
-                linear-gradient(180deg, rgba(0,0,0,.03), rgba(0,0,0,.72)),
+                linear-gradient(180deg, rgba(0, 0, 0, .03), rgba(0, 0, 0, .72)),
                 url("Images/Banner.jpg") center/cover;
-            box-shadow: 0 30px 80px rgba(0,0,0,.38);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .38);
         }
         .hero-card:before {
             content: "MOUL CHOWAYA";
@@ -982,7 +1041,7 @@
             left: 22px;
             padding: 8px 12px;
             border-radius: 999px;
-            background: rgba(255,210,26,.94);
+            background: rgba(255, 210, 26, .94);
             color: #171006;
             font-size: 11px;
             font-weight: 950;
@@ -999,9 +1058,9 @@
             align-items: center;
             gap: 8px;
             padding: 10px 14px;
-            border: 1px solid rgba(255,255,255,.13);
+            border: 1px solid rgba(255, 255, 255, .13);
             border-radius: 999px;
-            background: rgba(255,255,255,.045);
+            background: rgba(255, 255, 255, .045);
             font-size: 13px;
             font-weight: 800;
             transition: .2s ease;
@@ -1009,7 +1068,7 @@
         .social-cta:hover {
             transform: translateY(-2px);
             border-color: var(--yellow);
-            background: rgba(255,210,26,.10);
+            background: rgba(255, 210, 26, .10);
         }
         .brand-banner {
             padding: 70px 0 20px;
@@ -1021,7 +1080,7 @@
             border-radius: 28px;
             overflow: hidden;
             border: 1px solid var(--line);
-            box-shadow: 0 30px 70px rgba(0,0,0,.32);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, .32);
             isolation: isolate;
         }
         .banner-frame img {
@@ -1036,7 +1095,7 @@
             position: absolute;
             inset: 0;
             z-index: 1;
-            background: linear-gradient(90deg, rgba(7,5,3,.82), rgba(7,5,3,.28) 58%, rgba(7,5,3,.62));
+            background: linear-gradient(90deg, rgba(7, 5, 3, .82), rgba(7, 5, 3, .28) 58%, rgba(7, 5, 3, .62));
         }
         .banner-overlay {
             position: relative;
@@ -1067,18 +1126,14 @@
             gap: 9px;
             flex-wrap: wrap;
         }
-        .banner-links a,
-        .mobile-socials a,
-        .footer-socials a {
-            transition: .2s ease;
-        }
         .banner-links a {
             padding: 11px 15px;
             border-radius: 999px;
-            background: rgba(11,9,7,.72);
-            border: 1px solid rgba(255,255,255,.14);
+            background: rgba(11, 9, 7, .72);
+            border: 1px solid rgba(255, 255, 255, .14);
             font-size: 13px;
             font-weight: 800;
+            transition: .2s ease;
         }
         .banner-links a:hover {
             background: var(--yellow);
@@ -1097,7 +1152,8 @@
             border-radius: 13px;
             text-align: center;
             font-weight: 800;
-            background: rgba(255,255,255,.035);
+            background: rgba(255, 255, 255, .035);
+            transition: .2s ease;
         }
         .mobile-socials a:hover {
             background: var(--yellow);
@@ -1115,6 +1171,8 @@
         .footer-socials a:hover {
             color: var(--yellow);
         }
+
+        /* ── Responsive ── */
         @media(max-width:850px) {
             .social-mini {
                 display: none;
@@ -1132,40 +1190,6 @@
             .hero-card {
                 min-height: 430px;
             }
-        }
-        @media(max-width:520px) {
-            .logo {
-                font-size: 17px;
-            }
-            .logo-mark {
-                width: 37px;
-                height: 37px;
-            }
-            .banner-frame,
-            .banner-overlay {
-                min-height: 280px;
-            }
-            .banner-overlay {
-                padding: 22px;
-            }
-            .banner-links {
-                width: 100%;
-            }
-            .banner-links a {
-                flex: 1;
-                text-align: center;
-            }
-            .hero-social-row {
-                width: 100%;
-            }
-            .social-cta {
-                flex: 1;
-                justify-content: center;
-            }
-        }
-
-        /* ── Responsive ── */
-        @media(max-width:850px) {
             .links {
                 display: none;
             }
@@ -1202,8 +1226,10 @@
             .checkout-box {
                 padding: 26px 18px;
             }
+            .reel-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
         }
-
         @media(max-width:520px) {
             section {
                 padding: 75px 0;
@@ -1227,8 +1253,14 @@
             .nav-actions .lang-toggle {
                 display: none;
             }
+            .reel-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+            .reel-item .embed-wrapper {
+                padding-bottom: 100%; /* keep square */
+            }
         }
-
         body.menu-open {
             overflow: hidden;
         }
@@ -1245,7 +1277,7 @@
             justify-content: flex-start;
         }
         html.rtl .banner-frame:after {
-            background: linear-gradient(270deg, rgba(7,5,3,.82), rgba(7,5,3,.28) 58%, rgba(7,5,3,.62));
+            background: linear-gradient(270deg, rgba(7, 5, 3, .82), rgba(7, 5, 3, .28) 58%, rgba(7, 5, 3, .62));
         }
         html.rtl .banner-overlay {
             text-align: right;
@@ -1259,6 +1291,12 @@
         }
         html.rtl .cart-sidebar.open {
             transform: translateX(0);
+        }
+        html.rtl .social-col h3 {
+            flex-direction: row-reverse;
+        }
+        html.rtl .instagram-fallback .ig-post .ig-icon {
+            transform: scaleX(-1);
         }
     </style>
 </head>
@@ -1275,6 +1313,7 @@
             <div class="links">
                 <a href="#menu" data-i18n="nav.menu">La carte</a>
                 <a href="#atouts" data-i18n="nav.about">Pourquoi nous</a>
+                <a href="#reels" data-i18n="nav.reels">Reels</a>
                 <a href="#photos" data-i18n="nav.photos">Photos</a>
                 <a href="#contact" data-i18n="nav.contact">Contact</a>
             </div>
@@ -1303,6 +1342,7 @@
             <div class="mobile-menu-inner">
                 <a href="#menu" class="mobile-link" data-i18n="nav.menu">🍽️ La carte</a>
                 <a href="#atouts" class="mobile-link" data-i18n="nav.about">🔥 Pourquoi nous</a>
+                <a href="#reels" class="mobile-link" data-i18n="nav.reels">🎬 Reels</a>
                 <a href="#photos" class="mobile-link" data-i18n="nav.photos">📸 Photos</a>
                 <a href="#contact" class="mobile-link" data-i18n="nav.contact">📞 Contact</a>
                 <a href="https://www.google.com/maps/place/Moul+Chowaya/@33.3732138,-7.5532821,15z/data=!4m6!3m5!1s0xda63b7cc402c8e9:0xd809b58f502ca0f5!8m2!3d33.373215!4d-7.544394!16s%2Fg%2F11v0lrjxbl" target="_blank" class="mobile-cta" data-i18n="nav.cta">📍 Itinéraire</a>
@@ -1409,7 +1449,54 @@
             </div>
         </section>
 
-        <!-- Photos -->
+        <!-- ═══ REELS SECTION ═══ -->
+        <section id="reels" style="background:#0a0806; border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+            <div class="wrap">
+                <div class="head">
+                    <div class="kicker" data-i18n="reels.kicker">🎬 Vidéos & Reels</div>
+                    <h2 data-i18n="reels.title">Nos dernières réalisations.</h2>
+                    <p data-i18n="reels.desc">Regardez nos reels Instagram et Facebook directement sur notre site.</p>
+                </div>
+                <div class="reel-grid">
+                    <!-- Instagram Reel 1 -->
+                    <div class="reel-item">
+                        <div class="embed-wrapper">
+                            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DJm9NDLNTje/" data-instgrm-version="14" style="background:#000; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin:0; padding:0; min-width:0; width:100%; height:100%;">
+                            </blockquote>
+                        </div>
+                    </div>
+                    <!-- Instagram Reel 2 -->
+                    <div class="reel-item">
+                        <div class="embed-wrapper">
+                            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DKXnUIGtZ8P/" data-instgrm-version="14" style="background:#000; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin:0; padding:0; min-width:0; width:100%; height:100%;">
+                            </blockquote>
+                        </div>
+                    </div>
+                    <!-- Instagram Reel 3 -->
+                    <div class="reel-item">
+                        <div class="embed-wrapper">
+                            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DSlbE8MDOdC/" data-instgrm-version="14" style="background:#000; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin:0; padding:0; min-width:0; width:100%; height:100%;">
+                            </blockquote>
+                        </div>
+                    </div>
+                    <!-- Instagram Reel 4 -->
+                    <div class="reel-item">
+                        <div class="embed-wrapper">
+                            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DcUfeSBN_JJ/" data-instgrm-version="14" style="background:#000; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin:0; padding:0; min-width:0; width:100%; height:100%;">
+                            </blockquote>
+                        </div>
+                    </div>
+                    <!-- Facebook Reel -->
+                    <div class="reel-item">
+                        <div class="embed-wrapper">
+                            <div class="fb-video" data-href="https://www.facebook.com/reel/1078341174712146/" data-width="auto" data-show-text="false" data-allow-full-screen="true" style="width:100%; height:100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photos (menu images) -->
         <section id="photos">
             <div class="wrap">
                 <div class="head">
@@ -1544,7 +1631,7 @@
         const AIRTABLE_BASE_ID = 'appoeaIgh98U6lUuS';
         const TABLE_ORDERS = 'tblJw87JqJtftBlVj';
         const TABLE_MENU = 'tblH8nnRjF9Yef2Py';
-        const IMAGE_URL_FIELD = 'ImageURL'; // nom du champ texte contenant l'URL de l'image
+        const IMAGE_URL_FIELD = 'ImageURL';
 
         const AIRTABLE_URL_ORDERS = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_ORDERS}`;
         const AIRTABLE_URL_MENU = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE_MENU}`;
@@ -1554,6 +1641,7 @@
             fr: {
                 'nav.menu': 'La carte',
                 'nav.about': 'Pourquoi nous',
+                'nav.reels': 'Reels',
                 'nav.photos': 'Photos',
                 'nav.contact': 'Contact',
                 'nav.cta': '📍 Itinéraire',
@@ -1582,6 +1670,9 @@
                 'atouts.f2_desc': 'Des classiques du chwa marocain accompagnés de salades et de frites.',
                 'atouts.f3_title': 'Pour tous les budgets',
                 'atouts.f3_desc': 'Des formules et portions allant du sandwich à la grillade au kilo.',
+                'reels.kicker': '🎬 Vidéos & Reels',
+                'reels.title': 'Nos dernières réalisations.',
+                'reels.desc': 'Regardez nos reels Instagram et Facebook directement sur notre site.',
                 'photos.kicker': 'Notre carte',
                 'photos.title': 'Voyez ce qui vous attend.',
                 'photos.desc': 'Les photos originales de la carte sont intégrées directement dans la page.',
@@ -1601,6 +1692,7 @@
             ar: {
                 'nav.menu': 'القائمة',
                 'nav.about': 'لماذا نحن',
+                'nav.reels': 'ريلز',
                 'nav.photos': 'الصور',
                 'nav.contact': 'اتصل بنا',
                 'nav.cta': '📍 الموقع',
@@ -1629,6 +1721,9 @@
                 'atouts.f2_desc': 'كلاسيكيات الشواء المغربي مصحوبة بالسلطات والمقليات.',
                 'atouts.f3_title': 'لجميع الميزانيات',
                 'atouts.f3_desc': 'صيغ وحصص تتراوح من الساندويتش إلى المشاوي بالكيلو.',
+                'reels.kicker': '🎬 فيديوهات و ريلز',
+                'reels.title': 'أحدث إبداعاتنا.',
+                'reels.desc': 'شاهد ريلز إنستغرام وفيسبوك مباشرة على موقعنا.',
                 'photos.kicker': 'قائمتنا',
                 'photos.title': 'شاهد ما ينتظرك.',
                 'photos.desc': 'الصور الأصلية للقائمة مدمجة مباشرة في الصفحة.',
@@ -1662,7 +1757,6 @@
         const menuGrid = document.getElementById('menuGrid');
         const menuNav = document.getElementById('menuNav');
 
-        // Cart
         const cartBadge = document.getElementById('cartBadge');
         const cartBody = document.getElementById('cartBody');
         const cartTotal = document.getElementById('cartTotal');
@@ -1706,9 +1800,7 @@
                 }
             });
 
-            // Re-render menu with the new language
             renderMenu();
-
             document.getElementById('year').textContent = new Date().getFullYear();
             localStorage.setItem('moul-lang', lang);
         }
@@ -1788,18 +1880,16 @@
                     DescriptionAr: r.fields['DescriptionAr'] || '',
                     Active: r.fields['Active'] !== false,
                     Order: r.fields['Order'] || 0,
-                    // Récupérer l'URL de l'image depuis le champ ImageURL
                     Image: r.fields[IMAGE_URL_FIELD] || null
                 }));
-                // Sort by Order
                 menuItems.sort((a, b) => (a.Order || 0) - (b.Order || 0));
-                // Only show active items
                 const activeItems = menuItems.filter(item => item.Active);
                 renderFilters(activeItems);
                 renderMenu(activeItems);
             } catch (err) {
                 console.error('Fetch menu error:', err);
-                menuGrid.innerHTML = `<div class="loading-grid"><p style="color:var(--red);">❌ Erreur de chargement du menu. Veuillez réessayer.</p></div>`;
+                menuGrid.innerHTML =
+                    `<div class="loading-grid"><p style="color:var(--red);">❌ Erreur de chargement du menu. Veuillez réessayer.</p></div>`;
             }
         }
 
@@ -1813,7 +1903,6 @@
             });
             menuNav.innerHTML = html;
 
-            // Attach filter events
             menuNav.querySelectorAll('.filter').forEach(btn => {
                 btn.addEventListener('click', () => {
                     menuNav.querySelectorAll('.filter').forEach(b => b.classList.remove('active'));
@@ -1837,7 +1926,6 @@
                 return;
             }
 
-            // Group by category
             const grouped = {};
             itemsToRender.forEach(item => {
                 if (!grouped[item.Category]) grouped[item.Category] = [];
@@ -1853,7 +1941,6 @@
                             ${items.map(item => {
                                 const name = currentLang === 'ar' && item.NameAr ? item.NameAr : item.Name;
                                 const desc = currentLang === 'ar' && item.DescriptionAr ? item.DescriptionAr : item.Description;
-                                // Afficher l'image si une URL est présente
                                 const imgHtml = item.Image ? `<img src="${item.Image}" class="item-img" alt="${name}" loading="lazy" />` : '';
                                 return `
                                     <div class="item">
@@ -1871,7 +1958,6 @@
 
             menuGrid.innerHTML = html;
 
-            // Re-attach add to cart events
             menuGrid.querySelectorAll('.item-add').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const name = btn.dataset.name;
@@ -1951,7 +2037,6 @@
             }
             updateCartUI();
             saveCart();
-            // Visual feedback
             const btn = document.querySelector(`.item-add[data-name="${CSS.escape(name)}"]`);
             if (btn) {
                 btn.textContent = '✓';
@@ -2126,6 +2211,7 @@
         console.log('🔥 Moul Chowaya — Menu dynamique avec images par URL');
         console.log('📋 Admin panel disponible dans admin.html');
         console.log('ℹ️ Champ image utilisé:', IMAGE_URL_FIELD);
+        console.log('📱 Reels Instagram & Facebook intégrés');
 
         // Keyboard shortcut: 'c' for cart
         document.addEventListener('keydown', (e) => {
@@ -2140,6 +2226,5 @@
             }
         });
     </script>
-
 </body>
 </html>
