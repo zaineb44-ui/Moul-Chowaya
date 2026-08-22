@@ -17,7 +17,7 @@
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v21.0">
     </script>
 
-    <!-- ═══ INSTAGRAM EMBED ═══ -->
+    <!-- ═══ INSTAGRAM EMBED SCRIPT ═══ -->
     <script async src="//www.instagram.com/embed.js"></script>
 
     <style>
@@ -563,42 +563,111 @@
             overflow: hidden;
             padding: 4px;
             transition: transform .2s, border-color .2s;
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
         .reel-item:hover {
             transform: translateY(-4px);
             border-color: rgba(255, 210, 26, .3);
         }
         .reel-item .embed-wrapper {
-            position: relative;
             width: 100%;
-            padding-bottom: 100%; /* 1:1 aspect ratio for reels */
-            height: 0;
-            overflow: hidden;
-            border-radius: 14px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: #000;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
         }
         .reel-item .embed-wrapper iframe,
         .reel-item .embed-wrapper .fb-video,
         .reel-item .embed-wrapper blockquote {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100% !important;
             height: 100% !important;
             border: none;
+            min-height: 100%;
+            min-width: 100%;
         }
         .reel-item .embed-wrapper blockquote {
             margin: 0;
             padding: 0;
             background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .reel-item .embed-wrapper .fb-video {
             width: 100% !important;
             height: 100% !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0a0806;
         }
         .reel-item .embed-wrapper .fb-video iframe {
             width: 100% !important;
             height: 100% !important;
+        }
+        /* ── FACEBOOK FALLBACK ── */
+        .fb-fallback {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #1a1420, #0d0a10);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            border-radius: 14px;
+            cursor: pointer;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, .05);
+            transition: .3s ease;
+        }
+        .fb-fallback:hover {
+            background: linear-gradient(145deg, #221a28, #111018);
+            border-color: var(--yellow);
+        }
+        .fb-fallback .fb-icon {
+            font-size: 48px;
+            opacity: .8;
+        }
+        .fb-fallback .fb-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .fb-fallback .fb-sub {
+            font-size: 13px;
+            color: var(--muted);
+            max-width: 200px;
+            line-height: 1.4;
+        }
+        .fb-fallback .fb-btn {
+            background: var(--yellow);
+            color: #171006;
+            padding: 10px 28px;
+            border-radius: 999px;
+            font-weight: 900;
+            border: none;
+            cursor: pointer;
+            margin-top: 4px;
+            font-size: 14px;
+            transition: .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .fb-fallback .fb-btn:hover {
+            transform: scale(1.03);
+            opacity: .9;
         }
 
         /* ── Gallery (menu photos) ── */
@@ -1257,8 +1326,8 @@
                 grid-template-columns: 1fr;
                 gap: 18px;
             }
-            .reel-item .embed-wrapper {
-                padding-bottom: 100%; /* keep square */
+            .reel-item {
+                aspect-ratio: 1/1;
             }
         }
         body.menu-open {
@@ -1626,7 +1695,7 @@
 
     <!-- ═══ SCRIPTS ═══ -->
     <script>
-        // ═══ CONFIGURATION AIRTABLE ═══
+        // ── CONFIGURATION AIRTABLE ──
         const AIRTABLE_API_KEY = 'patyj6u0PZd84J6m6.c219829f1b05344107fa54dabea848dce3b6655bf7e655fca6c132292afbb017';
         const AIRTABLE_BASE_ID = 'appoeaIgh98U6lUuS';
         const TABLE_ORDERS = 'tblJw87JqJtftBlVj';
@@ -2204,16 +2273,104 @@
             }
         });
 
+        // ── EMBED PROCESSING & FACEBOOK FALLBACK ──
+        function processEmbeds() {
+            // Instagram
+            if (window.instgrm && window.instgrm.Embeds) {
+                try {
+                    window.instgrm.Embeds.process();
+                    console.log('Instagram embeds processed.');
+                } catch (e) {
+                    console.warn('Instagram embed processing failed:', e);
+                }
+            } else {
+                if (typeof window.instgrm === 'undefined') {
+                    window.instgrm = {};
+                }
+                if (!window.instgrm.Embeds) {
+                    window.instgrm.Embeds = { process: function() {} };
+                }
+                setTimeout(processEmbeds, 1000);
+            }
+
+            // Facebook
+            if (window.FB && window.FB.XFBML) {
+                try {
+                    window.FB.XFBML.parse();
+                    console.log('Facebook embeds processed.');
+                } catch (e) {
+                    console.warn('Facebook embed processing failed:', e);
+                }
+            } else {
+                setTimeout(processEmbeds, 1000);
+            }
+        }
+
+        // ── FACEBOOK ERROR HANDLER ──
+        function handleFacebookErrors() {
+            const fbWrappers = document.querySelectorAll('.reel-item .embed-wrapper');
+            fbWrappers.forEach(wrapper => {
+                const fbDiv = wrapper.querySelector('.fb-video');
+                if (!fbDiv) return;
+
+                // Check if the inner text contains the error (the SDK replaces content)
+                // We check after a delay to allow FB to render
+                const text = fbDiv.innerText || '';
+                if (text.includes('Indisponible') || text.includes('ne peut pas être intégrée') ||
+                    text.includes('unavailable') || text.includes('Votre vidéo')) {
+
+                    const href = fbDiv.getAttribute('data-href') || 'https://www.facebook.com/reel/1078341174712146/';
+
+                    // Replace the whole wrapper content with the fallback
+                    wrapper.innerHTML = `
+                            <div class="fb-fallback" onclick="window.open('${href}', '_blank')" role="button" tabindex="0">
+                                <div class="fb-icon">🎬</div>
+                                <div class="fb-title">Regarder sur Facebook</div>
+                                <div class="fb-sub">Cette vidéo ne peut pas être intégrée directement.</div>
+                                <div class="fb-btn">Voir le Reel →</div>
+                            </div>
+                        `;
+
+                    console.log('Facebook fallback activated for:', href);
+                }
+            });
+        }
+
         // ── INIT ──
         loadCart();
         fetchMenu();
 
-        console.log('🔥 Moul Chowaya — Menu dynamique avec images par URL');
-        console.log('📋 Admin panel disponible dans admin.html');
-        console.log('ℹ️ Champ image utilisé:', IMAGE_URL_FIELD);
-        console.log('📱 Reels Instagram & Facebook intégrés');
+        window.addEventListener('load', function() {
+            setTimeout(processEmbeds, 500);
+            // Check for Facebook errors after FB has had time to render
+            setTimeout(handleFacebookErrors, 3000);
+            // One more check after 5 seconds just in case
+            setTimeout(handleFacebookErrors, 5000);
+        });
 
-        // Keyboard shortcut: 'c' for cart
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(processEmbeds, 300);
+        });
+
+        // Fallback: if instagram fails, show a message
+        document.addEventListener('load', function() {
+            setTimeout(function() {
+                const blockquotes = document.querySelectorAll('blockquote.instagram-media');
+                blockquotes.forEach(function(bq) {
+                    if (bq.parentElement && bq.parentElement.classList.contains('embed-wrapper')) {
+                        if (!bq.querySelector('iframe')) {
+                            const wrapper = bq.parentElement;
+                            wrapper.innerHTML =
+                                `<div class="embed-fallback" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#0a0806;color:var(--muted);border-radius:14px;padding:20px;text-align:center;">📱 Voir le reel sur <a href="${bq.getAttribute('data-instgrm-permalink')}" target="_blank" style="color:var(--yellow);margin-left:6px;">Instagram</a></div>`;
+                        }
+                    }
+                });
+            }, 5000);
+        });
+
+        console.log('🔥 Moul Chowaya — Menu dynamique avec images par URL');
+        console.log('📱 Reels Instagram & Facebook intégrés avec fallback pour Facebook');
+
         document.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
             if (e.key === 'c' || e.key === 'C') {
